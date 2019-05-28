@@ -508,6 +508,8 @@
 <li>重启 ssh 服务</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service ssh restart</span><br></pre></td></tr></table></figure>
+<h2 id="验证-root-用户-SSH-登录"><a href="#验证-root-用户-SSH-登录" class="headerlink" title="验证 root 用户 SSH 登录"></a>验证 root 用户 SSH 登录</h2><p>在终端命令行输入以下命令，其中 <code>server-host</code> 为服务器地址。按照提示输入密码，登录成功即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@server-host</span><br></pre></td></tr></table></figure>
 <h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="ssh-connect-to-host-172-16-18-131-port-22-Connection-refused"><a href="#ssh-connect-to-host-172-16-18-131-port-22-Connection-refused" class="headerlink" title="ssh: connect to host 172.16.18.131 port 22: Connection refused"></a>ssh: connect to host 172.16.18.131 port 22: Connection refused</h3><p>原因是Ubuntu没有默认提供ssh服务，因此首先安装ssh服务：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
 <p>如果安装完后该服务没有自动启动，则手工启动：</p>
