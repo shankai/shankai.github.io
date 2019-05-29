@@ -281,8 +281,8 @@ span.exturl {
 }
 a:hover,
 span.exturl:hover {
-  color: #222;
-  border-bottom-color: #222;
+  color: #006064;
+  border-bottom-color: #006064;
 }
 video {
   max-width: 100%;
@@ -959,9 +959,9 @@ pre .javascript .function {
   line-height: 2;
 }
 .btn:hover {
-  border-color: #222;
+  border-color: #006064;
   color: #fff;
-  background: #222;
+  background: #006064;
 }
 .btn +.btn {
   margin: 0 0 8px 8px;
@@ -1018,7 +1018,7 @@ pre .javascript .function {
 .pagination .prev:hover,
 .pagination .next:hover,
 .pagination .page-number:hover {
-  border-top-color: #222;
+  border-top-color: #006064;
 }
 .pagination .space {
   padding: 0;
@@ -1050,7 +1050,7 @@ pre .javascript .function {
   .pagination .prev:hover,
   .pagination .next:hover,
   .pagination .page-number:hover {
-    border-bottom-color: #222;
+    border-bottom-color: #006064;
   }
 }
 .comments {
@@ -1063,8 +1063,8 @@ pre .javascript .function {
   right: 30px;
   z-index: 1050;
   padding: 0 6px;
-  width: 24px;
-  background: #222;
+  width: initial;
+  background: #006064;
   font-size: 12px;
   opacity: 0.6;
   color: #fff;
@@ -1092,7 +1092,7 @@ pre .javascript .function {
 }
 .headband {
   height: 3px;
-  background: #222;
+  background: #006064;
 }
 .site-meta {
   margin: 0;
@@ -1108,7 +1108,7 @@ pre .javascript .function {
   display: inline-block;
   padding: 0 40px;
   color: #fff;
-  background: #222;
+  background: #006064;
   border-bottom: none;
 }
 .brand:hover {
@@ -1208,7 +1208,7 @@ pre .javascript .function {
 }
 .menu .menu-item a:hover,
 .menu .menu-item span.exturl:hover {
-  border-bottom-color: #222;
+  border-bottom-color: #006064;
 }
 .menu .menu-item .fa {
   margin-right: 5px;
@@ -1413,7 +1413,7 @@ pre .javascript .function {
   border-bottom-color: #666;
 }
 .posts-collapse .post-header:hover::before {
-  background: #222;
+  background: #006064;
 }
 .posts-collapse .post-meta {
   position: absolute;
@@ -1567,7 +1567,7 @@ pre .javascript .function {
   border-bottom: none;
 }
 .post-nav-item a:hover {
-  color: #222;
+  color: #006064;
   border-bottom: none;
 }
 .post-nav-item a:active {
@@ -1658,7 +1658,7 @@ pre .javascript .function {
   width: 0;
   z-index: 1040;
   box-shadow: inset 0 2px 6px #000;
-  background: #222;
+  background: #006064;
 }
 .sidebar a,
 .sidebar span.exturl {
@@ -1709,7 +1709,7 @@ pre .javascript .function {
   width: 14px;
   height: 14px;
   padding: 5px;
-  background: #222;
+  background: #006064;
   line-height: 0;
   z-index: 1050;
   cursor: pointer;
@@ -1745,7 +1745,7 @@ pre .javascript .function {
 .site-author-name {
   margin: 0;
   text-align: center;
-  color: #222;
+  color: #006064;
   font-weight: 600;
 }
 .site-description {
@@ -1775,7 +1775,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffff6e;
+  background: #95ffad;
 }
 .feed-link,
 .chat {
@@ -2364,7 +2364,7 @@ ul.breadcrumb li+li:last-child {
   margin: 10px;
 }
 .tag-cloud a:hover {
-  color: #222 !important;
+  color: #006064 !important;
 }
 .header {
   position: relative;
@@ -2491,7 +2491,7 @@ ul.breadcrumb li+li:last-child {
 .site-meta {
   padding: 20px 0;
   color: #fff;
-  background: #222;
+  background: #006064;
 }
 @media (max-width: 991px) {
   .site-meta {
@@ -2650,8 +2650,8 @@ ul.breadcrumb li+li:last-child {
 }
 .sidebar a:hover,
 .sidebar span.exturl:hover {
-  color: #222;
-  border-bottom-color: #222;
+  color: #006064;
+  border-bottom-color: #006064;
 }
 .sidebar-inner {
   box-sizing: border-box;
@@ -2966,4 +2966,11 @@ ul.breadcrumb li+li:last-child {
   .pagination {
     margin: 8px 0 0;
   }
+}
+body {
+  background: url("https://source.unsplash.com/random/1600x900");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 50%;
+  background-size: 100% 100%;
 }
