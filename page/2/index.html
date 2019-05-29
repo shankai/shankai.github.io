@@ -356,6 +356,222 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/activemq-practice-getting-started/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/08/activemq-practice-getting-started/" class="post-title-link" itemprop="url">ActiveMQ Practice Getting Started</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-08 13:25:51" itemprop="dateCreated datePublished" datetime="2017-11-08T13:25:51+08:00">2017-11-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 15:32:38" itemprop="dateModified" datetime="2019-05-21T15:32:38+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Messaging/" itemprop="url" rel="index"><span itemprop="name">Messaging</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本文只是记录 ActiveMQ 服务的基本部署和消息的简单测试应用。</p>
+</blockquote>
+<h2 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h2><p><img src="/images/activemq/BrokerDiagram.png" alt="image"></p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
+<li><p>消息流</p>
+<p><code>消息生产者（Producer）</code> –&gt; <code>中间件（Broker）</code> –&gt; <code>消息消费者（Consumer）</code></p>
+</li>
+</ul>
+<ul>
+<li><p>两种模型</p>
+<ul>
+<li>Point to Point（点对点）</li>
+<li>Publish/Subscribe（发布/订阅）</li>
+</ul>
+</li>
+</ul>
+<h2 id="服务部署"><a href="#服务部署" class="headerlink" title="服务部署"></a>服务部署</h2><p>参考：<a href="http://activemq.apache.org/getting-started.html" target="_blank" rel="noopener">http://activemq.apache.org/getting-started.html</a></p>
+<blockquote>
+<p>本文实践环境说明：Windows 10 专业版，JDK 1.8.0_65。</p>
+</blockquote>
+<h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h3><p><a href="http://activemq.apache.org/download.html" target="_blank" rel="noopener">http://activemq.apache.org/download.html</a></p>
+<p>(目前最新版本5.15.2)</p>
+<h3 id="2-安装-amp-启动服务"><a href="#2-安装-amp-启动服务" class="headerlink" title="2. 安装 &amp; 启动服务"></a>2. 安装 &amp; 启动服务</h3><p>解压 <code>apache-activemq-5.15.2-bin.zip</code> 到 <code>&lt;ActiveMQ_installed_dir&gt;</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%\bin\activemq start</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-Web控制台"><a href="#3-Web控制台" class="headerlink" title="3. Web控制台"></a>3. Web控制台</h3><p>URL：<a href="http://127.0.0.1:8161/admin/" target="_blank" rel="noopener">http://127.0.0.1:8161/admin/</a><br>Login：admin<br>Password：admin  </p>
+<p>通过 conf/jetty-real.properties 配置用户名密码 </p>
+<h3 id="4-日志文件"><a href="#4-日志文件" class="headerlink" title="4. 日志文件"></a>4. 日志文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/data/activemq.log</span><br></pre></td></tr></table></figure>
+<h3 id="5-停止服务"><a href="#5-停止服务" class="headerlink" title="5. 停止服务"></a>5. 停止服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq stop</span><br></pre></td></tr></table></figure>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>先决条件：消息服务（中间件）已启动。</p>
+<h3 id="1-启动消息消费者"><a href="#1-启动消息消费者" class="headerlink" title="1. 启动消息消费者"></a>1. 启动消息消费者</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq consumer</span><br></pre></td></tr></table></figure>
+<h3 id="2-启动消息生产者"><a href="#2-启动消息生产者" class="headerlink" title="2. 启动消息生产者"></a>2. 启动消息生产者</h3><ul>
+<li><p>自定义文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq producer --message &quot;My message&quot; --messageCount 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定长字节消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq producer --messageSize 100 --messageCount 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更多信息 </p>
+<p><a href="http://activemq.apache.org/version-5-examples.html" target="_blank" rel="noopener">http://activemq.apache.org/version-5-examples.html</a></p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文对 ActiveMQ 进行了基础入门实践练习，以便更好的认识 ActiveMQ。</p>
+<p>更多信息请查看官网：<a href="http://activemq.apache.org/" target="_blank" rel="noopener">http://activemq.apache.org/</a></p>
+<p>(END)</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/23/git-practice-getting-started/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -815,7 +1031,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -844,7 +1060,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -891,7 +1109,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
