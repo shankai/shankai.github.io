@@ -356,6 +356,943 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/rocketmq-practice-core-concept/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/10/rocketmq-practice-core-concept/" class="post-title-link" itemprop="url">Rocketmq Practice - Core Concept</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-10 16:07:43" itemprop="dateCreated datePublished" datetime="2017-11-10T16:07:43+08:00">2017-11-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 15:32:38" itemprop="dateModified" datetime="2019-05-21T15:32:38+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Messaging/" itemprop="url" rel="index"><span itemprop="name">Messaging</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本文是对官方原文的理解翻译，利于自己更好的理解 RocketMQ。</p>
+</blockquote>
+<h2 id="Producer（生产者）"><a href="#Producer（生产者）" class="headerlink" title="Producer（生产者）"></a>Producer（生产者）</h2><p>Producer 将业务应用系统生成的消息发送到 Broker。RocketMQ 提供多种发送模式：同步、异步和单向。</p>
+<h3 id="Producer-Group（生产者组）"><a href="#Producer-Group（生产者组）" class="headerlink" title="Producer Group（生产者组）"></a>Producer Group（生产者组）</h3><p>相同角色的 Producer 会组织在一起。当原有的 Producer 在交易之后崩溃时，Broker 会协调同一组内不同的 Producer 完成相应事务的提交或回退。</p>
+<p>注意：每个 Producer 组只会允许一个实例，以避免不必要的实例初始化。</p>
+<h2 id="Consumer（消费者）"><a href="#Consumer（消费者）" class="headerlink" title="Consumer（消费者）"></a>Consumer（消费者）</h2><p>Consumer 从 Broker 拉取消息并将其提供给应用程序。从应用的角度来看，有两种类型的 Consumer：</p>
+<h3 id="PullConsumer（拉取消费者）"><a href="#PullConsumer（拉取消费者）" class="headerlink" title="PullConsumer（拉取消费者）"></a>PullConsumer（拉取消费者）</h3><p>PullConsumer 从 Broker 拉取消息。当消息被拉取后，应用程序启动相应的消费处理程序。</p>
+<h3 id="PushConsumer（推送消费者）"><a href="#PushConsumer（推送消费者）" class="headerlink" title="PushConsumer（推送消费者）"></a>PushConsumer（推送消费者）</h3><p>PushConsumer 封装了消息拉取、消耗进度及其他维护工作，提供一个回调接口用于在消息最终到达时实现业务逻辑处理。</p>
+<h3 id="Consumer-Group（消费者组）"><a href="#Consumer-Group（消费者组）" class="headerlink" title="Consumer Group（消费者组）"></a>Consumer Group（消费者组）</h3><p>类似上面提到的 Producer Group，相同角色的 Consumer 会组织在一起并命名为 Consumer Group。</p>
+<p>Consumer Group 是一个很好的概念，在消息消费方面实现负载均衡和容错目标是非常容易的。</p>
+<p>注意：Consumer Group 中的Consumer 实例必须有完全相同的主题订阅。</p>
+<h2 id="Topic（主题）"><a href="#Topic（主题）" class="headerlink" title="Topic（主题）"></a>Topic（主题）</h2><p>Topic 是一个类别，用于 Producer 传递消息和 Consumer 拉取消息。Topic 与 Producer 和 Consumer 之间的关系是松散的。</p>
+<p>具体来说，一个 Topic 可以由零个、一个或多个 Producer 向它发送消息；相反地，一个 Producer 能够发送消息到不同的 Topic。</p>
+<p>从 Consumer 的角度来看，一个 Topic 可以由零个、一个或多个 Consumer Group 订阅。同样， 一个 Consumer Group 可以订阅一个或多个 Topic，只要这个组内保持订阅的一致。</p>
+<h2 id="Message（消息）"><a href="#Message（消息）" class="headerlink" title="Message（消息）"></a>Message（消息）</h2><p>Message 是要传递的信息。一个消息必须有一个主题，就像信件的邮件地址一样。</p>
+<p>一个消息可能包含可选的标签和额外的键值对。例如，你可能给消息设置一个业务密钥，能够在 Broker 上查找消息，在开发时期进行问题诊断。</p>
+<h3 id="Message-Queue（消息队列）"><a href="#Message-Queue（消息队列）" class="headerlink" title="Message Queue（消息队列）"></a>Message Queue（消息队列）</h3><p>Topic 被分为一个或多个子主题，称为“消息队列”。</p>
+<h3 id="Tag（标签）"><a href="#Tag（标签）" class="headerlink" title="Tag（标签）"></a>Tag（标签）</h3><p>Tag ，为用户提供额外的灵活性。使用 Tag ，来自相同的业务模块具有不同目的的消息，可能具体相同的主题和不同的标签。Tags 能够有助于保持代码的整洁与连贯，并且 Tags 也可以方便 RoketMQ 提供的查询系统。</p>
+<h3 id="Broker（中间件）"><a href="#Broker（中间件）" class="headerlink" title="Broker（中间件）"></a>Broker（中间件）</h3><p>Broker 是 RocketMQ 系统的主要组件。它接收来自 Producers 的消息、存储他们并准备处理来自 Consumers 的请求。同时它还存储消息相关的元数据，包含 Consumer Groups，消费进度偏移和主题/队列信息。</p>
+<h2 id="Name-Server（命名服务）"><a href="#Name-Server（命名服务）" class="headerlink" title="Name Server（命名服务）"></a>Name Server（命名服务）</h2><p>Name Server 提供路由信息。Producer 和 Consumer 客户端查找主题以获取相应的 Broker 列表。</p>
+<h2 id="Message-Model（消息模型）"><a href="#Message-Model（消息模型）" class="headerlink" title="Message Model（消息模型）"></a>Message Model（消息模型）</h2><ul>
+<li>Clustering（集群）</li>
+<li>Broadcasting（广播）</li>
+</ul>
+<h2 id="Message-Order（消息顺序）"><a href="#Message-Order（消息顺序）" class="headerlink" title="Message Order（消息顺序）"></a>Message Order（消息顺序）</h2><p>当使用 DefaultMQPushConsumer 时，你可以决定是有序的或并发的。</p>
+<ul>
+<li><p>有序的</p>
+<p>有序的消费消息意味着 Consumer 按照 Producer 发送的消息顺序进行消费。如果处理需要强制使用全局顺序的情况，请确保使用的主题只有一个消息队列。</p>
+<p>如果指定有序消费，则消费消息的最大并发数是订阅消息的消费者组数量。</p>
+</li>
+<li><p>并发的</p>
+<p>当消费消息是并发的，消费消息的最大并发数受限于为每个消费者指定的线程池。</p>
+<p>在这种模式下，不再保证消息的顺序。</p>
+</li>
+</ul>
+<hr>
+<p>官方原文：<a href="https://rocketmq.apache.org/docs/core-concept/" target="_blank" rel="noopener">https://rocketmq.apache.org/docs/core-concept/</a> </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/rocketmq-practice-quickstart/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/rocketmq-practice-quickstart/" class="post-title-link" itemprop="url">RocketMQ Practice - Quickstart</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 21:08:38" itemprop="dateCreated datePublished" datetime="2017-11-09T21:08:38+08:00">2017-11-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 15:32:38" itemprop="dateModified" datetime="2019-05-21T15:32:38+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Messaging/" itemprop="url" rel="index"><span itemprop="name">Messaging</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本文实践环境说明：Windows 10 专业版，JDK 1.8.0_65。</p>
+</blockquote>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="http://rocketmq.apache.org/dowloading/releases/" target="_blank" rel="noopener">http://rocketmq.apache.org/dowloading/releases/</a></p>
+<p>解压 <code>rocketmq-all-4.1.0-incubating-bin-release.zip</code> 到 <code>&lt;rocketmq-installed-dir&gt;</code></p>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>启动 NameServer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/mqnamesrv -n 127.0.0.1:9876 &gt;E:\logs\mqnamesrv.log</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The Name Server boot success. serializeType=JSON</p>
+</blockquote>
+<p>启动 Broker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/mqbroker -n 127.0.0.1:9876 &gt;E:\mqbroker.log</span><br></pre></td></tr></table></figure>
+<h2 id="运行客户端"><a href="#运行客户端" class="headerlink" title="运行客户端"></a>运行客户端</h2><p>配置环境变量： <code>NAMESRV_ADDR</code> -&gt; <code>127.0.0.1:9876</code></p>
+<p>发送消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/tools org.apache.rocketmq.example.quickstart.Producer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>SendResult [sendStatus=SEND_OK, msgId=0A00BF859C787EA987AC2DCBCA8A0354, offsetMsgId=0A00BF8500002A9F00000000000256A2, messageQueue=MessageQueue [topic=TopicTest, brokerName=Dawn, queueId=0], queueOffset=213]<br>SendResult [sendStatus=SEND_OK, msgId=0A00BF859C787EA987AC2DCBCA8C0355, offsetMsgId=0A00BF8500002A9F0000000000025756, messageQueue=MessageQueue [topic=TopicTest, brokerName=Dawn, queueId=1], queueOffset=213]<br>SendResult [sendStatus=SEND_OK, ……</p>
+</blockquote>
+<p>接收消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/tools org.apache.rocketmq.example.quickstart.Consumer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ConsumeMessageThread_2 Receive New Messages: [MessageExt [queueId=1, storeSize=180, queueOffset=249, sysFlag=0, bornTimestamp=1510233930866, bornHost=/10.0.191.133:10130, storeTimestamp=1510233930867, storeHost=/10.0.191.133:10911, msgId=0A00BF8500002A9F000000000002BC96, commitLogOffset=179350, bodyCRC=1102156316, reconsumeTimes=0, preparedTransactionOffset=0, toString()=Message [topic=TopicTest, flag=0, properties={MIN_OFFSET=0, MAX_OFFSET=250, CONSUME_START_TIME=1510233997434, UNIQ_KEY=0A00BF859C787EA987AC2DCBCC7203E5, WAIT=true, TAGS=TagA}, body=18]]]<br>ConsumeMessageThread_1 Receive New Messages: [MessageExt [queueId=1, storeSize=180, queueOffset=248, sysFlag=0, bornTimestamp=1510233930852, bornHost=/10.0.191.133:10130, storeTimestamp=1510233930854, storeHost=/10.0.191.133:10911, …</p>
+</blockquote>
+<h2 id="停止服务"><a href="#停止服务" class="headerlink" title="停止服务"></a>停止服务</h2><p>停止 Broker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/mqshutdown broker</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>killing broker<br>成功: 已终止 PID 为 42376 的进程。<br>Done!</p>
+</blockquote>
+<p>停止 NameServer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ROCKETMQ_HOME%/bin/mqshutdown namesrv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>killing name server<br>成功: 已终止 PID 为 39464 的进程。<br>Done!</p>
+</blockquote>
+<hr>
+<p>官方快速起步：<a href="https://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="noopener">https://rocketmq.apache.org/docs/quick-start/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/rocketmq-practice-architecture-learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/rocketmq-practice-architecture-learn/" class="post-title-link" itemprop="url">RocketMQ Practice - Architecture Learn</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 17:40:38" itemprop="dateCreated datePublished" datetime="2017-11-09T17:40:38+08:00">2017-11-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 15:32:38" itemprop="dateModified" datetime="2019-05-21T15:32:38+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Messaging/" itemprop="url" rel="index"><span itemprop="name">Messaging</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Apache RocketMQ 是一个分布式消息及流处理平台，具有低延迟、高性能和可靠性，以及万亿级容量和灵活的扩展性。</p>
+<h2 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h2><p><img src="/images/rocketmq/rmq-basic-arc.png" alt="image"></p>
+<p>RocketMQ 主要包含 4 部分，它们中的每一部分都可以在非单点失败的情况下进行水平扩展。</p>
+<ul>
+<li>NameServers</li>
+<li>Brokers</li>
+<li>Producers</li>
+<li>Consumers</li>
+</ul>
+<h3 id="NameServer-Cluster（命名服务集群）"><a href="#NameServer-Cluster（命名服务集群）" class="headerlink" title="NameServer Cluster（命名服务集群）"></a>NameServer Cluster（命名服务集群）</h3><p>NameServers 提供发现和路由的轻量级服务。集群中每个 NameServer 记录完整的路由信息，提供相应的读写服务，支持快速存储扩展。</p>
+<h4 id="NameServer（命名服务）"><a href="#NameServer（命名服务）" class="headerlink" title="NameServer（命名服务）"></a>NameServer（命名服务）</h4><p>NameServer 是一个功能齐全的服务，主要包含以下 2 个特性：</p>
+<ul>
+<li><p>Broker 管理 </p>
+<p>NameServer 接受来自 Broker 集群的注册，并提供监测 Broker 是否存活的心跳机制。</p>
+</li>
+<li><p>路由管理</p>
+<p>每个 NameServer 保存 Broker集群的整个路由信息以及客户端查询的队列信息。</p>
+</li>
+</ul>
+<p>正如我们所知，RocketMQ 客户端（Producer &amp; Consumer）通过 NameServer 获取队列路由信息，但客户端是如何知道 NameServer 地址的呢？获取 NameServer 地址列表的 4 种方式：</p>
+<ul>
+<li>编写程序 <code>producer.setNamesrvAddr(&quot;ip:port&quot;)</code></li>
+<li>Java 选项 <code>rocketmq.namesrv.addr</code></li>
+<li>环境变量 <code>NAMESRV_ADDR</code></li>
+<li>HTTP 端点</li>
+</ul>
+<h3 id="Broker-Cluster（代理集群）"><a href="#Broker-Cluster（代理集群）" class="headerlink" title="Broker Cluster（代理集群）"></a>Broker Cluster（代理集群）</h3><p>Brokers 通过轻量级的 TOPIC 和 QUEUE 机制满足消息存储。他们支持 Push 和 Pull 两种模式，包含容错机制（拷贝2-3份），并提供了强大的填补高峰和积累数以百亿计的消息在其原来的时间顺序的能力<code>(这句没看懂)</code> 。此外，Brokers 也提供灾难恢复，丰富的指标统计和预警机制。</p>
+<h4 id="Broker-Server（代理服务）"><a href="#Broker-Server（代理服务）" class="headerlink" title="Broker Server（代理服务）"></a>Broker Server（代理服务）</h4><p>Broker Server 负责消息的存储、交付、消息查询与 HA 保证等。</p>
+<p><img src="/images/rocketmq/rmq-basic-component.png" alt="image"></p>
+<p>Broker Server 重要的子模块：</p>
+<ul>
+<li>远程模块 - Broker 入口，处理来自客户端的请求。</li>
+<li>客户端管理 - 管理客户端（Producer &amp; Consumer）和维护消费者的主题订阅。</li>
+<li>存储服务 - 提供简单的API来存储或查询物理磁盘中的消息。</li>
+<li>HA 服务 - 提供主从 Broker 间的数据同步功能。</li>
+<li>索引服务 - 按指定的键为消息建立索引，并提供快速的消息查询。</li>
+</ul>
+<h3 id="Producer-Cluster（生产者集群）"><a href="#Producer-Cluster（生产者集群）" class="headerlink" title="Producer Cluster（生产者集群）"></a>Producer Cluster（生产者集群）</h3><p>Producers 支持分布式部署。分布式 Producers 通过负载均衡模型向 Brokers 集群发送消息，发送过程支持快速失败及低延迟。</p>
+<h3 id="Consumer-Cluster（消费者集群）"><a href="#Consumer-Cluster（消费者集群）" class="headerlink" title="Consumer Cluster（消费者集群）"></a>Consumer Cluster（消费者集群）</h3><p>Consumers 在 Push 和 Pull 两种模式下支持分布式部署。它也支持集群消费和消息广播。它提供实时的消息订阅机制，可以满足大多数消费者的需求。</p>
+<hr>
+<p>更多信息请参考官方：<a href="https://rocketmq.apache.org/" target="_blank" rel="noopener">https://rocketmq.apache.org/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/create-my-hexo-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/create-my-hexo-blog/" class="post-title-link" itemprop="url">Create My Hexo Blog</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 15:10:45" itemprop="dateCreated datePublished" datetime="2017-11-09T15:10:45+08:00">2017-11-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 15:32:38" itemprop="dateModified" datetime="2019-05-21T15:32:38+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">752</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本文记录了创建自己的 Hexo 博客过程。</p>
+</blockquote>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>Node.js：<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">https://nodejs.org/zh-cn/</a></p>
+<p>Git：<a href="https://git-scm.com/" target="_blank" rel="noopener">https://git-scm.com/</a></p>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>如果需要搭建自己的博客（网站），强烈推荐查看官网教程。Hexo：<a href="http://hexo.io/" target="_blank" rel="noopener">http://hexo.io/</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<p>通过 <code>hexo --version</code> 验证 Hexo 是否安装成功。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;dir&gt;</span><br><span class="line">cd &lt;dir&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<p>执行成功后，即站点完成初始化工作。</p>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>启动成功后，访问：<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></p>
+<p><img src="/images/hexo/hello-hexo.png" alt="image"></p>
+<h2 id="NexT"><a href="#NexT" class="headerlink" title="NexT"></a>NexT</h2><p>自己的博客选择了 NexT 主题，详细说明请查看官网教程。NexT：<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">http://theme-next.iissnan.com/</a></p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd my-hexo-site</span><br><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<h3 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h3><p>修改文件 <code>my-hexo-site/_config.yml</code> 的 <code>theme</code> 属性值为 <code>next</code> ，重启服务。</p>
+<p><img src="/images/hexo/hello-next.png" alt="image"></p>
+<h3 id="切换-Scheme"><a href="#切换-Scheme" class="headerlink" title="切换 Scheme"></a>切换 Scheme</h3><p>NexT 支持多种外观风格，默认使用 <code>Muse</code>，如上图。</p>
+<p>修改文件 <code>my-hexo-site/themes/next/_config.yml</code> 的<code>scheme</code>属性值为 <code>Pisces</code> 来切换风格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#scheme: Muse</span><br><span class="line">#scheme: Mist</span><br><span class="line">scheme: Pisces</span><br></pre></td></tr></table></figure>
+<p><img src="/images/hexo/next-scheme.png" alt="image"></p>
+<p>NexT 还有更丰富的配置及第三方扩展，具体请查看官网。</p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>感谢 Hexo ，感谢 NexT，感谢 OpenSource，让我们能够方便的定制自己的站点。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/activemq-practice-getting-started/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1115,7 +2052,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1146,7 +2083,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1195,7 +2140,33 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1275,7 +2246,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">25k</span>
+    <span title="站点总字数">28k</span>
   
 
   
@@ -1284,7 +2255,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">23 分钟</span>
+    <span title="站点阅读时长">26 分钟</span>
   
 </div>
 

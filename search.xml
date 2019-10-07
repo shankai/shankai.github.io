@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[证书常用命令]]></title>
+    <url>%2F2019%2F09%2F13%2Ftls-certification-common-commands%2F</url>
+    <content type="text"><![CDATA[证书介绍证书生成与格式转换Opensslpfx -&gt; pem12345openssl pkcs12 -clcerts -nokeys -out one123456.pem -in one123456.pfxopenssl pkcs12 -nocerts -out one123456.key.pem -in one123456.pfxopenssl pkcs12 -clcerts -nokeys -out two123456.pem -in two123456.pfxopenssl pkcs12 -nocerts -out two123456.key.pem -in two123456.pfx crt + key -&gt; p1212openssl pkcs12 -export -in dop.crt -inkey dop.key -out dop.p12 -name dop -password pass:abcdefopenssl pkcs12 -export -in wiki.crt -inkey wiki.key -out wiki.p12 -name wiki -password pass:abcdef Keytoolcer -&gt; jks12345keytool -importcert -file CFCA_RSA_TEST_OCA21.cer -keystore cfca.jks -alias cfcakeytool -importcert -file ca.cer -keystore cfca.jks -alias cfcakeytool -import -alias cfcaalias -file cfca.cer -keystore trusted.keystore crt -&gt; jkskeytool -import -alias alias -file ca.crt -keypass keypass -keystore ca.jks -storepass 123456 -noprompt p12 -&gt; jks 1keytool -importkeystore -srckeystore ca.p12 -srcstoretype PKCS12 -destkeystore ca.jks -deststoretype JKS 客户端认证curl123curl -k -v --cert ./tls.crt --key ./tls.key https://qmsauthn.paas.service.sd/logincurl -k -v --cert ./authn.crt --key ./authn.key https://qmsauthn.pditdop:6443/login]]></content>
+      <categories>
+        <category>Security</category>
+      </categories>
+      <tags>
+        <tag>Certification</tag>
+        <tag>TLS</tag>
+        <tag>SSL</tag>
+        <tag>Security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB Quickstart]]></title>
+    <url>%2F2019%2F09%2F01%2Fmongodb-quickstart%2F</url>
+    <content type="text"><![CDATA[Install环境：Ubuntu 16.04用户：root官方手册： https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ 准备1234567wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | apt-key add -echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse&quot; | tee /etc/apt/sources.list.d/mongodb-org-4.0.listapt-get install apt-transport-httpsapt-get update 安装安装最新1apt-get install -y mongodb-org 安装指定版本1apt-get install -y mongodb-org=4.0.11 mongodb-org-server=4.0.11 mongodb-org-shell=4.0.11 mongodb-org-mongos=4.0.11 mongodb-org-tools=4.0.11 Usage连接远程连接示例1mongo --host qloudmongodb.pditdapps:27017 -u &quot;qloudwiki&quot; -p &quot;qloudwiki&quot; --authenticationDatabase &quot;wiki&quot; 数据库 xxx 为数据库名称 数据库列表 show dbs 切换数据库 use xxx 集合 xxx 为集合名称 集合列表 show collections 查询 db.xxx.find() 删除 db.xxx.drop()]]></content>
+      <categories>
+        <category>NoSQL</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
+        <tag>NoSQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java 命令行笔记]]></title>
+    <url>%2F2019%2F06%2F03%2Fjava-cmd-notes%2F</url>
+    <content type="text"><![CDATA[运行1java -jar XXX.jar 查看文件1jar tf XXX.jar 更新文件1jar uf XXX.jar /path/of/jar/file]]></content>
+      <categories>
+        <category>Program</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Jar</tag>
+        <tag>War</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Logstash 笔记]]></title>
+    <url>%2F2019%2F05%2F31%2Felk-logstash-notes%2F</url>
+    <content type="text"><![CDATA[Input PluginsTcp input plugin logstash:6.5.3 创建配置文件到 /usr/local/logstash/pipeline/tcp.conf 12345678910111213141516171819202122input &#123; tcp &#123; port =&gt; 9600 codec =&gt; json &#125;&#125;filter &#123; json &#123; source =&gt; "message" &#125; mutate &#123; copy =&gt; &#123; "message" =&gt; "messageContent" &#125; &#125; mutate &#123; remove_field =&gt; [ "message"] &#125;&#125;output &#123; stdout &#123; codec =&gt; rubydebug &#125;&#125; 启动 Logstash 容器，并挂载 tcp pipeline 配置 1docker run -d --rm -it --name logstash -p 9600:9600 -v /usr/local/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash:6.5.3 Configuring Logstash for Docker 准备测试数据 test.json 1&#123;"message":&#123;"someField":"someValue"&#125;&#125; 发送 1nc localhost 9600 &lt; test.json]]></content>
+      <categories>
+        <category>Monitor</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>ELK</tag>
+        <tag>Logstash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[2019 书单]]></title>
     <url>%2F2019%2F05%2F04%2Fbooklist-2019%2F</url>
-    <content type="text"><![CDATA[「追寻历史：一个记者和他的20世纪」 「乔布斯传」 「硅谷钢铁侠」 「奈飞文化手册」 「看见」]]></content>
+    <content type="text"><![CDATA[「追寻历史：一个记者和他的20世纪」 「乔布斯传」 「硅谷钢铁侠」 「奈飞文化手册」 「看见」 「三体」1、2、3(now)]]></content>
       <categories>
         <category>Reading</category>
       </categories>
       <tags>
-        <tag>Booklist, 2019</tag>
+        <tag>Booklist</tag>
       </tags>
   </entry>
   <entry>
@@ -19,7 +71,9 @@
         <category>SSH</category>
       </categories>
       <tags>
-        <tag>Linux, Ubuntu, SSH</tag>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
@@ -30,7 +84,9 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Linux, Ubuntu, Docker CE</tag>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
