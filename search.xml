@@ -64,19 +64,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Ubuntu 1604 TLS Server 上的 openssh-server]]></title>
-    <url>%2F2018%2F03%2F12%2Fopenssh-server-at-ubuntu-1604-tls-server%2F</url>
-    <content type="text"><![CDATA[环境： Unbuntu 16.04 TLS Server SSH 简介 Secure Shell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。 安装 openssh-server123sudo apt-get install openssh-serversudo /etc/init.d/ssh start 启用 root 用户 SSH 登录 设置 root 密码 1sudo passwd root 启用 root 登录 1vi /etc/ssh/sshd_config 将 PermitRootLogin prohibit-password 修改为 PermitRootLogin yes 。 重启 ssh 服务 1sudo service ssh restart 验证 root 用户 SSH 登录在终端命令行输入以下命令，其中 server-host 为服务器地址。按照提示输入密码，登录成功即可。 1ssh root@server-host 常见错误ssh: connect to host 172.16.18.131 port 22: Connection refused原因是Ubuntu没有默认提供ssh服务，因此首先安装ssh服务： 1sudo apt-get install openssh-server 如果安装完后该服务没有自动启动，则手工启动： 1sudo /etc/init.d/ssh start Write failed Broken pipe 问题解决问题用 ssh 命令连接服务器之后，如果一段时间不操作，再次进入 Terminal 时会有一段时间没有响应，然后就出现错误提示： Write failed: Broken pipe 只能重新用 ssh 命令进行连接。 解决 如果你有多台服务器，不想在每台服务器上设置，只需在客户端的 ~/.ssh/ 文件夹中添加 config 文件，并添加下面的配置： ServerAliveInterval 60 如果你有多个人管理服务器，不想在每个客户端进行设置，只需在服务器的 /etc/ssh/sshd_config 中添加如下的配置： ClientAliveInterval 60 如果您只想让当前的 ssh 保持连接，可以使用以下的命令： $ ssh -o ServerAliveInterval=60 user@sshserver 参考原文]]></content>
-      <categories>
-        <category>SSH</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Ubuntu</tag>
-        <tag>SSH</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Ubuntu 1604 TLS Server 安装 Docker CE]]></title>
     <url>%2F2018%2F03%2F12%2Fdocker-ce-at-ubuntu-1604-tls-server%2F</url>
     <content type="text"><![CDATA[环境： Unbuntu 16.04 TLS Server Docker Docker CE: Docker Community Edition Docker EE: Docker Enterprise Edition 准备sudo apt-get update 可能出现错误： 1234567891011Ign:1 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InReleaseErr:2 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release Please use apt-cdrom to make this CD-ROM recognized by APT. apt-get update cannot be used to add new CD-ROMsHit:3 http://security.ubuntu.com/ubuntu xenial-security InReleaseHit:4 http://us.archive.ubuntu.com/ubuntu xenial InReleaseHit:5 http://us.archive.ubuntu.com/ubuntu xenial-updates InReleaseHit:6 http://us.archive.ubuntu.com/ubuntu xenial-backports InReleaseReading package lists... DoneE: The repository &apos;cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release&apos; does not have a Release file.N: Updating from such a repository can&apos;t be done securely, and is therefore disabled by default.N: See apt-secure(8) manpage for repository creation and user configuration details. 解决：1sudo vi /etc/apt/sources.list 注释掉 deb cdrom 打头的部分 deb cdrom:[Ubuntu-Server 16.04.3 LTS Xenial Xerus - Release amd64 (20170801)]/ xenial main restricted 保存后退出再次尝试 sudo apt-get update 安装Install from a package下载 docker-ce-18.06（获取更多版本） 123cd /usr/local/dockerwget https://download.docker.com/linux/ubuntu/dists/artful/pool/stable/amd64/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 安装 1sudo dpkg -i /usr/local/docker/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 验证 1docker version 其他方式 通过 rancher 提供的安装脚本在线安装 curl https://releases.rancher.com/install-docker/17.06.sh | sh 安装完成后，通过以下命令验证安装结果 sudo docker version 或 sudo docker info 卸载卸载Docker CE sudo apt-get purge docker-ce 删除Docker镜像、容器、数据卷等文件 sudo rm -rf /var/lib/docker]]></content>
@@ -87,6 +74,19 @@
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu 1604 TLS Server 上的 openssh-server]]></title>
+    <url>%2F2018%2F03%2F12%2Fopenssh-server-at-ubuntu-1604-tls-server%2F</url>
+    <content type="text"><![CDATA[环境： Unbuntu 16.04 TLS Server SSH 简介 Secure Shell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。 安装 openssh-server123sudo apt-get install openssh-serversudo /etc/init.d/ssh start 启用 root 用户 SSH 登录 设置 root 密码 1sudo passwd root 启用 root 登录 1vi /etc/ssh/sshd_config 将 PermitRootLogin prohibit-password 修改为 PermitRootLogin yes 。 重启 ssh 服务 1sudo service ssh restart 验证 root 用户 SSH 登录在终端命令行输入以下命令，其中 server-host 为服务器地址。按照提示输入密码，登录成功即可。 1ssh root@server-host 常见错误ssh: connect to host 172.16.18.131 port 22: Connection refused原因是Ubuntu没有默认提供ssh服务，因此首先安装ssh服务： 1sudo apt-get install openssh-server 如果安装完后该服务没有自动启动，则手工启动： 1sudo /etc/init.d/ssh start Write failed Broken pipe 问题解决问题用 ssh 命令连接服务器之后，如果一段时间不操作，再次进入 Terminal 时会有一段时间没有响应，然后就出现错误提示： Write failed: Broken pipe 只能重新用 ssh 命令进行连接。 解决 如果你有多台服务器，不想在每台服务器上设置，只需在客户端的 ~/.ssh/ 文件夹中添加 config 文件，并添加下面的配置： ServerAliveInterval 60 如果你有多个人管理服务器，不想在每个客户端进行设置，只需在服务器的 /etc/ssh/sshd_config 中添加如下的配置： ClientAliveInterval 60 如果您只想让当前的 ssh 保持连接，可以使用以下的命令： $ ssh -o ServerAliveInterval=60 user@sshserver 参考原文]]></content>
+      <categories>
+        <category>SSH</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
