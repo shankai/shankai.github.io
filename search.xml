@@ -47,9 +47,9 @@
         <category>Monitor</category>
       </categories>
       <tags>
-        <tag>Docker</tag>
         <tag>ELK</tag>
         <tag>Logstash</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -71,9 +71,9 @@
         <category>Docker</category>
       </categories>
       <tags>
+        <tag>Docker</tag>
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
-        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
