@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.8.0">
+<meta name="generator" content="Hexo 3.9.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
@@ -212,7 +212,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
 
   </li>
       
@@ -234,7 +234,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -253,7 +253,9 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="搜索..." spellcheck="false" type="text" id="search-input">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -289,7 +291,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
@@ -351,7 +353,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>1k</span>
+              <span>993</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -397,13 +399,18 @@
 </blockquote>
 <h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h3><p><a href="http://activemq.apache.org/download.html" target="_blank" rel="noopener">http://activemq.apache.org/download.html</a></p>
 <p>(目前最新版本5.15.2)</p>
-<h3 id="2-安装-amp-启动服务"><a href="#2-安装-amp-启动服务" class="headerlink" title="2. 安装 &amp; 启动服务"></a>2. 安装 &amp; 启动服务</h3><p>解压 <code>apache-activemq-5.15.2-bin.zip</code> 到 <code>&lt;ActiveMQ_installed_dir&gt;</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%\bin\activemq start</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-安装-amp-启动服务"><a href="#2-安装-amp-启动服务" class="headerlink" title="2. 安装 &amp; 启动服务"></a>2. 安装 &amp; 启动服务</h3><p>解压 <code>apache-activemq-5.15.2-bin.zip</code> 到 <code>&lt;ActiveMQ_installed_dir&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%\bin\activemq start</span><br></pre></td></tr></table></figure>
+
 <h3 id="3-Web控制台"><a href="#3-Web控制台" class="headerlink" title="3. Web控制台"></a>3. Web控制台</h3><p>URL：<a href="http://127.0.0.1:8161/admin/" target="_blank" rel="noopener">http://127.0.0.1:8161/admin/</a><br>Login：admin<br>Password：admin  </p>
 <p>通过 conf/jetty-real.properties 配置用户名密码 </p>
 <h3 id="4-日志文件"><a href="#4-日志文件" class="headerlink" title="4. 日志文件"></a>4. 日志文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/data/activemq.log</span><br></pre></td></tr></table></figure>
+
 <h3 id="5-停止服务"><a href="#5-停止服务" class="headerlink" title="5. 停止服务"></a>5. 停止服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq stop</span><br></pre></td></tr></table></figure>
+
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>先决条件：消息服务（中间件）已启动。</p>
 <h3 id="1-启动消息消费者"><a href="#1-启动消息消费者" class="headerlink" title="1. 启动消息消费者"></a>1. 启动消息消费者</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq consumer</span><br></pre></td></tr></table></figure>
+
 <h3 id="2-启动消息生产者"><a href="#2-启动消息生产者" class="headerlink" title="2. 启动消息生产者"></a>2. 启动消息生产者</h3><ul>
 <li><p>自定义文本</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ACTIVEMQ_HOME%/bin/activemq producer --message &quot;My message&quot; --messageCount 1</span><br></pre></td></tr></table></figure>
@@ -510,7 +517,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="shankai">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="shankai">
   <p class="site-author-name" itemprop="name">shankai</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -520,7 +529,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +542,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -597,7 +606,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -613,7 +622,7 @@
     </span>
     <span title="站点阅读时长">26 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.1</div>
 

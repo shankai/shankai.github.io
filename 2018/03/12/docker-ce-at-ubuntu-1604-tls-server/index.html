@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.8.0">
+<meta name="generator" content="Hexo 3.9.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
@@ -58,7 +58,7 @@
 </script>
 
   <meta name="description" content="环境： Unbuntu 16.04 TLS Server  Docker Docker CE: Docker Community Edition  Docker EE: Docker Enterprise Edition   准备sudo apt-get update 可能出现错误： 1234567891011Ign:1 cdrom://Ubuntu-Server 16.04.3 LTS _Xe">
-<meta name="keywords" content="Docker,Linux,Ubuntu">
+<meta name="keywords" content="Linux,Ubuntu,Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 1604 TLS Server 安装 Docker CE">
 <meta property="og:url" content="http://yoursite.com/2018/03/12/docker-ce-at-ubuntu-1604-tls-server/index.html">
@@ -210,7 +210,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
 
   </li>
       
@@ -232,7 +232,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -251,7 +251,9 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="搜索..." spellcheck="false" type="text" id="search-input">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -287,7 +289,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
@@ -384,7 +386,10 @@
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p><code>sudo apt-get update</code></p>
 <p>可能出现错误：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Ign:1 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease</span><br><span class="line">Err:2 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release</span><br><span class="line"> Please use apt-cdrom to make this CD-ROM recognized by APT. apt-get update cannot be used to add new CD-ROMs</span><br><span class="line">Hit:3 http://security.ubuntu.com/ubuntu xenial-security InRelease</span><br><span class="line">Hit:4 http://us.archive.ubuntu.com/ubuntu xenial InRelease</span><br><span class="line">Hit:5 http://us.archive.ubuntu.com/ubuntu xenial-updates InRelease</span><br><span class="line">Hit:6 http://us.archive.ubuntu.com/ubuntu xenial-backports InRelease</span><br><span class="line">Reading package lists... Done</span><br><span class="line">E: The repository &apos;cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release&apos; does not have a Release file.</span><br><span class="line">N: Updating from such a repository can&apos;t be done securely, and is therefore disabled by default.</span><br><span class="line">N: See apt-secure(8) manpage for repository creation and user configuration details.</span><br></pre></td></tr></table></figure>
-<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/apt/sources.list</span><br></pre></td></tr></table></figure></p>
+
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
 <p>注释掉 <code>deb cdrom</code> 打头的部分</p>
 <blockquote>
 <p>deb cdrom:[Ubuntu-Server 16.04.3 LTS <em>Xenial Xerus</em> - Release amd64 (20170801)]/ xenial main restricted</p>
@@ -392,10 +397,13 @@
 <p>保存后退出再次尝试 <code>sudo apt-get update</code></p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Install-from-a-package"><a href="#Install-from-a-package" class="headerlink" title="Install from a package"></a>Install from a package</h3><p>下载 docker-ce-18.06（获取<a href="https://download.docker.com/linux/ubuntu/dists/" target="_blank" rel="noopener">更多版本</a>）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/docker</span><br><span class="line"></span><br><span class="line">wget https://download.docker.com/linux/ubuntu/dists/artful/pool/stable/amd64/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb</span><br></pre></td></tr></table></figure>
+
 <p>安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i /usr/local/docker/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb</span><br></pre></td></tr></table></figure>
+
 <p>验证</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker version</span><br></pre></td></tr></table></figure>
+
 <h3 id="其他方式"><a href="#其他方式" class="headerlink" title="其他方式"></a>其他方式</h3><blockquote>
 <p>通过 rancher 提供的安装脚本在线安装</p>
 </blockquote>
@@ -419,11 +427,11 @@
           
           <div class="post-tags">
             
-              <a href="/tags/Docker/" rel="tag"># Docker</a>
-            
               <a href="/tags/Linux/" rel="tag"># Linux</a>
             
               <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+            
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
             
           </div>
         
@@ -433,8 +441,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2018/03/12/openssh-server-at-ubuntu-1604-tls-server/" rel="next" title="Ubuntu 1604 TLS Server 上的 openssh-server">
-                  <i class="fa fa-chevron-left"></i> Ubuntu 1604 TLS Server 上的 openssh-server
+                <a href="/2018/01/22/excerpts-of-blockchain-guide/" rel="next" title="「区块链技术指南」书摘">
+                  <i class="fa fa-chevron-left"></i> 「区块链技术指南」书摘
                 </a>
               
             </div>
@@ -443,8 +451,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/05/04/booklist-2019/" rel="prev" title="2019 书单">
-                  2019 书单 <i class="fa fa-chevron-right"></i>
+                <a href="/2018/03/12/openssh-server-at-ubuntu-1604-tls-server/" rel="prev" title="Ubuntu 1604 TLS Server 上的 openssh-server">
+                  Ubuntu 1604 TLS Server 上的 openssh-server <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -498,7 +506,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="shankai">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="shankai">
   <p class="site-author-name" itemprop="name">shankai</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -508,7 +518,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -521,7 +531,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -585,7 +595,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -601,7 +611,7 @@
     </span>
     <span title="站点阅读时长">26 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.1</div>
 

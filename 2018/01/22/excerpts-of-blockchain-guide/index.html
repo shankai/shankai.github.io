@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.8.0">
+<meta name="generator" content="Hexo 3.9.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
@@ -212,7 +212,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
 
   </li>
       
@@ -234,7 +234,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -253,7 +253,9 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="搜索..." spellcheck="false" type="text" id="search-input">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -289,7 +291,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
@@ -351,7 +353,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>9.2k</span>
+              <span>9k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -450,75 +452,74 @@
 <p>拜占庭算法讨论的是最坏情况下的保障。</p>
 <p>面向拜占庭问题的容错算法，解决的是网络通信可靠，但节点可能故障情况下的一致性达成。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以函数来表示，将军的总数为 n，n 里面背叛者的数量为 t，则只要 n &gt; 3t 就可以容错。</span><br></pre></td></tr></table></figure>
+
 <p>拜占庭问题之所以难解，在于任何时候系统中都可能存在多个提案（因为提案成本很低），并且要完成最终的一致性确认过程十分困难，容易受干扰。但一旦确认，即为最终确认。</p>
 <p>比特币的区块链网络在设计时提出了创新的 PoW（Proof of Work）算法思路。一个是限制一段时间内整个网络中出现提案的个数（增加提案成本），另外一个是放宽对最终一致性确认的需求，约定好大家都确认并沿着已知最长的链进行拓宽。系统的最终确认是概率意义上的存在。这样，即便有人试图恶意破坏，也会付出很大的经济代价（付出超过系统一半的算力）。</p>
 <p>后来的各种 PoX 系列算法，也都是沿着这个思路进行改进，采用经济上的惩罚来制约破坏者。</p>
 <h3 id="可靠性指标"><a href="#可靠性指标" class="headerlink" title="可靠性指标"></a>可靠性指标</h3><table>
 <thead>
 <tr>
-<th style="text-align:center">指标</th>
-<th style="text-align:center">概率可靠性</th>
-<th style="text-align:center">每年允许不可用时间</th>
-<th style="text-align:center">典型场景</th>
+<th align="center">指标</th>
+<th align="center">概率可靠性</th>
+<th align="center">每年允许不可用时间</th>
+<th align="center">典型场景</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">1个9</td>
-<td style="text-align:center">90%</td>
-<td style="text-align:center">1.2 月</td>
-<td style="text-align:center">不可用</td>
+<tbody><tr>
+<td align="center">1个9</td>
+<td align="center">90%</td>
+<td align="center">1.2 月</td>
+<td align="center">不可用</td>
 </tr>
 <tr>
-<td style="text-align:center">2个9</td>
-<td style="text-align:center">99%</td>
-<td style="text-align:center">3.6 天</td>
-<td style="text-align:center">普通单点</td>
+<td align="center">2个9</td>
+<td align="center">99%</td>
+<td align="center">3.6 天</td>
+<td align="center">普通单点</td>
 </tr>
 <tr>
-<td style="text-align:center">3个9</td>
-<td style="text-align:center">99.9%</td>
-<td style="text-align:center">8.6 小时</td>
-<td style="text-align:center">普通企业</td>
+<td align="center">3个9</td>
+<td align="center">99.9%</td>
+<td align="center">8.6 小时</td>
+<td align="center">普通企业</td>
 </tr>
 <tr>
-<td style="text-align:center">4个9</td>
-<td style="text-align:center">99.99%</td>
-<td style="text-align:center">51.6 分钟</td>
-<td style="text-align:center">高可用</td>
+<td align="center">4个9</td>
+<td align="center">99.99%</td>
+<td align="center">51.6 分钟</td>
+<td align="center">高可用</td>
 </tr>
 <tr>
-<td style="text-align:center">5个9</td>
-<td style="text-align:center">99.999%</td>
-<td style="text-align:center">5 分钟</td>
-<td style="text-align:center">电信级</td>
+<td align="center">5个9</td>
+<td align="center">99.999%</td>
+<td align="center">5 分钟</td>
+<td align="center">电信级</td>
 </tr>
 <tr>
-<td style="text-align:center">6个9</td>
-<td style="text-align:center">99.9999%</td>
-<td style="text-align:center">31 秒</td>
-<td style="text-align:center">极高要求</td>
+<td align="center">6个9</td>
+<td align="center">99.9999%</td>
+<td align="center">31 秒</td>
+<td align="center">极高要求</td>
 </tr>
 <tr>
-<td style="text-align:center">7个9</td>
-<td style="text-align:center">99.99999%</td>
-<td style="text-align:center">3 秒</td>
-<td style="text-align:center">N/A</td>
+<td align="center">7个9</td>
+<td align="center">99.99999%</td>
+<td align="center">3 秒</td>
+<td align="center">N/A</td>
 </tr>
 <tr>
-<td style="text-align:center">8个9</td>
-<td style="text-align:center">99.999999%</td>
-<td style="text-align:center">0.3 秒</td>
-<td style="text-align:center">N/A</td>
+<td align="center">8个9</td>
+<td align="center">99.999999%</td>
+<td align="center">0.3 秒</td>
+<td align="center">N/A</td>
 </tr>
 <tr>
-<td style="text-align:center">9个9</td>
-<td style="text-align:center">99.9999999%</td>
-<td style="text-align:center">30 毫秒</td>
-<td style="text-align:center">N/A</td>
+<td align="center">9个9</td>
+<td align="center">99.9999999%</td>
+<td align="center">30 毫秒</td>
+<td align="center">N/A</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>依靠单点实现的可靠性毕竟是有限的，要想进一步的提升，那就只好消灭单点，通过主从、多活等模式让多个节点集体完成原先单点的工作。这可以从概率意义上改善服务的可靠性，也是分布式系统的一个重要用途。</p>
 <h2 id="密码学与安全技术"><a href="#密码学与安全技术" class="headerlink" title="密码学与安全技术"></a>密码学与安全技术</h2><h3 id="Hash-算法"><a href="#Hash-算法" class="headerlink" title="Hash 算法"></a>Hash 算法</h3><p>Hash（哈希或散列）算法是信息技术领域非常基础也非常重要的技术。它能使任意长度的二进制值（明文）映射为较短的固定长度的二进制值（Hash 值），并且不同的明文很难映射为相同的 Hash 值。</p>
 <p>一个优秀的 Hash 算法，将能实现：</p>
@@ -662,8 +663,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2018/03/12/openssh-server-at-ubuntu-1604-tls-server/" rel="prev" title="Ubuntu 1604 TLS Server 上的 openssh-server">
-                  Ubuntu 1604 TLS Server 上的 openssh-server <i class="fa fa-chevron-right"></i>
+                <a href="/2018/03/12/docker-ce-at-ubuntu-1604-tls-server/" rel="prev" title="Ubuntu 1604 TLS Server 安装 Docker CE">
+                  Ubuntu 1604 TLS Server 安装 Docker CE <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -717,7 +718,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="shankai">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="shankai">
   <p class="site-author-name" itemprop="name">shankai</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -727,7 +730,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -740,7 +743,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -804,7 +807,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -820,7 +823,7 @@
     </span>
     <span title="站点阅读时长">26 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.1</div>
 

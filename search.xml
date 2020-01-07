@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Gitlab CE 服务部署及简单使用]]></title>
+    <url>%2F2020%2F01%2F07%2Fgitlab-ce-service-setup-and-trial%2F</url>
+    <content type="text"><![CDATA[安装Docker123456789sudo docker run --detach \ --hostname gitlab.example.com \ --publish 9443:443 --publish 9080:80 --publish 9022:22 \ --name gitlab \ --restart always \ --volume /opt/gitlab/config:/etc/gitlab \ --volume /opt/gitlab/logs:/var/log/gitlab \ --volume /opt/gitlab/data:/var/opt/gitlab \ gitlab/gitlab-ce:latest DNS Or hosts配置域名解析或在客户端配置主机别名。 主机别名示例： 1172.16.18.143 gitlab.example.com 访问首次登录 浏览器打开: http://gitlab.example.com:9080 重置管理员root密码(e.g. admin123) 登录 启用双重认证（可选）Two-Factor Authentication在个人设置中启用双重认证，手机端使用 FreeOTP 生成认证码。 功能 User Group Repository TLS &amp; SSH Settings…]]></content>
+      <categories>
+        <category>SCM</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2020 书单]]></title>
+    <url>%2F2020%2F01%2F01%2Fbooklist-2020%2F</url>
+    <content type="text"><![CDATA[「罗伯特议事规则」第 11 版]]></content>
+      <categories>
+        <category>Reading</category>
+      </categories>
+      <tags>
+        <tag>Booklist</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[证书常用命令]]></title>
     <url>%2F2019%2F09%2F13%2Ftls-certification-common-commands%2F</url>
     <content type="text"><![CDATA[证书介绍证书生成与格式转换Opensslpfx -&gt; pem12345openssl pkcs12 -clcerts -nokeys -out one123456.pem -in one123456.pfxopenssl pkcs12 -nocerts -out one123456.key.pem -in one123456.pfxopenssl pkcs12 -clcerts -nokeys -out two123456.pem -in two123456.pfxopenssl pkcs12 -nocerts -out two123456.key.pem -in two123456.pfx crt + key -&gt; p1212openssl pkcs12 -export -in dop.crt -inkey dop.key -out dop.p12 -name dop -password pass:abcdefopenssl pkcs12 -export -in wiki.crt -inkey wiki.key -out wiki.p12 -name wiki -password pass:abcdef Keytoolcer -&gt; jks12345keytool -importcert -file CFCA_RSA_TEST_OCA21.cer -keystore cfca.jks -alias cfcakeytool -importcert -file ca.cer -keystore cfca.jks -alias cfcakeytool -import -alias cfcaalias -file cfca.cer -keystore trusted.keystore crt -&gt; jkskeytool -import -alias alias -file ca.crt -keypass keypass -keystore ca.jks -storepass 123456 -noprompt p12 -&gt; jks 1keytool -importkeystore -srckeystore ca.p12 -srcstoretype PKCS12 -destkeystore ca.jks -deststoretype JKS 客户端认证curl123curl -k -v --cert ./tls.crt --key ./tls.key https://qmsauthn.paas.service.sd/logincurl -k -v --cert ./authn.crt --key ./authn.key https://qmsauthn.pditdop:6443/login]]></content>
@@ -17,7 +39,7 @@
   <entry>
     <title><![CDATA[MongoDB Quickstart]]></title>
     <url>%2F2019%2F09%2F01%2Fmongodb-quickstart%2F</url>
-    <content type="text"><![CDATA[Install环境：Ubuntu 16.04用户：root官方手册： https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ 准备1234567wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | apt-key add -echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse&quot; | tee /etc/apt/sources.list.d/mongodb-org-4.0.listapt-get install apt-transport-httpsapt-get update 安装安装最新1apt-get install -y mongodb-org 安装指定版本1apt-get install -y mongodb-org=4.0.11 mongodb-org-server=4.0.11 mongodb-org-shell=4.0.11 mongodb-org-mongos=4.0.11 mongodb-org-tools=4.0.11 Usage连接远程连接示例1mongo --host qloudmongodb.pditdapps:27017 -u &quot;qloudwiki&quot; -p &quot;qloudwiki&quot; --authenticationDatabase &quot;wiki&quot; 数据库 xxx 为数据库名称 数据库列表 show dbs 切换数据库 use xxx 集合 xxx 为集合名称 集合列表 show collections 查询 db.xxx.find() 删除 db.xxx.drop()]]></content>
+    <content type="text"><![CDATA[Install环境：Ubuntu 16.04用户：root官方手册： https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ 准备1234567wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | apt-key add -echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse&quot; | tee /etc/apt/sources.list.d/mongodb-org-4.0.listapt-get install apt-transport-httpsapt-get update 安装安装最新1apt-get install -y mongodb-org 安装指定版本1apt-get install -y mongodb-org=4.0.11 mongodb-org-server=4.0.11 mongodb-org-shell=4.0.11 mongodb-org-mongos=4.0.11 mongodb-org-tools=4.0.11 Usage连接远程连接示例 1mongo --host qloudmongodb.pditdapps:27017 -u &quot;qloudwiki&quot; -p &quot;qloudwiki&quot; --authenticationDatabase &quot;wiki&quot; 数据库 xxx 为数据库名称 数据库列表 show dbs 切换数据库 use xxx 集合 xxx 为集合名称 集合列表 show collections 查询 db.xxx.find() 删除 db.xxx.drop()]]></content>
       <categories>
         <category>NoSQL</category>
       </categories>
@@ -47,33 +69,20 @@
         <category>Monitor</category>
       </categories>
       <tags>
+        <tag>Docker</tag>
         <tag>ELK</tag>
         <tag>Logstash</tag>
-        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[2019 书单]]></title>
-    <url>%2F2019%2F05%2F04%2Fbooklist-2019%2F</url>
-    <content type="text"><![CDATA[「追寻历史：一个记者和他的20世纪」 「乔布斯传」 「硅谷钢铁侠」 「奈飞文化手册」 「看见」 「三体」1、2、3(now)]]></content>
+    <url>%2F2019%2F01%2F01%2Fbooklist-2019%2F</url>
+    <content type="text"><![CDATA[「追寻历史：一个记者和他的20世纪」 「乔布斯传」 「硅谷钢铁侠」 「奈飞文化手册」 「看见」 「三体」1、2、3]]></content>
       <categories>
         <category>Reading</category>
       </categories>
       <tags>
         <tag>Booklist</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Ubuntu 1604 TLS Server 安装 Docker CE]]></title>
-    <url>%2F2018%2F03%2F12%2Fdocker-ce-at-ubuntu-1604-tls-server%2F</url>
-    <content type="text"><![CDATA[环境： Unbuntu 16.04 TLS Server Docker Docker CE: Docker Community Edition Docker EE: Docker Enterprise Edition 准备sudo apt-get update 可能出现错误： 1234567891011Ign:1 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InReleaseErr:2 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release Please use apt-cdrom to make this CD-ROM recognized by APT. apt-get update cannot be used to add new CD-ROMsHit:3 http://security.ubuntu.com/ubuntu xenial-security InReleaseHit:4 http://us.archive.ubuntu.com/ubuntu xenial InReleaseHit:5 http://us.archive.ubuntu.com/ubuntu xenial-updates InReleaseHit:6 http://us.archive.ubuntu.com/ubuntu xenial-backports InReleaseReading package lists... DoneE: The repository &apos;cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release&apos; does not have a Release file.N: Updating from such a repository can&apos;t be done securely, and is therefore disabled by default.N: See apt-secure(8) manpage for repository creation and user configuration details. 解决：1sudo vi /etc/apt/sources.list 注释掉 deb cdrom 打头的部分 deb cdrom:[Ubuntu-Server 16.04.3 LTS Xenial Xerus - Release amd64 (20170801)]/ xenial main restricted 保存后退出再次尝试 sudo apt-get update 安装Install from a package下载 docker-ce-18.06（获取更多版本） 123cd /usr/local/dockerwget https://download.docker.com/linux/ubuntu/dists/artful/pool/stable/amd64/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 安装 1sudo dpkg -i /usr/local/docker/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 验证 1docker version 其他方式 通过 rancher 提供的安装脚本在线安装 curl https://releases.rancher.com/install-docker/17.06.sh | sh 安装完成后，通过以下命令验证安装结果 sudo docker version 或 sudo docker info 卸载卸载Docker CE sudo apt-get purge docker-ce 删除Docker镜像、容器、数据卷等文件 sudo rm -rf /var/lib/docker]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Linux</tag>
-        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -87,6 +96,19 @@
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>SSH</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu 1604 TLS Server 安装 Docker CE]]></title>
+    <url>%2F2018%2F03%2F12%2Fdocker-ce-at-ubuntu-1604-tls-server%2F</url>
+    <content type="text"><![CDATA[环境： Unbuntu 16.04 TLS Server Docker Docker CE: Docker Community Edition Docker EE: Docker Enterprise Edition 准备sudo apt-get update 可能出现错误： 1234567891011Ign:1 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InReleaseErr:2 cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release Please use apt-cdrom to make this CD-ROM recognized by APT. apt-get update cannot be used to add new CD-ROMsHit:3 http://security.ubuntu.com/ubuntu xenial-security InReleaseHit:4 http://us.archive.ubuntu.com/ubuntu xenial InReleaseHit:5 http://us.archive.ubuntu.com/ubuntu xenial-updates InReleaseHit:6 http://us.archive.ubuntu.com/ubuntu xenial-backports InReleaseReading package lists... DoneE: The repository &apos;cdrom://Ubuntu-Server 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release&apos; does not have a Release file.N: Updating from such a repository can&apos;t be done securely, and is therefore disabled by default.N: See apt-secure(8) manpage for repository creation and user configuration details. 解决： 1sudo vi /etc/apt/sources.list 注释掉 deb cdrom 打头的部分 deb cdrom:[Ubuntu-Server 16.04.3 LTS Xenial Xerus - Release amd64 (20170801)]/ xenial main restricted 保存后退出再次尝试 sudo apt-get update 安装Install from a package下载 docker-ce-18.06（获取更多版本） 123cd /usr/local/dockerwget https://download.docker.com/linux/ubuntu/dists/artful/pool/stable/amd64/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 安装 1sudo dpkg -i /usr/local/docker/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb 验证 1docker version 其他方式 通过 rancher 提供的安装脚本在线安装 curl https://releases.rancher.com/install-docker/17.06.sh | sh 安装完成后，通过以下命令验证安装结果 sudo docker version 或 sudo docker info 卸载卸载Docker CE sudo apt-get purge docker-ce 删除Docker镜像、容器、数据卷等文件 sudo rm -rf /var/lib/docker]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -176,7 +198,7 @@
   <entry>
     <title><![CDATA[ActiveMQ Practice Getting Started]]></title>
     <url>%2F2017%2F11%2F08%2Factivemq-practice-getting-started%2F</url>
-    <content type="text"><![CDATA[本文只是记录 ActiveMQ 服务的基本部署和消息的简单测试应用。 体系架构 核心概念 消息流 消息生产者（Producer） –&gt; 中间件（Broker） –&gt; 消息消费者（Consumer） 两种模型 Point to Point（点对点） Publish/Subscribe（发布/订阅） 服务部署参考：http://activemq.apache.org/getting-started.html 本文实践环境说明：Windows 10 专业版，JDK 1.8.0_65。 1. 下载http://activemq.apache.org/download.html (目前最新版本5.15.2) 2. 安装 &amp; 启动服务解压 apache-activemq-5.15.2-bin.zip 到 &lt;ActiveMQ_installed_dir&gt;1%ACTIVEMQ_HOME%\bin\activemq start 3. Web控制台URL：http://127.0.0.1:8161/admin/Login：adminPassword：admin 通过 conf/jetty-real.properties 配置用户名密码 4. 日志文件1%ACTIVEMQ_HOME%/data/activemq.log 5. 停止服务1%ACTIVEMQ_HOME%/bin/activemq stop 示例先决条件：消息服务（中间件）已启动。 1. 启动消息消费者1%ACTIVEMQ_HOME%/bin/activemq consumer 2. 启动消息生产者 自定义文本 1%ACTIVEMQ_HOME%/bin/activemq producer --message &quot;My message&quot; --messageCount 1 定长字节消息 1%ACTIVEMQ_HOME%/bin/activemq producer --messageSize 100 --messageCount 1 更多信息 http://activemq.apache.org/version-5-examples.html 总结本文对 ActiveMQ 进行了基础入门实践练习，以便更好的认识 ActiveMQ。 更多信息请查看官网：http://activemq.apache.org/ (END)]]></content>
+    <content type="text"><![CDATA[本文只是记录 ActiveMQ 服务的基本部署和消息的简单测试应用。 体系架构 核心概念 消息流 消息生产者（Producer） –&gt; 中间件（Broker） –&gt; 消息消费者（Consumer） 两种模型 Point to Point（点对点） Publish/Subscribe（发布/订阅） 服务部署参考：http://activemq.apache.org/getting-started.html 本文实践环境说明：Windows 10 专业版，JDK 1.8.0_65。 1. 下载http://activemq.apache.org/download.html (目前最新版本5.15.2) 2. 安装 &amp; 启动服务解压 apache-activemq-5.15.2-bin.zip 到 &lt;ActiveMQ_installed_dir&gt; 1%ACTIVEMQ_HOME%\bin\activemq start 3. Web控制台URL：http://127.0.0.1:8161/admin/Login：adminPassword：admin 通过 conf/jetty-real.properties 配置用户名密码 4. 日志文件1%ACTIVEMQ_HOME%/data/activemq.log 5. 停止服务1%ACTIVEMQ_HOME%/bin/activemq stop 示例先决条件：消息服务（中间件）已启动。 1. 启动消息消费者1%ACTIVEMQ_HOME%/bin/activemq consumer 2. 启动消息生产者 自定义文本 1%ACTIVEMQ_HOME%/bin/activemq producer --message &quot;My message&quot; --messageCount 1 定长字节消息 1%ACTIVEMQ_HOME%/bin/activemq producer --messageSize 100 --messageCount 1 更多信息 http://activemq.apache.org/version-5-examples.html 总结本文对 ActiveMQ 进行了基础入门实践练习，以便更好的认识 ActiveMQ。 更多信息请查看官网：http://activemq.apache.org/ (END)]]></content>
       <categories>
         <category>Messaging</category>
       </categories>

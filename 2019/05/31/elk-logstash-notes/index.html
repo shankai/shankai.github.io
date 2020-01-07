@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.8.0">
+<meta name="generator" content="Hexo 3.9.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
@@ -58,7 +58,7 @@
 </script>
 
   <meta name="description" content="Input PluginsTcp input plugin logstash:6.5.3  创建配置文件到 /usr/local/logstash/pipeline/tcp.conf 12345678910111213141516171819202122input &amp;#123;  tcp &amp;#123;    port =&amp;gt; 9600    codec =&amp;gt; json  &amp;#125;&amp;#">
-<meta name="keywords" content="ELK,Logstash,Docker">
+<meta name="keywords" content="Docker,ELK,Logstash">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Logstash 笔记">
 <meta property="og:url" content="http://yoursite.com/2019/05/31/elk-logstash-notes/index.html">
@@ -210,7 +210,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
 
   </li>
       
@@ -232,7 +232,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -251,7 +251,9 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="搜索..." spellcheck="false" type="text" id="search-input">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -287,7 +289,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
@@ -341,7 +343,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>751</span>
+              <span>777</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -369,13 +371,17 @@
 </blockquote>
 <p>创建配置文件到 <code>/usr/local/logstash/pipeline/tcp.conf</code></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    port =&gt; 9600</span><br><span class="line">    codec =&gt; json</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">filter &#123;</span><br><span class="line"></span><br><span class="line">    json &#123;</span><br><span class="line">      source =&gt; "message"</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mutate &#123; copy =&gt; &#123; "message" =&gt; "messageContent" &#125; &#125;</span><br><span class="line"></span><br><span class="line">    mutate &#123; remove_field =&gt; [ "message"] &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>启动 Logstash 容器，并挂载 tcp pipeline 配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --rm -it --name logstash -p 9600:9600 -v /usr/local/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash:6.5.3</span><br></pre></td></tr></table></figure>
+
 <p><a href="https://www.elastic.co/guide/en/logstash/current/docker-config.html#_pipeline_configuration" target="_blank" rel="noopener">Configuring Logstash for Docker</a></p>
 <p>准备测试数据 <code>test.json</code></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"message"</span>:&#123;<span class="attr">"someField"</span>:<span class="string">"someValue"</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
 <p>发送</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc localhost 9600 &lt; test.json</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -391,11 +397,11 @@
           
           <div class="post-tags">
             
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+            
               <a href="/tags/ELK/" rel="tag"># ELK</a>
             
               <a href="/tags/Logstash/" rel="tag"># Logstash</a>
-            
-              <a href="/tags/Docker/" rel="tag"># Docker</a>
             
           </div>
         
@@ -405,7 +411,7 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/05/04/booklist-2019/" rel="next" title="2019 书单">
+                <a href="/2019/01/01/booklist-2019/" rel="next" title="2019 书单">
                   <i class="fa fa-chevron-left"></i> 2019 书单
                 </a>
               
@@ -470,7 +476,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="shankai">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="shankai">
   <p class="site-author-name" itemprop="name">shankai</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -480,7 +488,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -493,7 +501,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -557,7 +565,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -573,7 +581,7 @@
     </span>
     <span title="站点阅读时长">26 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.1</div>
 
