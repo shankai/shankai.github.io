@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Confluent Schema Registry Notes]]></title>
+    <url>%2F2020%2F02%2F25%2Fconfluent-schema-registry-notes%2F</url>
+    <content type="text"><![CDATA[简介模式注册表为元数据提供了一个服务层。 它提供了一个用于存储和检索 Avro 模式的 RESTful 接口，存储所有模式的版本历史，提供多个兼容性设置，并允许根据配置的兼容性设置改进模式。 它提供了插入 Kafka 客户机的序列化程序，处理以 Avro 格式发送的 Kafka 消息的模式存储和检索。 项目主页：https://github.com/confluentinc/schema-registry 部署Docker镜像引用来源：https://github.com/confluentinc/examples/blob/5.4.0-post/cp-all-in-one-community/ 其中 172.16.18.143 为宿主机 IP 1234docker run --name schema-registry -h schema-registry -p 8081:8081 \ -e SCHEMA_REGISTRY_HOST_NAME=schema-registry \ -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=172.16.18.143:2181 \ confluentinc/cp-schema-registry:5.4.0 API查询主题/模式 List all subjects1curl -X GET http://172.16.18.143:8081/subjects List all schema versions registered under the subject “Kafka-key” 1curl -X GET http://172.16.18.143:8081/subjects/Kafka-key/versions Fetch version 1 of the schema registered under subject “Kafka-key” 1curl -X GET http://172.16.18.143:8081/subjects/Kafka-key/versions/1 Fetch the most recently registered schema under subject “Kafka-key” 1curl -X GET http://172.16.18.143:8081/subjects/Kafka-key/versions/latest Fetch a schema by globally unique id 1 1curl -X GET http://172.16.18.143:8081/schemas/ids/1 注册主题 Register a new version of a schema under the subject “Kafka-key”123456789101112131415curl -X POST -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123; &quot;schema&quot;: &quot;&#123;\&quot;type\&quot;: \&quot;record\&quot;,\&quot;name\&quot;: \&quot;User\&quot;,\&quot;fields\&quot;: [&#123;\&quot;name\&quot;: \&quot;id\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;name\&quot;, \&quot;type\&quot;: \&quot;string\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;age\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125; ]&#125;&quot;&#125;&apos; \ http://172.16.18.143:8081/subjects/Kafka-key/versions curl -X POST -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123; &quot;schema&quot;: &quot;&#123;\&quot;type\&quot;: \&quot;record\&quot;,\&quot;name\&quot;: \&quot;User\&quot;,\&quot;fields\&quot;: [&#123;\&quot;name\&quot;: \&quot;id\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;name\&quot;, \&quot;type\&quot;: \&quot;string\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;age\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;age1\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125; ]&#125;&quot;&#125;&apos; \ http://172.16.18.143:8081/subjects/Kafka-key/versions curl -X POST -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123; &quot;schema&quot;: &quot;&#123;\&quot;type\&quot;: \&quot;record\&quot;,\&quot;name\&quot;: \&quot;User\&quot;,\&quot;fields\&quot;: [&#123;\&quot;name\&quot;: \&quot;id\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;name\&quot;, \&quot;type\&quot;: \&quot;string\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;age\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125;,&#123;\&quot;name\&quot;: \&quot;age2\&quot;, \&quot;type\&quot;: \&quot;int\&quot;&#125; ]&#125;&quot;&#125;&apos; \ http://172.16.18.143:8081/subjects/Kafka-key/versions 删除模式/版本 Delete version 1 of the schema registered under subject “Kafka-key” 1curl -X DELETE http://172.16.18.143:8081/subjects/Kafka-key/versions/1 Output: 1 Delete all versions of the schema registered under subject “Kafka-key” 1curl -X DELETE http://172.16.18.143:8081/subjects/Kafka-key Output: [2,3,4] 兼容性检查 Check whether a schema has been registered under subject “Kafka-key” 123curl -X POST -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123;&quot;schema&quot;: &quot;&#123;\&quot;type\&quot;: \&quot;string\&quot;&#125;&quot;&#125;&apos; \ http://172.16.18.143:8081/subjects/Kafka-key Test compatibility of a schema with the latest schema under subject “Kafka-key” 123curl -X POST -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123;&quot;schema&quot;: &quot;&#123;\&quot;type\&quot;: \&quot;string\&quot;&#125;&quot;&#125;&apos; \ http://172.16.18.143:8081/compatibility/subjects/Kafka-key/versions/latest Output: {&quot;is_compatible&quot;:true} 兼容性设置 Get top level config 1curl -X GET http://172.16.18.143:8081/config Output: {&quot;compatibilityLevel&quot;:&quot;BACKWARD&quot;} Update compatibility requirements globally 123curl -X PUT -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123;&quot;compatibility&quot;: &quot;NONE&quot;&#125;&apos; \ http://172.16.18.143:8081/config Output: {&quot;compatibilityLevel&quot;:&quot;NONE&quot;} Update compatibility requirements under the subject “Kafka-key” 123curl -X PUT -H &quot;Content-Type: application/vnd.schemaregistry.v1+json&quot; \ --data &apos;&#123;&quot;compatibility&quot;: &quot;BACKWARD&quot;&#125;&apos; \ http://localhost:8081/config/Kafka-key Output: {&quot;compatibility&quot;:&quot;BACKWARD&quot;} （待续）]]></content>
+      <categories>
+        <category>Schema</category>
+      </categories>
+      <tags>
+        <tag>Schema</tag>
+        <tag>Arvo</tag>
+        <tag>Json</tag>
+        <tag>Registry</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[PostgreSQL Notes]]></title>
+    <url>%2F2020%2F02%2F24%2Fpostgresql-notes%2F</url>
+    <content type="text"><![CDATA[简介The World’s Most Advanced Open Source Relational Database. —— PostgreSQL 部署Docker… 示例，其中 /usr/local/nakadi4cbh/database/nakadi 路径包含了初始化 Nakadi 数据库脚本。 1234567docker run --name eventbus_pg -d \ -p 5432:5432 \ -e POSTGRES_USER=nakadi \ -e POSTGRES_PASSWORD=nakadi \ -e POSTGRES_DB=local_nakadi_db \ -v /usr/local/nakadi4cbh/database/nakadi:/docker-entrypoint-initdb.d \ postgres:9.6.16 （待续）]]></content>
+      <categories>
+        <category>Database</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>Pg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Kafka Notes]]></title>
+    <url>%2F2020%2F02%2F24%2Fkafka-notes%2F</url>
+    <content type="text"><![CDATA[简介… 部署Docker 172.16.18.143 为宿主机 IP Zookeeper 1docker run --name eventbus_zk -d -p 2181:2181 wurstmeister/zookeeper:3.4.6 Kafka 12345678910docker run --name eventbus_kafka -d \ -p 9092:9092 \ -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \ -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://172.16.18.143:9092 \ -e KAFKA_ZOOKEEPER_CONNECT=172.16.18.143:2181 \ -e KAFKA_AUTO_CREATE_TOPICS_ENABLE=true \ -e KAFKA_DELETE_TOPIC_ENABLE=true \ -e KAFKA_BROKER_ID=0 \ -v /var/run/docker.sock:/var/run/docker.sock \ wurstmeister/kafka:2.11-1.1.1 命令行 示例 Topic List 1/opt/kafka/bin/kafka-topics.sh --list --zookeeper 172.16.18.143:2181 Producer 1/opt/kafka/bin/kafka-console-producer.sh --broker-list 172.16.18.143:9092 --topic test.eb1 Consumer 1/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server 172.16.18.143:9092 --topic test.eb1 --from-beginning （待续）]]></content>
+      <categories>
+        <category>Messaging</category>
+      </categories>
+      <tags>
+        <tag>EventBus</tag>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Vagrant 笔记]]></title>
     <url>%2F2020%2F02%2F20%2Fvagrant-quickstart%2F</url>
     <content type="text"><![CDATA[简介Vagrant 是在单个工作流中构建和管理虚拟机环境的工具。 通过易于使用的工作流程和对自动化的关注，Vagrant 降低了开发环境的设置时间，增加了生产等价性，并使“在我的机器上可以工作”成为过去的借口。 安装Vagrant在 下载页 选择适合自己平台的安装包并进一步安装。安装完成后命令行确认结果： 1vagrant -v 版本号：Vagrant 2.2.7 Virtual Machine Providers VirtualBox VMWare AWS Other provider 命令笔记 虚拟机列表 1vagrant box list 添加本地虚拟机 1vagrant box add ubuntu/trusty64 ~/Downloads/trusty-server-cloudimg-amd64-vagrant-disk1.box （待续）]]></content>
@@ -20,8 +58,8 @@
         <category>Messaging</category>
       </categories>
       <tags>
-        <tag>Event Broker</tag>
         <tag>Hermes</tag>
+        <tag>Event Broker</tag>
       </tags>
   </entry>
   <entry>
@@ -32,8 +70,8 @@
         <category>Messaging</category>
       </categories>
       <tags>
-        <tag>Event Broker</tag>
         <tag>Nakadi</tag>
+        <tag>Event Broker</tag>
       </tags>
   </entry>
   <entry>
