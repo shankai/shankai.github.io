@@ -183,7 +183,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">48</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
       
@@ -205,7 +205,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">15</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">16</span></a>
 
   </li>
       
@@ -227,7 +227,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">28</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">34</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -276,6 +276,561 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/20/nodejs-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/04/20/nodejs-notes/" class="post-title-link" itemprop="url">Nodejs 笔记</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-20 16:40:00" itemprop="dateCreated datePublished" datetime="2020-04-20T16:40:00+08:00">2020-04-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 17:17:13" itemprop="dateModified" datetime="2020-04-23T17:17:13+08:00">2020-04-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node/" itemprop="url" rel="index"><span itemprop="name">Node</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.1k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>官网：<a href="https://nodejs.org/" target="_blank" rel="noopener">https://nodejs.org/</a></p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>参考官网，以下为笔记环境信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 6.9.0</span></span><br><span class="line">npm -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> v10.16.0</span></span><br><span class="line">node -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><blockquote>
+<p>通过 express 创建一个简单的端点服务，其中包含 GET、POST 端点示例</p>
+</blockquote>
+<ol>
+<li>安装依赖</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express body-parser</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>端点服务代码，保存到 <code>endpoint.js</code> 文件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express()</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.json()); <span class="comment">// for parsing application/json</span></span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;)); <span class="comment">// for parsing application/x-www-form-urlencoded</span></span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'===================================, Now:&#123;&#125;'</span>, <span class="built_in">Date</span>.now());</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Request Body:'</span>, req.body);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Request Headers:'</span>, req.headers);</span><br><span class="line">res.send(<span class="string">'ok'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">res.send(<span class="string">'ok'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = app.listen(<span class="number">8099</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> host = server.address().address</span><br><span class="line"><span class="keyword">var</span> port = server.address().port</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>启动端点服务</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node endpoint.js</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>验证</li>
+</ol>
+<p><code>GET</code>  返回 <code>ok</code> 即成功。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8099/</span><br></pre></td></tr></table></figure>
+
+<p><code>POST</code> 返回 <code>ok</code> 即成功。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST http://localhost:8099/ -H "Content-Type: application/json" -d '&#123;"name": "zhangsan", "age": 20&#125;'</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/20/elk-kibana-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/04/20/elk-kibana-notes/" class="post-title-link" itemprop="url">Kibana 笔记</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-20 16:40:00" itemprop="dateCreated datePublished" datetime="2020-04-20T16:40:00+08:00">2020-04-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 17:23:54" itemprop="dateModified" datetime="2020-04-23T17:23:54+08:00">2020-04-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Monitor/" itemprop="url" rel="index"><span itemprop="name">Monitor</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>196</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Elasticsearch: 7.4.0, Kibana:7.4.0</p>
+</blockquote>
+<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>官网：<a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kibana -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://dev:9200 docker.elastic.co/kibana/kibana:7.4.0</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/16/elk-elasticsearch-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/04/16/elk-elasticsearch-notes/" class="post-title-link" itemprop="url">Elasticsearch 笔记</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-16 12:00:00" itemprop="dateCreated datePublished" datetime="2020-04-16T12:00:00+08:00">2020-04-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 17:23:37" itemprop="dateModified" datetime="2020-04-23T17:23:37+08:00">2020-04-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Monitor/" itemprop="url" rel="index"><span itemprop="name">Monitor</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.5k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Elasticsearch: 7.4.0</p>
+</blockquote>
+<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>官网：<a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.4.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><ul>
+<li>kibana</li>
+<li>elasticsearch-head：<a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">https://github.com/mobz/elasticsearch-head</a></li>
+</ul>
+<h2 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h2><h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="REST-API-Examples"><a href="#REST-API-Examples" class="headerlink" title="REST API Examples"></a>REST API Examples</h2><h3 id="index"><a href="#index" class="headerlink" title="_index"></a>_index</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST xxx-index-2020-04-10/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"cluster"</span>: <span class="string">"primary-dc"</span>,</span><br><span class="line">    <span class="attr">"reason"</span>: <span class="string">"Total timeout 1000 ms elapsed"</span>,</span><br><span class="line">    <span class="attr">"hostname"</span>: <span class="string">"9ddf7031ac70"</span>,</span><br><span class="line">    <span class="attr">"partition"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"offset"</span>: <span class="number">21</span>,</span><br><span class="line">    <span class="attr">"messageId"</span>: <span class="string">"70df2035-3c81-4ebf-8f76-a396ee1f94fc"</span>,</span><br><span class="line">    <span class="attr">"topicName"</span>: <span class="string">"T2.g2.t1"</span>,</span><br><span class="line">    <span class="attr">"subscription"</span>: <span class="string">"my-Subscription1"</span>,</span><br><span class="line">    <span class="attr">"batchId"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="attr">"publish_timestamp"</span>: <span class="number">1587010729737</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="number">1587010742388</span>,</span><br><span class="line">    <span class="attr">"status"</span>: <span class="string">"DISCARDED"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="search"><a href="#search" class="headerlink" title="_search"></a>_search</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">GET xxx-index-wildcard-*/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">0</span>, </span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>, </span><br><span class="line">  <span class="attr">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"timestamp"</span>: &#123;</span><br><span class="line">        <span class="attr">"unmapped_type"</span>: <span class="string">"date"</span>,</span><br><span class="line">        <span class="attr">"order"</span>: <span class="string">"asc"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"bool"</span>: &#123;</span><br><span class="line">      <span class="attr">"must"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"term"</span>: &#123;</span><br><span class="line">            <span class="attr">"topicName.keyword"</span>: &#123;</span><br><span class="line">              <span class="attr">"value"</span>: <span class="string">"T2.g2.t1"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">         <span class="attr">"term"</span>: &#123;</span><br><span class="line">           <span class="attr">"subscription.keyword"</span>: &#123;</span><br><span class="line">             <span class="attr">"value"</span>: <span class="string">"my-Subscription1"</span></span><br><span class="line">           &#125;</span><br><span class="line">         &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="alias"><a href="#alias" class="headerlink" title="_alias"></a>_alias</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">POST xxx-index-2020-04-20/_alias/xxx-index-alias</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/docker-compose-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Drip throught the stone">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/03/docker-compose-notes/" class="post-title-link" itemprop="url">Docker Compose Notes</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-03 20:17:00 / 修改时间：20:45:43" itemprop="dateCreated datePublished" datetime="2020-03-03T20:17:00+08:00">2020-03-03</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>684</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p><strong>Docker Compose</strong>: <a href="/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/" title="Ubuntu 1604 TLS Server 安装 Docker Compose">Ubuntu 1604 TLS Server 安装 Docker Compose</a></p>
+<p>Docker Version</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> docker -v</span><br><span class="line">Docker version 18.06.3-ce, build d7080c1</span><br></pre></td></tr></table></figure>
+
+<p>Docker Compose Version</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> docker-compose -v</span><br><span class="line">docker-compose version 1.25.4, build 8d51620a</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令用法"><a href="#命令用法" class="headerlink" title="命令用法"></a>命令用法</h2><blockquote>
+<p>此处仅罗列了个人使用过的命令与选项，更全面的命令用法请参考 <code>docker-compose -h</code></p>
+</blockquote>
+<h3 id="Usage-用法-："><a href="#Usage-用法-：" class="headerlink" title="Usage[用法]："></a>Usage[用法]：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-compose [-f &lt;arg&gt;...] [options] [COMMAND] [ARGS...]</span><br><span class="line"></span><br><span class="line">docker-compose -h|--help</span><br></pre></td></tr></table></figure>
+
+<h3 id="Options-选项"><a href="#Options-选项" class="headerlink" title="Options [选项]:"></a>Options [选项]:</h3><ul>
+<li><code>-f, --file FILE</code><br>指定另外一个 compose 文件（默认：<code>docker-compose.yml</code>）</li>
+</ul>
+<ul>
+<li><p><code>-p, --project-name NAME</code><br>指定另外一个项目名称（默认：当前目录名称）</p>
+</li>
+<li><p><code>-v, --version</code><br>打印版本号并退出</p>
+</li>
+</ul>
+<h3 id="COMMAND-命令-："><a href="#COMMAND-命令-：" class="headerlink" title="COMMAND[命令]："></a>COMMAND[命令]：</h3><ul>
+<li><p><code>help</code></p>
+<p>命令帮助</p>
+</li>
+<li><p><code>build</code></p>
+<p>构建/重新构建所有服务</p>
+</li>
+<li><p><code>up</code></p>
+<p>创建并且启动所有容器</p>
+</li>
+<li><p><code>down</code></p>
+<p>停止并且移除容器、网络镜像以及卷</p>
+</li>
+<li><p><code>start</code></p>
+<p>启动所有服务</p>
+</li>
+<li><p><code>stop</code></p>
+<p>停止所有服务</p>
+</li>
+<li><p><code>restart</code></p>
+<p>重新启动所有服务</p>
+</li>
+<li><p><code>exec</code></p>
+<p>在运行的容器内执行命令</p>
+</li>
+<li><p><code>images</code></p>
+<p>显示镜像列表</p>
+</li>
+<li><p><code>ps</code></p>
+<p>显示容器列表</p>
+</li>
+<li><p><code>logs</code></p>
+<p>查看容器系统输出</p>
+</li>
+<li><p><code>version</code></p>
+<p>显示 Docker Compose 版本信息</p>
+</li>
+</ul>
+<p>（待续）</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
         
   
   
@@ -608,11 +1163,19 @@
                 
               
 
-              <time title="创建时间：2020-02-24 14:53:00 / 修改时间：14:56:15" itemprop="dateCreated datePublished" datetime="2020-02-24T14:53:00+08:00">2020-02-24</time>
+              <time title="创建时间：2020-02-24 14:53:00" itemprop="dateCreated datePublished" datetime="2020-02-24T14:53:00+08:00">2020-02-24</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-10 15:13:48" itemprop="dateModified" datetime="2020-04-10T15:13:48+08:00">2020-04-10</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -638,7 +1201,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>846</span>
+              <span>910</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -667,7 +1230,7 @@
 </blockquote>
 <ul>
 <li><p>Zookeeper</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name eventbus_zk -d -p 2181:2181 wurstmeister/zookeeper:3.4.6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name eventbus_zk -d -p 2181:2181 zookeeper:3.5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> docker run --name eventbus_zk -d -p 2181:2181 wurstmeister/zookeeper:3.4.6</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -893,7 +1456,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 17:03:55" itemprop="dateModified" datetime="2020-02-25T17:03:55+08:00">2020-02-25</time>
+                <time title="修改时间：2020-03-09 11:59:32" itemprop="dateModified" datetime="2020-03-09T11:59:32+08:00">2020-03-09</time>
               </span>
             
           
@@ -920,7 +1483,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>8.2k</span>
+              <span>10k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -930,7 +1493,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>7 分钟</span>
+              <span>9 分钟</span>
             </span>
           
 
@@ -998,9 +1561,63 @@
 </blockquote>
 <p>主题通常使用全限定名引用，全限定名由组名和以点分隔的主题名组成。 组名可以包含任何字符-字母、数字、点。 但是，主题名称不能包含点。</p>
 <p><code>Full-qualifed topic name</code> = <code>Group name</code>.<code>Topic name</code></p>
-<h2 id="Deploy"><a href="#Deploy" class="headerlink" title="Deploy"></a>Deploy</h2><h3 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b hermes-1.3.5 https://github.com/allegro/hermes.git hermes-1.3.5</span><br></pre></td></tr></table></figure>
+<h2 id="Deploy"><a href="#Deploy" class="headerlink" title="Deploy"></a>Deploy</h2><h3 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h3><p>获取最新版本（此时为 <code>1.4.0</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b hermes-1.4.0 https://github.com/allegro/hermes.git hermes-1.4.0</span><br></pre></td></tr></table></figure>
 
-<h3 id="Deploy-1"><a href="#Deploy-1" class="headerlink" title="Deploy"></a>Deploy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd hermes-1.3.5/docker</span><br><span class="line"></span><br><span class="line">docker-compose up</span><br></pre></td></tr></table></figure>
+<h3 id="Deploy-1"><a href="#Deploy-1" class="headerlink" title="Deploy"></a>Deploy</h3><blockquote>
+<p>警告！<br>警告！<br>警告！</p>
+</blockquote>
+<p>该 <code>1.4.0</code> 版本 docker-compose 中包含的 <code>allegro/hermes-*:latest</code> 镜像版本并不是对应的 <code>1.4.0</code> 或最新版本，tag 为 <code>latest</code> 的镜像竟然是 3 年前构建的。有图为证：</p>
+<p><img src="/images/hermes/docker-image-latest-is-bug.png" alt="docker-image-latest-is-bug"></p>
+<p>遇到这种情况，此时最好的方式便是自行编译源码，自行构建对应版本的镜像。</p>
+<p>以构建 <code>frontend:1.4.0</code> 为例</p>
+<ol>
+<li><p>编译</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd hermes-1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 复制原有镜像构建文件</span></span><br><span class="line">cp -r docker/latest docker/1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd hermes-frontend</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译打包</span></span><br><span class="line">gradle -x test distZip -Pdistribution</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将构建包拷贝到对应的目录下</span></span><br><span class="line">cp build/distributions/hermes-frontend-1.4.0.zip ../docker/1.4.0/frontend/</span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>编辑 Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> jeanblanchard/java:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">MAINTAINER</span> Allegro</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk update \</span></span><br><span class="line"><span class="bash">  &amp;&amp; apk add unzip wget bash \</span></span><br><span class="line"><span class="bash">  &amp;&amp; rm -rf /var/cache/apk/*</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> hermes-frontend-1.4.0.zip /tmp/hermes-frontend-1.4.0.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> unzip -q <span class="string">"/tmp/hermes-frontend-1.4.0.zip"</span> -d /opt \</span></span><br><span class="line"><span class="bash">  &amp;&amp; rm <span class="string">"/tmp/hermes-frontend-1.4.0.zip"</span> \</span></span><br><span class="line"><span class="bash">  &amp;&amp; mv /opt/hermes-frontend-* /opt/hermes-frontend</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> HERMES_FRONTEND_OPTS=<span class="string">"-Darchaius.configurationSource.additionalUrls=file:///etc/hermes/frontend.properties -Dlogback.configurationFile=/etc/hermes/logback.xml"</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> frontend.properties /etc/hermes/frontend.properties</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> logback.xml /etc/hermes/logback.xml</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /opt/hermes-frontend/bin/hermes-frontend</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>构建镜像</p>
+<ul>
+<li><p>Frontend</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/frontend</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t frontend:1.4.0 .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>consumer</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/consumers</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t consumers:1.4.0 .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>management</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/management</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t management:1.4.0 .</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li><p>替换镜像</p>
+<p>替换 <code>docker/docker-compose.yml</code> 中镜像<code>allegro/hermes-frontend</code>为 <code>frontend:1.4.0</code></p>
+<p>替换 <code>docker/docker-compose.yml</code> 中镜像<code>allegro/hermes-consumers</code>为 <code>consumers:1.4.0</code></p>
+<p>替换 <code>docker/docker-compose.yml</code> 中镜像<code>allegro/hermes-management</code>为 <code>management:1.4.0</code></p>
+</li>
+</ol>
+<p>至此，<code>frontend</code> 的替换操作已经完成。接着将 <code>consumer</code> 与 <code>management</code> 也进行类似的处理。</p>
+<p>处理完毕。</p>
+<p>最后，可以照下述步骤进一步操作。</p>
+<p>启动服务容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd hermes-1.4.0/docker</span><br><span class="line"></span><br><span class="line">docker-compose up</span><br></pre></td></tr></table></figure>
 
 <p>注意：在所有容器启动成功后，服务在实际的运行过程中，会出现一个错误，这一错误导致 <code>Hermes Consumers</code>无法收到消息。Kafka 容器后台错误信息摘要：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[2020-02-20 08:58:10,259] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:10,767] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:11,269] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:11,772] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:12,276] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:12,778] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:13,281] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:13,786] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:14,287] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:14,790] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:15,291] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:15,797] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:16,298] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br><span class="line">[2020-02-20 08:58:16,801] ERROR [KafkaApi-1001] Number of alive brokers '1' does not meet the required replication factor '3' for the offsets topic (configured via 'offsets.topic.replication.factor'). This error can be ignored if the cluster is starting up and not all brokers are up yet. (kafka.server.KafkaApis)</span><br></pre></td></tr></table></figure>
@@ -1117,7 +1734,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 17:03:33" itemprop="dateModified" datetime="2020-02-25T17:03:33+08:00">2020-02-25</time>
+                <time title="修改时间：2020-03-10 17:34:46" itemprop="dateModified" datetime="2020-03-10T17:34:46+08:00">2020-03-10</time>
               </span>
             
           
@@ -1144,7 +1761,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>6.2k</span>
+              <span>6.4k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -1340,618 +1957,12 @@
 <p><a href="https://nakadi.io/manual.html#/subscriptions/subscription_id/events_get" target="_blank" rel="noopener">API 用法</a></p>
 </li>
 </ul>
-<p>（待续）</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Drip throught the stone">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/" class="post-title-link" itemprop="url">Ubuntu 1604 TLS Server 安装 Docker Compose</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-17 11:20:00 / 修改时间：11:45:12" itemprop="dateCreated datePublished" datetime="2020-02-17T11:20:00+08:00">2020-02-17</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>337</span>
-            </span>
-          
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              
-              <span>1 分钟</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>环境： Unbuntu 16.04 TLS Server</p>
+<h2 id="部署-UI（可选）"><a href="#部署-UI（可选）" class="headerlink" title="部署 UI（可选）"></a>部署 UI（可选）</h2><blockquote>
+<p><a href="https://github.com/zalando-nakadi/nakadi-ui" target="_blank" rel="noopener">https://github.com/zalando-nakadi/nakadi-ui</a></p>
 </blockquote>
-<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p><strong>Docker</strong>: <a href="/2018/03/12/docker-ce-at-ubuntu-1604-tls-server/" title="Ubuntu 1604 TLS Server 安装 Docker CE">Ubuntu 1604 TLS Server 安装 Docker CE</a></p>
-<h2 id="安装-Compose"><a href="#安装-Compose" class="headerlink" title="安装 Compose"></a>安装 Compose</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -d -p 3000:3000 -e NAKADI_API_URL=http://172.16.18.1:8080 -e BASE_URL=http://172.16.18.143:3000 nakadi/nakadi-ui:latest</span><br></pre></td></tr></table></figure>
 
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">官方安装 Docker Compose</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/dubbo-feature-practices/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Drip throught the stone">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/01/09/dubbo-feature-practices/" class="post-title-link" itemprop="url">Dubbo Feature Practies</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-09 18:00:00" itemprop="dateCreated datePublished" datetime="2020-01-09T18:00:00+08:00">2020-01-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-10 12:14:37" itemprop="dateModified" datetime="2020-01-10T12:14:37+08:00">2020-01-10</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Framework/" itemprop="url" rel="index"><span itemprop="name">Framework</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>537</span>
-            </span>
-          
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              
-              <span>1 分钟</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Official Site: <a href="http://dubbo.apache.org" target="_blank" rel="noopener">http://dubbo.apache.org</a></p>
-<h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><p>Apache Dubbo 是一个高性能的、基于 JAVA 的开源 RPC 框架。</p>
-<h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><ul>
-<li><p>Transparent interface based RPC </p>
-<p>Dubbo 提供了基于 RPC 的高性能接口，这对用户是透明的。</p>
-</li>
-<li><p>Automatic service registration and discovery</p>
-<p>Dubbo 支持多种服务注册中心，能够实时监测服务的在线离线。</p>
-</li>
-<li><p>Runtime traffic routing</p>
-<p>Dubbo 可以在运行时进行配置，这样流量可以根据不同的规则进行路由，使得支持如蓝绿部署、数据中心感知路由等功能变得容易。</p>
-</li>
-<li><p>Intelligent load balancing</p>
-<p>Dubbo 支持多种开箱即用的负载均衡策略，这种策略能够感知下游服务状态，以减少延迟并提高系统吞吐量。</p>
-</li>
-<li><p>High extensibility</p>
-<p>Dubbo 的微内核及插件设计确保了它能够很容易地通过第三方实现跨核心特性扩展，如协议传、输和序列化。</p>
-</li>
-<li><p>Visualized service governance</p>
-<p>Dubbo 为服务治理和维护提供了丰富的工具，如查询服务元数据，健康状态和统计。</p>
-</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/ofbiz-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Drip throught the stone">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/01/09/ofbiz-notes/" class="post-title-link" itemprop="url">Apache OFBiz Notes</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-09 16:31:00" itemprop="dateCreated datePublished" datetime="2020-01-09T16:31:00+08:00">2020-01-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 17:04:58" itemprop="dateModified" datetime="2020-02-25T17:04:58+08:00">2020-02-25</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Framework/" itemprop="url" rel="index"><span itemprop="name">Framework</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>3.4k</span>
-            </span>
-          
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              
-              <span>3 分钟</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><p>Apache OFBiz 是一套非常灵活的业务应用程序，可以在任何行业中使用。 通用体系结构允许开发人员轻松地扩展或增强它以创建自定义特性。</p>
-<p>官网：<a href="https://ofbiz.apache.org/" target="_blank" rel="noopener">https://ofbiz.apache.org/</a></p>
-<p>名词：OFBiz: Open for business</p>
-<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><ul>
-<li><p>JDK 1.8</p>
-<p> <code>java -version</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;1.8.0_201&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_201-b09)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.201-b09, mixed mode)</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>Gradle/Gradlew</p>
-<p><code>gradle -v</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 5.1</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2019-01-02 18:57:47 UTC</span><br><span class="line">Revision:     d09c2e354576ac41078c322815cc6db2b66d976e</span><br><span class="line"></span><br><span class="line">Kotlin DSL:   1.1.0</span><br><span class="line">Kotlin:       1.3.11</span><br><span class="line">Groovy:       2.5.4</span><br><span class="line">Ant:          Apache Ant(TM) version 1.9.13 compiled on July 10 2018</span><br><span class="line">JVM:          1.8.0_201 (Oracle Corporation 25.201-b09)</span><br><span class="line">OS:           Mac OS X 10.15.2 x86_64</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-</li>
-</ul>
-<h2 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h2><ul>
-<li>Resource</li>
-</ul>
-<p><code>https://www.apache.org/dyn/closer.lua/ofbiz/apache-ofbiz-16.11.06.zip</code></p>
-<ul>
-<li>Unzip</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip apache-ofbiz-16.11.06.zip</span><br></pre></td></tr></table></figure>
-
-<h2 id="Build-amp-Run"><a href="#Build-amp-Run" class="headerlink" title="Build &amp; Run"></a>Build &amp; Run</h2><ul>
-<li>CD</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd apache-ofbiz-16.11.06</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Build</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle cleanAll loadDefault</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Run</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle ofbiz</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><del>Stop</del></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle ofbiz --shutdown</span><br></pre></td></tr></table></figure>
-
-<h2 id="Browser"><a href="#Browser" class="headerlink" title="Browser"></a>Browser</h2><ul>
-<li>会计模块路由</li>
-</ul>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">https://localhost:8443/accounting</span></span><br></pre></td></tr></table></figure>
-
-<p>Username &amp; Password: <code>admin</code>/<code>ofbiz</code></p>
-<h2 id="Modules-and-Features"><a href="#Modules-and-Features" class="headerlink" title="Modules and Features"></a>Modules and Features</h2><h3 id="Accounting（会计）"><a href="#Accounting（会计）" class="headerlink" title="Accounting（会计）"></a>Accounting（会计）</h3><ul>
-<li>Standard Double entry General Ledger</li>
-<li>Supports multiple organisations, account hierarchies and segmentation</li>
-<li>Accounts Receivable (AR), Accounts Payable (AP), Invoices, Payments, Statements and Aging</li>
-<li>Agreement contracts and Credit management</li>
-<li>Asset Management including Depreciation</li>
-<li>Budgeting Management</li>
-<li>Support for payment gateways and payment processing</li>
-<li>Financial Reporting</li>
-<li>Fully integrated with Order Management, Inventory, Purchasing and Manufacturing out of the box</li>
-</ul>
-<h3 id="Manufacturing（制造业）"><a href="#Manufacturing（制造业）" class="headerlink" title="Manufacturing（制造业）"></a>Manufacturing（制造业）</h3><ul>
-<li>Bill of Materials</li>
-<li>Jobshop, Manufacturing Routings and Tasks</li>
-<li>Production Planning and MRP</li>
-<li>Production and Job Costing</li>
-<li>Equipment Billing</li>
-<li>Raw Material Procurement</li>
-<li>Manufacturing Reporting</li>
-</ul>
-<h3 id="Human-Resources（人力资源）"><a href="#Human-Resources（人力资源）" class="headerlink" title="Human Resources（人力资源）"></a>Human Resources（人力资源）</h3><ul>
-<li>Company and Department Structure</li>
-<li>Manage Job Positions, Skills and Performance Reviews</li>
-<li>Manage Recruitment Process, Applications, Interviews</li>
-<li>Salaries and Payments</li>
-<li>Employment Contracts</li>
-<li>Employee Expenses</li>
-<li>Training</li>
-</ul>
-<h3 id="Inventory-Management（库存管理）"><a href="#Inventory-Management（库存管理）" class="headerlink" title="Inventory Management（库存管理）"></a>Inventory Management（库存管理）</h3><ul>
-<li>Manage and setup single, multiple warehouses</li>
-<li>Inventory Locations</li>
-<li>Serialized on non serialized Inventory</li>
-<li>Lot Management</li>
-<li>Shipment Integration</li>
-<li>Picklist and Package Management</li>
-<li>Receiving</li>
-<li>Returns</li>
-</ul>
-<h3 id="Catalog-Management（目录管理）"><a href="#Catalog-Management（目录管理）" class="headerlink" title="Catalog Management（目录管理）"></a>Catalog Management（目录管理）</h3><ul>
-<li>Support unlimited stores, catalogs, categories, and products</li>
-<li>Handles a range of products (physical, digital, downloadable products, variant, configurable)</li>
-<li>Gift Certificates and gift cards</li>
-<li>Price rules for customer or group-specific pricing</li>
-<li>Online store promotion engine</li>
-<li>Integration with major payment gateway providers</li>
-<li>Fully integrated online and Point of Sales (POS) stores out-of-the-box</li>
-<li>Keyword search capability in all the applications using hibernate search</li>
-</ul>
-<h3 id="CRM-amp-Order-Management（客户关系管理-amp-订单管理）"><a href="#CRM-amp-Order-Management（客户关系管理-amp-订单管理）" class="headerlink" title="CRM &amp; Order Management（客户关系管理 &amp; 订单管理）"></a>CRM &amp; Order Management（客户关系管理 &amp; 订单管理）</h3><ul>
-<li>Lead and Sales Opportunity Management</li>
-<li>Sales ForecastsManage sales opportunities</li>
-<li>Shared Sales Team Documents, Calendar and Tasks</li>
-<li>Email Integration</li>
-<li>Customer Service and Case Managment</li>
-<li>Quotes, Order Entry and Order Management</li>
-<li>Manage marketing campaign including tracking code reporting</li>
-</ul>
-<h3 id="e-Commerce-e-Shop（电子商务-电子商店）"><a href="#e-Commerce-e-Shop（电子商务-电子商店）" class="headerlink" title="e-Commerce/e-Shop（电子商务/电子商店）"></a>e-Commerce/e-Shop（电子商务/电子商店）</h3><ul>
-<li>Unlimited stores, catalogs, categories and products</li>
-<li>Cross-sell and upsell products</li>
-<li>Supports physical, digital, downloadable, variant and configurable products</li>
-<li>Gift Certificates and Gift Cards</li>
-<li>Pricing rules and Discounts</li>
-<li>Online store promotion engine</li>
-<li>Integrations with payment gateways</li>
-<li>Product searching</li>
-<li>Customer portal</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/07/gitlab-ce-service-setup-and-trial/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Drip throught the stone">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/01/07/gitlab-ce-service-setup-and-trial/" class="post-title-link" itemprop="url">Gitlab CE 服务部署及简单使用</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-07 17:20:48 / 修改时间：17:31:20" itemprop="dateCreated datePublished" datetime="2020-01-07T17:20:48+08:00">2020-01-07</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/SCM/" itemprop="url" rel="index"><span itemprop="name">SCM</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>584</span>
-            </span>
-          
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              
-              <span>1 分钟</span>
-            </span>
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --detach \</span><br><span class="line">  --hostname gitlab.example.com \</span><br><span class="line">  --publish 9443:443 --publish 9080:80 --publish 9022:22 \</span><br><span class="line">  --name gitlab \</span><br><span class="line">  --restart always \</span><br><span class="line">  --volume /opt/gitlab/config:/etc/gitlab \</span><br><span class="line">  --volume /opt/gitlab/logs:/var/log/gitlab \</span><br><span class="line">  --volume /opt/gitlab/data:/var/opt/gitlab \</span><br><span class="line">  gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
-
-<h2 id="DNS-Or-hosts"><a href="#DNS-Or-hosts" class="headerlink" title="DNS Or hosts"></a>DNS Or hosts</h2><p>配置域名解析或在客户端配置主机别名。</p>
-<p>主机别名示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.16.18.143 gitlab.example.com</span><br></pre></td></tr></table></figure>
-
-<h1 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h1><h2 id="首次登录"><a href="#首次登录" class="headerlink" title="首次登录"></a>首次登录</h2><ol>
-<li>浏览器打开:  <code>http://gitlab.example.com:9080</code> </li>
-<li>重置管理员<code>root</code>密码(e.g. <code>admin123</code>)</li>
-<li>登录</li>
-</ol>
-<h2 id="启用双重认证（可选）Two-Factor-Authentication"><a href="#启用双重认证（可选）Two-Factor-Authentication" class="headerlink" title="启用双重认证（可选）Two-Factor Authentication"></a>启用双重认证（可选）Two-Factor Authentication</h2><p>在个人设置中启用双重认证，手机端使用 FreeOTP 生成认证码。</p>
-<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><ul>
-<li>User</li>
-<li>Group</li>
-<li>Repository</li>
-<li>TLS &amp; SSH </li>
-<li>Settings<br>…</li>
-</ul>
+<p>（待续）</p>
 
         
       
@@ -1974,7 +1985,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2022,7 +2033,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2035,7 +2046,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2048,7 +2059,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -2108,12 +2119,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">62k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">49 分钟</span>
+    <span title="站点阅读时长">56 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
