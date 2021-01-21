@@ -191,7 +191,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">84</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">86</span></a>
 
   </li>
       
@@ -213,7 +213,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">23</span></a>
 
   </li>
       
@@ -235,7 +235,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">44</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -444,7 +444,7 @@
 <p>以构建 <code>frontend:1.4.0</code> 为例</p>
 <ol>
 <li><p>编译</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd hermes-1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 复制原有镜像构建文件</span></span><br><span class="line">cp -r docker/latest docker/1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd hermes-frontend</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译打包</span></span><br><span class="line">gradle -x test distZip -Pdistribution</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将构建包拷贝到对应的目录下</span></span><br><span class="line">cp build/distributions/hermes-frontend-1.4.0.zip ../docker/1.4.0/frontend/</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Change Dir</span><br><span class="line">cd hermes-1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 复制原有镜像构建文件</span><br><span class="line">cp -r docker/latest docker/1.4.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Change Dir</span><br><span class="line">cd hermes-frontend</span><br><span class="line"><span class="meta">#</span> 编译打包</span><br><span class="line">gradle -x test distZip -Pdistribution</span><br><span class="line"><span class="meta">#</span> 将构建包拷贝到对应的目录下</span><br><span class="line">cp build/distributions/hermes-frontend-1.4.0.zip ../docker/1.4.0/frontend/</span><br></pre></td></tr></table></figure>
 
 
 
@@ -453,7 +453,7 @@
 </ol>
 <ol start="2">
 <li><p>编辑 Dockerfile</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> jeanblanchard/java:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">MAINTAINER</span> Allegro</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk update \</span></span><br><span class="line"><span class="bash">  &amp;&amp; apk add unzip wget bash \</span></span><br><span class="line"><span class="bash">  &amp;&amp; rm -rf /var/cache/apk/*</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> hermes-frontend-1.4.0.zip /tmp/hermes-frontend-1.4.0.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> unzip -q <span class="string">"/tmp/hermes-frontend-1.4.0.zip"</span> -d /opt \</span></span><br><span class="line"><span class="bash">  &amp;&amp; rm <span class="string">"/tmp/hermes-frontend-1.4.0.zip"</span> \</span></span><br><span class="line"><span class="bash">  &amp;&amp; mv /opt/hermes-frontend-* /opt/hermes-frontend</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> HERMES_FRONTEND_OPTS=<span class="string">"-Darchaius.configurationSource.additionalUrls=file:///etc/hermes/frontend.properties -Dlogback.configurationFile=/etc/hermes/logback.xml"</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> frontend.properties /etc/hermes/frontend.properties</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> logback.xml /etc/hermes/logback.xml</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /opt/hermes-frontend/bin/hermes-frontend</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> jeanblanchard/java:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">MAINTAINER</span> Allegro</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span> apk update \</span><br><span class="line">  &amp;&amp; apk add unzip wget bash \</span><br><span class="line">  &amp;&amp; rm -rf /var/cache/apk/*</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span> hermes-frontend-1.4.0.zip /tmp/hermes-frontend-1.4.0.zip</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span> unzip -q "/tmp/hermes-frontend-1.4.0.zip" -d /opt \</span><br><span class="line">  &amp;&amp; rm "/tmp/hermes-frontend-1.4.0.zip" \</span><br><span class="line">  &amp;&amp; mv /opt/hermes-frontend-* /opt/hermes-frontend</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> HERMES_FRONTEND_OPTS=<span class="string">"-Darchaius.configurationSource.additionalUrls=file:///etc/hermes/frontend.properties -Dlogback.configurationFile=/etc/hermes/logback.xml"</span></span><br><span class="line"><span class="keyword">ADD</span> frontend.properties /etc/hermes/frontend.properties</span><br><span class="line"><span class="keyword">ADD</span> logback.xml /etc/hermes/logback.xml</span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span> /opt/hermes-frontend/bin/hermes-frontend</span><br></pre></td></tr></table></figure>
 
 
 
@@ -463,13 +463,13 @@
 <li><p>构建镜像</p>
 <ul>
 <li><p>Frontend</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/frontend</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t frontend:1.4.0 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Change Dir</span><br><span class="line">cd ../docker/1.4.0/frontend</span><br><span class="line"><span class="meta">#</span> 构建镜像</span><br><span class="line">docker build -t frontend:1.4.0 .</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>consumer</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/consumers</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t consumers:1.4.0 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Change Dir</span><br><span class="line">cd ../docker/1.4.0/consumers</span><br><span class="line"><span class="meta">#</span> 构建镜像</span><br><span class="line">docker build -t consumers:1.4.0 .</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>management</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Change Dir</span></span><br><span class="line">cd ../docker/1.4.0/management</span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像</span></span><br><span class="line">docker build -t management:1.4.0 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Change Dir</span><br><span class="line">cd ../docker/1.4.0/management</span><br><span class="line"><span class="meta">#</span> 构建镜像</span><br><span class="line">docker build -t management:1.4.0 .</span><br></pre></td></tr></table></figure>
 
 
 
@@ -647,7 +647,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -660,7 +660,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -673,7 +673,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">84</span>
+        <span class="site-state-item-count">86</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -733,12 +733,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">70k</span>
+    <span title="站点总字数">72k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:04</span>
+    <span title="站点阅读时长">1:05</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
   <span class="post-meta-divider">|</span>
