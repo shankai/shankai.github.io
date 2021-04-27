@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Introduce简单身份验证和安全层(Simple Authentication and Security Layer，简称SASL)是一种Internet标准(RFC 2222)，它指定了用于身份验证和可选地在客户机和服务器应用程序之间建立安全层的协议。SASL定义了如何交换身份验证数据，但本身并不指定该数据的内容。它是一个框架，指定身份验证数据的内容和语义的特定身份验证机制可以融入其中。 S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SASL 笔记">
+<meta property="og:url" content="http://example.com/2021/03/07/security-sasl-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="Introduce简单身份验证和安全层(Simple Authentication and Security Layer，简称SASL)是一种Internet标准(RFC 2222)，它指定了用于身份验证和可选地在客户机和服务器应用程序之间建立安全层的协议。SASL定义了如何交换身份验证数据，但本身并不指定该数据的内容。它是一个框架，指定身份验证数据的内容和语义的特定身份验证机制可以融入其中。 S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/sasl/sasl-archit.png">
+<meta property="og:image" content="http://example.com/images/sasl/sasl-flowchart-overview.png">
+<meta property="og:image" content="http://example.com/images/sasl/sasl-flowchart-init.png">
+<meta property="og:image" content="http://example.com/images/sasl/sasl-flowchart-auth.png">
+<meta property="og:image" content="http://example.com/images/sasl/sasl-flowchart-auth2.png">
+<meta property="article:published_time" content="2021-03-07T01:34:47.000Z">
+<meta property="article:modified_time" content="2021-03-07T03:49:46.054Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="Security">
+<meta property="article:tag" content="Authentication">
+<meta property="article:tag" content="SASL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/sasl/sasl-archit.png">
+
+<link rel="canonical" href="http://example.com/2021/03/07/security-sasl-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SASL 笔记 | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/07/security-sasl-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SASL 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-07 09:34:47 / 修改时间：11:49:46" itemprop="dateCreated datePublished" datetime="2021-03-07T09:34:47+08:00">2021-03-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Security/" itemprop="url" rel="index"><span itemprop="name">Security</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><p>简单身份验证和安全层(Simple Authentication and Security Layer，简称SASL)是一种Internet标准(<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>)，它指定了用于身份验证和可选地在客户机和服务器应用程序之间建立安全层的协议。SASL定义了如何交换身份验证数据，但本身并不指定该数据的内容。它是一个框架，指定身份验证数据的内容和语义的特定身份验证机制可以融入其中。</p>
+<p>SASL被协议(如轻量级目录访问协议版本3 (LDAP v3)和Internet消息访问协议版本4 (IMAP v4))用于启用可插拔身份验证。LDAP v3和IMAP v4没有将身份验证方法硬连接到协议中，而是使用SASL执行身份验证，从而通过各种SASL机制启用身份验证。</p>
+<p>Internet社区为不同级别的安全性和部署场景定义了许多标准的SASL机制。这些级别的范围从无安全性(例如，匿名身份验证)到高安全性(例如，Kerberos身份验证)以及介于两者之间的级别。</p>
+<p><strong>The Java SASL API</strong></p>
+<p>Java SASL API为使用SASL机制的应用程序定义了类和接口。它被定义为与机制无关的:使用API的应用程序不需要硬连接到使用任何特定的SASL机制。该API支持客户机和服务器应用程序。它允许应用程序根据所需的安全特性选择要使用的机制，比如它们是否容易受到被动字典攻击，或者它们是否接受匿名身份验证。<br>Java SASL API还允许开发人员使用他们自己的自定义SASL机制。通过使用Java加密体系结构(JCA)安装SASL机制。</p>
+<p><strong>When to Use SASL</strong></p>
+<p>SASL为网络应用程序提供了可插拔的身份验证和安全层。Java SE中还有其他特性提供类似的功能，包括Java安全套接字扩展(JSSE)和Java通用安全服务(Java GSS)。JSSE为SSL和TLS协议的Java语言版本提供了一个框架和实现。Java GSS是通用安全服务应用程序编程接口(GSS- api)的Java语言绑定。Java SE上这个API目前支持的唯一机制是Kerberos v5。<br>与JSSE和Java GSS相比，SASL是相对轻量级的，并且在最近的协议中很流行。它还有一个优点，就是定义了几种流行的轻量级(在基础设施支持方面)SASL机制。另一方面，主要的JSSE和Java GSS机制具有相对重量级的机制，需要更详细的基础设施(分别是公钥基础设施和Kerberos)。</p>
+<p>SASL、JSSE 和 Java GSS 通常一起使用。例如，一个常见的模式是应用程序使用 JSSE 建立安全通道，使用 SASL 进行客户端基于用户名/密码的身份验证。在 GSS-API 机制之上还有 SASL 机制；一个流行的示例是与 LDAP 一起使用的 SASL GSS-API/Kerberos v5 机制。</p>
+<p>除了从头定义和构建协议之外，协议定义通常是决定使用哪个 API 的最大因素。例如，LDAP 和 IMAP 被定义为使用 SASL，因此与这些协议相关的软件应该使用 Java SASL API。在构建Kerberos 应用程序和服务时，使用的 API 是Java GSS。当构建使用 SSL/TLS 作为协议的应用程序和服务时，使用的 API 是JSSE。</p>
+<h2 id="SASL-Architechture"><a href="#SASL-Architechture" class="headerlink" title="SASL Architechture"></a>SASL Architechture</h2><h3 id="SASL-Architechture-1"><a href="#SASL-Architechture-1" class="headerlink" title="SASL Architechture"></a>SASL Architechture</h3><p><img src="/images/sasl/sasl-archit.png" alt="sasl-archit"></p>
+<h3 id="SASL-Life-Cycle"><a href="#SASL-Life-Cycle" class="headerlink" title="SASL Life Cycle"></a>SASL Life Cycle</h3><p><img src="/images/sasl/sasl-flowchart-overview.png" alt="sasl-flowchart-overview"></p>
+<h3 id="SASL-Session-Initialization"><a href="#SASL-Session-Initialization" class="headerlink" title="SASL Session Initialization"></a>SASL Session Initialization</h3><p><img src="/images/sasl/sasl-flowchart-init.png" alt="sasl-flowchart-init"></p>
+<h3 id="SASL-Authentication-Sending-Client-Data"><a href="#SASL-Authentication-Sending-Client-Data" class="headerlink" title="SASL Authentication: Sending Client Data"></a>SASL Authentication: Sending Client Data</h3><p><img src="/images/sasl/sasl-flowchart-auth.png" alt="sasl-flowchart-auth"></p>
+<h3 id="SASL-Authentication-Processing-Server-Data"><a href="#SASL-Authentication-Processing-Server-Data" class="headerlink" title="SASL Authentication: Processing Server Data"></a>SASL Authentication: Processing Server Data</h3><p><img src="/images/sasl/sasl-flowchart-auth2.png" alt="sasl-flowchart-auth2"></p>
+<h2 id="Java-SASL-API-Overview"><a href="#Java-SASL-API-Overview" class="headerlink" title="Java SASL API Overview"></a>Java SASL API Overview</h2><p>SASL 是一种挑战-响应协议。服务器向客户机发出质疑，客户机根据质疑发送响应。这种交换一直持续到服务器满意并且不发出进一步的挑战为止。这些挑战和响应是任意长度的二进制标记。封装协议(例如 LDAP 或 IMAP)指定了这些令牌的编码和交换方式。例如，LDAP 指定 SASL 标记如何封装在 LDAP 绑定请求和响应中。</p>
+<p>Java SASL API是根据这种交互和使用风格建模的。它具有分别表示客户端和服务器端机制的接口 SaslClient 和 SaslServer。应用程序通过表示挑战和响应的字节数组与机制交互。服务器端机制迭代、发出挑战并处理响应，直到它满意为止，而客户端机制迭代、评估挑战并发出响应，直到服务器满意为止。使用该机制的应用程序驱动每次迭代。也就是说，它从协议包中提取挑战或响应，并将其提供给该机制，然后将该机制返回的响应或响应放入协议包中，并将其发送给对等体。</p>
+<h2 id="How-SASL-Mechanisms-are-Installed-and-Selected"><a href="#How-SASL-Mechanisms-are-Installed-and-Selected" class="headerlink" title="How SASL Mechanisms are Installed and Selected"></a>How SASL Mechanisms are Installed and Selected</h2><p>SASL 机制实现由 SASL 安全提供者提供。每个提供者可以支持一个或多个 SASL 机制，并在 JCA 注册。</p>
+<p>默认情况下，SunSASL 提供程序自动注册为 JCA 提供程序。若要将其作为 JCA 提供程序移除或重新排列其优先级，请更改 Java 安全属性文件(Java-home/conf/security/Java.security)。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">security.provider.7</span>=<span class="string">SunSASL</span></span><br></pre></td></tr></table></figure>
+<p>若要添加或删除 SASL 提供程序，请在安全属性文件中添加或删除相应的行。</p>
+<p>或者，可以使用 java.security.Security 以编程方式添加自己的提供程序。例如，下面的示例代码将 com.example.MyProvider 注册到可用的 SASL 安全提供程序列表中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Security.addProvider(<span class="keyword">new</span> com.example.MyProvider());</span><br></pre></td></tr></table></figure>
+<h2 id="The-SunSASL-Provider"><a href="#The-SunSASL-Provider" class="headerlink" title="The SunSASL Provider"></a>The SunSASL Provider</h2><p>SunSASL 提供程序支持以下客户机和服务器机制：</p>
+<ul>
+<li>Client Mechanisms<ul>
+<li>PLAIN (<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2595.txt">RFC 2595</a>). This mechanism supports cleartext user name/password authentication.</li>
+<li>CRAM-MD5 (<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2195.txt">RFC 2195</a>). This mechanism supports a hashed user name/password authentication scheme.</li>
+<li>DIGEST-MD5 (<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</a>). This mechanism defines how HTTP Digest Authentication can be used as a SASL mechanism.</li>
+<li>EXTERNAL (<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>). This mechanism obtains authentication information from an external channel (such as TLS or IPsec).</li>
+<li>NTLM. This mechanism supports NTLM authentication.</li>
+</ul>
+</li>
+<li>Server Mechanisms<ul>
+<li>CRAM-MD5</li>
+<li>DIGEST-MD5</li>
+<li>NTLM</li>
+</ul>
+</li>
+</ul>
+<h2 id="The-JdkSASL-Provider"><a href="#The-JdkSASL-Provider" class="headerlink" title="The JdkSASL Provider"></a>The JdkSASL Provider</h2><p>JdkSASL 提供程序支持以下客户机和服务器机制：</p>
+<ul>
+<li>Client Mechanisms<ul>
+<li>GSSAPI (<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>). This mechanism uses the <a target="_blank" rel="noopener" href="http://www.ietf.org/rfc/rfc2078.txt">GSSAPI</a> for obtaining authentication information. It supports Kerberos v5 authentication.</li>
+</ul>
+</li>
+<li>Server Mechanisms<ul>
+<li>GSSAPI (Kerberos v5)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Debugging-and-Monitoring"><a href="#Debugging-and-Monitoring" class="headerlink" title="Debugging and Monitoring"></a>Debugging and Monitoring</h2><p>SunSASL 和 JdkSASL 提供程序使用 Logging api 提供实现日志输出。这个输出可以通过使用日志配置文件和编程 API (java.util.logging)来控制。SunSASL 提供程序使用的日志记录器名称是 javax.security.sasl。下面是一个样例日志配置文件，它为 SunSASL 提供程序启用了 FINEST 日志级别：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">javax.security.sasl.level</span>=<span class="string">FINEST</span></span><br><span class="line"><span class="attr">handlers</span>=<span class="string">java.util.logging.ConsoleHandler</span></span><br><span class="line"><span class="meta">java.util.logging.ConsoleHandler.level</span>=<span class="string">FINEST</span></span><br></pre></td></tr></table></figure>
+<h2 id="Implementing-a-SASL-Security-Provider"><a href="#Implementing-a-SASL-Security-Provider" class="headerlink" title="Implementing a SASL Security Provider"></a>Implementing a SASL Security Provider</h2><p>实现 SASL 安全提供商有三个基本步骤：</p>
+<ol>
+<li>编写一个实现 SaslClient 或 SaslServer 接口的类。</li>
+<li>编写一个工厂类(实现 SaslClientFactory 或 SaslServerFactory) ，创建类的实例。</li>
+<li>编写注册工厂的 JCA 提供程序。</li>
+</ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/11/security/java-sasl-api-programming-and-deployment-guide1.html#GUID-6D78EE33-62E6-4D85-9695-322EED493F72">https://docs.oracle.com/en/java/javase/11/security/java-sasl-api-programming-and-deployment-guide1.html#GUID-6D78EE33-62E6-4D85-9695-322EED493F72</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/cd/E53394_01/html/E54753/sasl.intro.20.html">https://docs.oracle.com/cd/E53394_01/html/E54753/sasl.intro.20.html</a></p>
+<p>（完）</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Security/" rel="tag"># Security</a>
+              <a href="/tags/Authentication/" rel="tag"># Authentication</a>
+              <a href="/tags/SASL/" rel="tag"># SASL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/05/websocket-notes/" rel="prev" title="websocket-notes">
+      <i class="fa fa-chevron-left"></i> websocket-notes
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/09/zeromq-notes/" rel="next" title="ZeroMQ 笔记">
+      ZeroMQ 笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce"><span class="nav-number">1.</span> <span class="nav-text">Introduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SASL-Architechture"><span class="nav-number">2.</span> <span class="nav-text">SASL Architechture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SASL-Architechture-1"><span class="nav-number">2.1.</span> <span class="nav-text">SASL Architechture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SASL-Life-Cycle"><span class="nav-number">2.2.</span> <span class="nav-text">SASL Life Cycle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SASL-Session-Initialization"><span class="nav-number">2.3.</span> <span class="nav-text">SASL Session Initialization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SASL-Authentication-Sending-Client-Data"><span class="nav-number">2.4.</span> <span class="nav-text">SASL Authentication: Sending Client Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SASL-Authentication-Processing-Server-Data"><span class="nav-number">2.5.</span> <span class="nav-text">SASL Authentication: Processing Server Data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-SASL-API-Overview"><span class="nav-number">3.</span> <span class="nav-text">Java SASL API Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-SASL-Mechanisms-are-Installed-and-Selected"><span class="nav-number">4.</span> <span class="nav-text">How SASL Mechanisms are Installed and Selected</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-SunSASL-Provider"><span class="nav-number">5.</span> <span class="nav-text">The SunSASL Provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-JdkSASL-Provider"><span class="nav-number">6.</span> <span class="nav-text">The JdkSASL Provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debugging-and-Monitoring"><span class="nav-number">7.</span> <span class="nav-text">Debugging and Monitoring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementing-a-SASL-Security-Provider"><span class="nav-number">8.</span> <span class="nav-text">Implementing a SASL Security Provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">9.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">134k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

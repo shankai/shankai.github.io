@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IntroKafka Connect 是一个可伸缩、可靠地在 Apache Kafka 和其他系统之间传输数据的工具框架。 Kafka Connect 功能特性：  通用框架 Kafka Connect 为其他系统与 Kafka 集成提供了标准化，简化了 Connector 开发、部署和管理。 分布式和独立模式 Kafka Connect 扩展到支持整个组织的大型集中管理服务，或者缩减到开发、测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka Connect 笔记">
+<meta property="og:url" content="http://example.com/2021/02/23/kafka-connect-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="IntroKafka Connect 是一个可伸缩、可靠地在 Apache Kafka 和其他系统之间传输数据的工具框架。 Kafka Connect 功能特性：  通用框架 Kafka Connect 为其他系统与 Kafka 集成提供了标准化，简化了 Connector 开发、部署和管理。 分布式和独立模式 Kafka Connect 扩展到支持整个组织的大型集中管理服务，或者缩减到开发、测试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/kafka/connector-model-simple.png">
+<meta property="og:image" content="http://example.com/images/kafka/data-model-simple.png">
+<meta property="og:image" content="http://example.com/images/kafka/task-failover.png">
+<meta property="og:image" content="http://example.com/images/kafka/worker-model-basics.png">
+<meta property="og:image" content="http://example.com/images/kafka/converter-basics.png">
+<meta property="article:published_time" content="2021-02-23T14:20:00.000Z">
+<meta property="article:modified_time" content="2021-02-24T02:37:19.255Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="Kafka">
+<meta property="article:tag" content="Kafka Connect">
+<meta property="article:tag" content="Streaming">
+<meta property="article:tag" content="Sink">
+<meta property="article:tag" content="Source">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/kafka/connector-model-simple.png">
+
+<link rel="canonical" href="http://example.com/2021/02/23/kafka-connect-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Kafka Connect 笔记 | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/23/kafka-connect-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kafka Connect 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-23 22:20:00" itemprop="dateCreated datePublished" datetime="2021-02-23T22:20:00+08:00">2021-02-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-24 10:37:19" itemprop="dateModified" datetime="2021-02-24T10:37:19+08:00">2021-02-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>Kafka Connect 是一个可伸缩、可靠地在 Apache Kafka 和其他系统之间传输数据的工具框架。</p>
+<p>Kafka Connect 功能特性：</p>
+<ul>
+<li><strong>通用框架</strong> Kafka Connect 为其他系统与 Kafka 集成提供了标准化，简化了 Connector 开发、部署和管理。</li>
+<li><strong>分布式和独立模式</strong> Kafka Connect 扩展到支持整个组织的大型集中管理服务，或者缩减到开发、测试和小型生产部署。</li>
+<li><strong>REST 接口</strong> 通过一个易于使用的 REST API 向 Kafka Connect 集群提交和管理连接器。</li>
+<li><strong>自动偏移量管理</strong> 只需要从连接器获得一点点信息，Kafka Connect 就可以自动管理偏移提交过程，因此连接器开发人员不必担心连接器开发中容易出错的部分。</li>
+<li><strong>默认分布式可伸缩</strong> Kafka Connect 基于现有的组管理协议，可以添加更多的 Worker 来扩展 Kafka Connect 集群。</li>
+<li><strong>流/批处理集成</strong> Kafka Connect 是连接流式和批处理数据系统的理想解决方案。</li>
+</ul>
+<h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><ul>
+<li>Connectors  通过管理任务来协调数据流的高级抽象</li>
+<li>Tasks 实现从 Kafka 读取数据或将数据写入 Kafka</li>
+<li>Workers 用于执行 Connectors 与 Tasks 的服务进程</li>
+<li>Converters 用于实现在 Kafka 与目标/源系统之间的数据转换程序</li>
+<li>Transforms 用于转换通过 Connect 的每条数据的简单逻辑实现</li>
+<li>Dead Letter Queue 死信队列，用于处理连接器错误</li>
+</ul>
+<h3 id="Connectors"><a href="#Connectors" class="headerlink" title="Connectors"></a>Connectors</h3><p>Kafka Connect 中的 Connector 定义数据应该从哪里复制或复制到哪里去。Connector 实例是一个逻辑工作，负责管理 Kafka 和另一个系统之间的数据复制。</p>
+<p>连接器模型</p>
+<p><img src="/images/kafka/connector-model-simple.png" alt="connector-model-simple"></p>
+<h4 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h4><p>Connector Configuration 配置是简单的键值映射。</p>
+<p>对于独立（Standalone）模式，它们在属性文件中定义，并在命令行上传递给 Connect 进程。</p>
+<p>在分布式（Distributed）模式，它们将包含在创建(或修改) Connector 的 REST 请求的 JSON 有效负载中。</p>
+<p>通用的配置：</p>
+<ul>
+<li><code>name</code> Connector 的唯一名称。再次尝试注册相同名称将会失败。</li>
+<li><code>connector.class</code> Connector 的 Java 类，<br>（多种格式，如org.apache.kafka.connect.file.FileStreamSinkConnector、FileStreamSink、FileStreamSinkConnector）</li>
+<li><code>tasks.max</code> 为此 Connector 应创建的最大任务数。如果 Connector 无法实现此级别的并行性，则可以创建较少的任务。</li>
+<li><code>key.converter</code> - (可选) 覆盖由 Worker 设置的默认键转换器。</li>
+<li><code>value.converter</code> - (可选) 覆盖由 Worker 设置的默认值转换器。</li>
+</ul>
+<p>Sink Connector 还需要设置下列其中一个配置项：</p>
+<ul>
+<li><code>topics</code> 用逗号分隔的主题列表，用作此 Connector 的输入。</li>
+<li><code>topics.regex</code> 用 Java 正则表达式匹配到的主题，用作此 Connector 的输入。</li>
+</ul>
+<p>更多的配置项，将由具体的 Connector 提供文档说明。</p>
+<h3 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h3><p>Task 是用于连接的数据模型中的主要参与者。每个 Connector 实例协调一组实际复制数据的 Task。通过允许 Connector 将单个工作分解成多个 Task，Kafka Connect 对并行和可伸缩的数据复制提供了很好的支持，且只需要很少的配置。这些 Task 中没有存储状态。Task 状态存储在 Kafka 的特殊主题 config.storage 和 status.storage，并由关联连接器管理。因此，可以在任何时候启动、停止或重新启动 Task，以提供一个弹性的、可伸缩的数据管道。</p>
+<p><img src="/images/kafka/data-model-simple.png" alt="data-model-simple" title="Data Model"></p>
+<h4 id="Task-Rebalancing"><a href="#Task-Rebalancing" class="headerlink" title="Task Rebalancing"></a>Task Rebalancing</h4><p>当 Connector 首次提交给集群时，Worker 将重新平衡集群中的全部 Connectors 集及其 Tasks，以便每个 Worker 的工作量大致相同。</p>
+<p>当 Connector 增加或减少它们所需的 Task 数量时，或者当 Connector 的配置更改时，也使用同样的重新平衡过程。</p>
+<p>当一个 Worker 失败时，Task 会在活跃的 Worker 之间重新平衡。</p>
+<p>当 Task 失败时，不会触发 Task 失败的再平衡，因为 Task 失败被认为是一个特例。因此，失败的 Task 不会由框架自动重新启动，应该通过 REST API 重新启动。</p>
+<p>下图为 Worker 失败时 Task 故障转移示例</p>
+<p><img src="/images/kafka/task-failover.png" alt="task-failover" title="Task 故障转移"></p>
+<h3 id="Workers"><a href="#Workers" class="headerlink" title="Workers"></a>Workers</h3><p>Connectors 和 Tasks 是必须在进程中执行的逻辑工作单元，Kafka Connect 称这些进程为 Worker。</p>
+<p>有两种类型的 Worker: <code>Standalone</code> 和 <code>Distributed</code>。</p>
+<h4 id="Standalone"><a href="#Standalone" class="headerlink" title="Standalone"></a>Standalone</h4><p>Standalone 模式是最简单的模式，其中单个进程负责执行所有连接器和任务。因为它是一个单一的进程，所以只需要最少的配置。在开发过程中，以及在某些只有一个进程有意义的情况下，如从主机收集日志时，Standalone 模式非常方便。但是，由于只有一个进程，它的功能也更有限：可伸缩性仅限于单个进程，除了添加到单个进程的任何监视之外，没有容错能力。</p>
+<h4 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h4><p>Distributed 模式为 Kafka Connect 提供了可伸缩性和自动容错能力。在 Distributed 模式下，使用相同的 <code>group.id</code> 启动许多辅助进程，它们自动协调来调度所有可用辅助 Workers 之间的Connectors 和 Tasks 的执行。如果添加了一个 Worker，关闭了一个 Worker，或者一个 Worker 意外地失败了，其余的 Worker 会检测到这一点，并自动协调在更新的可用 Workers 集中重新分配 Connectors 和 Tasks。请注意它们与 Consumer Group 再平衡的相似之处，在掩护之下，Worker 正在利用 Consumer Group 来协调和平衡。</p>
+<p><img src="/images/kafka/worker-model-basics.png" alt="worker-model-basics" title="Worker 模型"></p>
+<h3 id="Converters"><a href="#Converters" class="headerlink" title="Converters"></a>Converters</h3><p>当写入或从 Kafka 读取数据时，必须有一个 Kafka Connect 部署支持特定的数据格式。任务使用转换器将数据格式从字节转换为 Connect 内部数据格式，反之亦然。</p>
+<ul>
+<li><strong>AvroConverter</strong> <code>io.confluent.connect.avro.AvroConverter</code> 使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
+<li><strong>ProtobufConverter</strong> <code>io.confluent.connect.protobuf.ProtobufConverter</code> 使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
+<li><strong>JsonSchemaConverter</strong> <code>io.confluent.connect.json.JsonSchemaConverter</code>  使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
+<li><strong>JsonConverter</strong> <code>org.apache.kafka.connect.json.JsonConverter</code> (没有模式注册表):与结构化数据一起使用</li>
+<li><strong>StringConverter</strong> <code>org.apache.kafka.connect.storage.StringConverter</code>简单的字符串格式</li>
+<li><strong>ByteArrayConverter</strong> <code>org.apache.kafka.connect.converters.ByteArrayConverter</code>提供不进行转换的“直通”选项</li>
+</ul>
+<h4 id="Converter-Graphic"><a href="#Converter-Graphic" class="headerlink" title="Converter Graphic"></a>Converter Graphic</h4><p><img src="/images/kafka/converter-basics.png" alt="converter-basics" title="SourceConnector &amp; SinkConnector"></p>
+<h3 id="Transforms"><a href="#Transforms" class="headerlink" title="Transforms"></a>Transforms</h3><p>单个消息转换（Single Message Transformations，下列简称SMT）应用于通过 Connect 的消息。</p>
+<p>SMT 在源连接器（Source Connector）生成入站消息之后进行转换，但在它们被写入Kafka之前进行转换。<br>SMT 在出站消息发送到接收器连接器（Sink Connecors）之前对其进行转换。</p>
+<p>可以在连接器配置中指定转换链。</p>
+<ul>
+<li><code>transforms</code> 转换别名列表，指定应用转换的顺序。</li>
+<li><code>transforms.$alias.type</code> 转换的完全限定类名。</li>
+<li><code>transforms.$alias.$transformationSpecificConfig</code> 转换的配置属性。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># connector common config</span></span><br><span class="line"><span class="attr">name</span>=<span class="string">local-file-source</span></span><br><span class="line"><span class="meta">connector.class</span>=<span class="string">FileStreamSource</span></span><br><span class="line"><span class="meta">tasks.max</span>=<span class="string">1</span></span><br><span class="line"><span class="attr">file</span>=<span class="string">test.txt</span></span><br><span class="line"><span class="attr">topic</span>=<span class="string">connect-test</span></span><br><span class="line"><span class="comment"># transforms chain: MakeMap--InsertSource</span></span><br><span class="line"><span class="attr">transforms</span>=<span class="string">MakeMap, InsertSource</span></span><br><span class="line"><span class="comment"># config for MakeMap transform</span></span><br><span class="line"><span class="meta">transforms.MakeMap.type</span>=<span class="string">org.apache.kafka.connect.transforms.HoistField$Value</span></span><br><span class="line"><span class="meta">transforms.MakeMap.field</span>=<span class="string">line</span></span><br><span class="line"><span class="comment"># config for InsertSource transform</span></span><br><span class="line"><span class="meta">transforms.InsertSource.type</span>=<span class="string">org.apache.kafka.connect.transforms.InsertField$Value</span></span><br><span class="line"><span class="meta">transforms.InsertSource.static.field</span>=<span class="string">data_source</span></span><br><span class="line"><span class="meta">transforms.InsertSource.static.value</span>=<span class="string">test-file-source</span></span><br></pre></td></tr></table></figure>
+<p>Kafka Connect 包含了一些广泛适用的数据和路由转换：</p>
+<ul>
+<li><code>InsertField</code> 使用静态数据或记录元数据添加字段</li>
+<li><code>ReplaceField</code> 过滤或重命名字段</li>
+<li><code>MaskField</code>将字段替换为类型的有效null值(如 0，false 及空字符串等等)</li>
+<li><code>ValueToKey</code> 将记录键替换为由记录值中的字段子集形成的新键</li>
+<li><code>HoistField</code> 将整个事件作为单个字段包装在结构或映射中</li>
+<li><code>ExtractField</code>从 Struct 和 Map 中提取一个特定的字段，并在结果中只包含这个字段</li>
+<li><code>SetSchemaMetadata</code> 修改模式名称或版本</li>
+<li><code>TimestampRouter</code>基于原始主题和时间戳修改记录的主题。当使用接收器时，需要根据时间戳写入不同的表或索引</li>
+<li><code>RegexRouter</code> 基于原始主题、替换字符串和正则表达式修改记录的主题</li>
+</ul>
+<h3 id="Dead-Letter-Queue"><a href="#Dead-Letter-Queue" class="headerlink" title="Dead Letter Queue"></a>Dead Letter Queue</h3><p>出现无效记录的原因有很多。一个例子是，当一条记录以 JSON 格式序列化到达 Sink Connector 时，但 Sink Connector 配置要求为 Avro 格式。当 Sink Connector 无法处理无效记录时，将根据 Connector 配置属性 <code>errors.tolerance</code> （错误容忍）处理错误。<strong>Dead Letter Queue 仅适用于 Sink Connector。</strong></p>
+<p>此配置属性有两个有效值: <code>none</code> (默认值)或 <code>all</code>。</p>
+<p>当 <code>errors.tolerance</code> 设置为 <code>none</code> 时，错误或无效记录将导致 Connector Task 立即失败，并且 Connector 进入失败状态。要解决此问题，需要查看 Kafka Connect Worker 日志以找出导致故障的原因，进行纠正，然后重新启动 Connector。</p>
+<p>当 <code>errors.tolerance</code> 设置为 <code>all</code> 时，将忽略所有错误或无效记录，并继续处理。Connect Worker 日志中没有写入错误。为了确定记录是否失败，必须使用内部度量或计算源处的记录数量，并将其与所处理的记录数量进行比较。</p>
+<p>有一个错误处理特性，它将把所有无效的记录路由到一个特殊的主题并报告错误。该主题包含 Sink Connector 无法处理的记录的 <strong>Dead Letter Queue</strong>。</p>
+<p>SinkConnector 配置：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">errors.tolerance</span> = <span class="string">all</span></span><br><span class="line"><span class="meta">errors.deadletterqueue.topic.name</span> = <span class="string">&lt;dead-letter-topic-name&gt;</span></span><br></pre></td></tr></table></figure>
+<p>即使 <strong>Dead Letter Queue</strong> 包含失败的记录，它也没有显示原因。可以添加以下附加配置属性以包含失败的记录头信息。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">errors.deadletterqueue.context.headers.enable</span> = <span class="string">true</span></span><br></pre></td></tr></table></figure>
+
+
+<p>当该参数设置为 <code>true</code> (默认为<code>false</code>)时，记录头被添加到死信队列中。然后可以查看记录头，并确定记录失败的原因。错误也被发送到 <a target="_blank" rel="noopener" href="https://docs.confluent.io/home/connect/userguide.html#userguide-connect-reporter">Connect Reporter</a>。为了避免与原始记录头冲突，<strong>Dead Letter Queue</strong> 上下文头键以 <code>_connect.errors</code> 开头。</p>
+<h2 id="Deployment-Configuration"><a href="#Deployment-Configuration" class="headerlink" title="Deployment Configuration"></a>Deployment Configuration</h2><p>Common（Standalone &amp; Distributed）</p>
+<ul>
+<li><code>bootstrap.servers</code> Kafka 服务器列表。</li>
+<li><code>key.converter</code> 用于在 Kafka 连接格式和写入 Kafka 的序列化格式之间转换的转换器类。它控制了写入或从 Kafka 读取的消息中的<strong>键</strong>的格式，并且由于它独立于连接器，它允许任何连接器使用任何序列化格式。常见的格式包括JSON和Avro。</li>
+<li><code>value.converter</code> 用于在 Kafka 连接格式和写入 Kafka 的序列化格式之间转换的转换器类。它控制了写入或从 Kafka 读取的消息中的<strong>值</strong>的格式，并且由于它独立于连接器，它允许任何连接器使用任何序列化格式。常见的格式包括JSON和Avro。</li>
+</ul>
+<p>Standalone</p>
+<ul>
+<li><code>offset.storage.file.filename</code> 文件中存储偏移量数据</li>
+</ul>
+<p>Distributed</p>
+<ul>
+<li><code>group.id</code> (默认为 connect-cluster`) 集群的唯一名称，用于形成Connect集群组；<strong>注意，这一定不能与消费组id冲突</strong></li>
+<li><code>config.storage.topic</code> (默认为<code>connect-configs</code>) 用于存储 Connector 和 Task 配置的主题；注意，这应该是一个单独的分区，高度复制，压缩主题（您可能需要手动创建主题，以确保正确的配置，因为自动创建的主题可能有多个分区，或者自动配置为删除而不是压缩）</li>
+<li><code>offset.storage.topic</code> (默认为 <code>connect-offsets</code>) 用于存储偏移量的主题；这个主题应该有许多分区，可以复制，并配置为压缩</li>
+<li><code>status.storage.topic</code> (默认为 <code>connect-status</code>) 用于存储状态的主题；这个主题可以有多个分区，应该进行复制和配置以进行压缩</li>
+</ul>
+<h2 id="Connect-Plugins"><a href="#Connect-Plugins" class="headerlink" title="Connect Plugins"></a>Connect Plugins</h2><p>Kafka Connect 被设计为可扩展的，因此开发人员可以创建自定义连接器(Connectors)，变形器(Transforms)或转换器(Converters)，用户可以安装和运行它们。</p>
+<p>Kafka Connect 插件是一组 JAR 文件，其中包含一个或多个 Connectors、Transforms 或 Converters 的实现。Connect 将每个插件彼此隔离，这样一个插件中的库就不会受到任何其他插件中的库的影响。这在混合和匹配来自多个供应商的连接器时非常重要。</p>
+<p>一个 Kafka Connect 插件可以是：</p>
+<ul>
+<li><p>文件系统上的一个目录，包含所有需要的 JAR 文件和插件的第三方依赖项。<strong>这是最常见和首选的。</strong></p>
+</li>
+<li><p>一个包含插件及其第三方依赖项的所有类文件的 uber JAR。</p>
+<p>(<code>Über</code> is the German word for <code>above</code> or <code>over</code> (it’s actually cognate with the English <code>over</code>).  <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11947037/what-is-an-uber-jar">https://stackoverflow.com/questions/11947037/what-is-an-uber-jar</a>)</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>一个插件不应该包含 Kafka Connect 运行时提供的任何库。</strong></p>
+</blockquote>
+<p>Kafka Connect 在 Worker Configuration 的  <code>plugin.path</code> 属性中使用一个以逗号分隔的目录路径列表定义的插件路径查找插件。</p>
+<p>当启动 Connect Worker 时，每个 Worker 都会在插件路径的目录中发现所有 Connectors、Transforms 和 Converters 插件。当使用 Connectors、Transforms 和 Converters 时，Connect Worker 首先从各自的插件加载类，然后是 Kafka Connect 运行时和 Java 库。</p>
+<h2 id="Connect-API"><a href="#Connect-API" class="headerlink" title="Connect API"></a>Connect API</h2><h3 id="Java-API"><a href="#Java-API" class="headerlink" title="Java API"></a>Java API</h3><blockquote>
+<p>本节列举了一般需要重写的方法，更详尽的 Java API 请参见</p>
+<p><a target="_blank" rel="noopener" href="http://kafka.apache.org/24/javadoc/index.html?org/apache/kafka/connect">http://kafka.apache.org/24/javadoc/index.html?org/apache/kafka/connect</a></p>
+</blockquote>
+<h4 id="SinkConnector"><a href="#SinkConnector" class="headerlink" title="SinkConnector"></a>SinkConnector</h4><ul>
+<li><code>public abstract void start(Map&lt;String,String&gt; props)</code><br>启动这个连接器。这个方法只会在一个干净的连接器上被调用，也就是说，它要么刚刚被实例化和初始化，要么已经调用了stop()。</li>
+<li><code>public abstract void stop()</code><br>停止这个连接器。</li>
+<li><code>public abstract Class&lt;? extends Task&gt; taskClass()</code><br>返回此连接器的任务实现。</li>
+<li><code>public abstract ConfigDef config()</code><br>定义连接器的配置。</li>
+<li><code>public abstract List&lt;Map&lt;String,String&gt;&gt; taskConfigs(int maxTasks)</code><br>根据当前配置返回任务的一组配置。</li>
+<li><code>String version()</code><br>获取该连接器的版本。</li>
+</ul>
+<h4 id="SinkTask"><a href="#SinkTask" class="headerlink" title="SinkTask"></a>SinkTask</h4><ul>
+<li><code>public abstract void start(Map&lt;String,String&gt; props)</code><br>启动任务。这应该可以处理任何配置解析和任务的一次性设置。</li>
+<li><code>public abstract void put(Collection&lt;SinkRecord&gt; records)</code><br>将事件记录数据传递到此任务。</li>
+<li><code>public abstract void stop()</code><br>执行清理操作以停止此任务。</li>
+<li><code>String version()</code><br>获取此任务的版本。通常这应该与对应的连接器类的版本相同。</li>
+</ul>
+<h3 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h3><blockquote>
+<p>Default Port: <code>8083</code></p>
+</blockquote>
+<ul>
+<li><code>GET /connectors</code> 返回连接器的列表。</li>
+<li><code>POST /connectors</code> 创建一个新的连接器。请求主体应该是一个JSON对象，其中包含一个字符串 <code>name</code> 字段和一个带有连接器 <code>config</code> 参数的对象配置字段。</li>
+<li><code>GET /connectors/&#123;name&#125;</code>获取指定连接器的信息。</li>
+<li><code>GET /connectors/&#123;name&#125;/config</code> 获取指定连接器的配置参数。</li>
+<li><code>PUT /connectors/&#123;name&#125;/config</code> 更新指定连接器的配置参数。</li>
+<li><code>GET /connectors/&#123;name&#125;/status</code> 获取连接器的当前状态，包括它是否正在运行、失败、暂停等、它被分配给哪个工作器、失败时的错误信息以及它所有任务的状态。<ul>
+<li><code>UNASSIGNED</code>: Connector/Task 暂未分配到 Worker。</li>
+<li><code>RUNNING</code>: Connector/Task 正在运行。</li>
+<li><code>PAUSED</code>: Connector/Task 在管理上已暂停。</li>
+<li><code>FAILED</code>: Connector/Task 运行失败，通常是发生了异常。</li>
+<li><code>DESTROYED</code>: Connector/Task 在管理上已被删除，将被移除集群。</li>
+</ul>
+</li>
+<li><code>GET /connectors/&#123;name&#125;/tasks</code> 获取连接器当前正在运行的任务列表。</li>
+<li><code>GET /connectors/&#123;name&#125;/tasks/&#123;taskid&#125;/status</code> 获取任务的当前状态，包括它是否正在运行、失败、暂停等，它被分配给哪个 Worker，以及失败时的错误信息。</li>
+<li><code>PUT /connectors/&#123;name&#125;/pause</code> 暂停连接器及其任务，这将停止消息处理，直到连接器恢复。</li>
+<li><code>PUT /connectors/&#123;name&#125;/resume</code> 恢复暂停的连接器(如果连接器没有暂停，则不做任何操作)。</li>
+<li><code>POST /connectors/&#123;name&#125;/restart</code> 重新启动连接器(通常是因为它失败了)。</li>
+<li><code>POST /connectors/&#123;name&#125;/tasks/&#123;taskId&#125;/restart</code> 重新启动单个任务(通常是因为它失败了)。</li>
+<li><code>DELETE /connectors/&#123;name&#125;</code> 删除连接器，停止所有任务并删除其配置。</li>
+<li><code>GET /connector-plugins</code> 返回一个Kafka Connect集群中安装的连接器插件列表。</li>
+<li><code>PUT /connector-plugins/&#123;connector-type&#125;/config/validate</code> 根据配置定义验证提供的配置值。这个API执行每个配置验证，并在验证过程中返回建议值和错误消息。</li>
+</ul>
+<h3 id="Ops"><a href="#Ops" class="headerlink" title="Ops"></a>Ops</h3><h4 id="Kafka-Connect-Logging"><a href="#Kafka-Connect-Logging" class="headerlink" title="Kafka Connect Logging"></a>Kafka Connect Logging</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/connect/logging.html#">https://docs.confluent.io/platform/current/connect/logging.html#</a></p>
+</blockquote>
+<ul>
+<li><p>Check log levels</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Ss http:&#x2F;&#x2F;localhost:8083&#x2F;admin&#x2F;loggers | jq</span><br></pre></td></tr></table></figure></li>
+<li><p>Change the log level for a specific logger</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s -X PUT -H &quot;Content-Type:application&#x2F;json&quot; \</span><br><span class="line">http:&#x2F;&#x2F;localhost:8083&#x2F;admin&#x2F;loggers&#x2F;city.icos.icmsevent.connect \</span><br><span class="line">-d &#39;&#123;&quot;level&quot;: &quot;DEBUG&quot;&#125;&#39; | jq &#39;.&#39;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Lenses-io"><a href="#Lenses-io" class="headerlink" title="Lenses.io"></a>Lenses.io</h2><h3 id="Kakfa-Connect-UI"><a href="#Kakfa-Connect-UI" class="headerlink" title="Kakfa Connect UI"></a>Kakfa Connect UI</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/lensesio/kafka-connect-ui">https://github.com/lensesio/kafka-connect-ui</a></p>
+</blockquote>
+<h3 id="Kafka-Connect-CLI"><a href="#Kafka-Connect-CLI" class="headerlink" title="Kafka Connect CLI"></a>Kafka Connect CLI</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/lensesio/kafka-connect-tools">https://github.com/lensesio/kafka-connect-tools</a></p>
+</blockquote>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">connect-cli 1.0.8</span><br><span class="line">Usage: connect-cli [ps|get|rm|create|run|diff|status|plugins|describe|validate|restart|pause|resume] [options] [<span class="xml"><span class="tag">&lt;<span class="name">connector-name</span>&gt;</span></span>]</span><br><span class="line"></span><br><span class="line">  --help</span><br><span class="line"><span class="code">        prints this usage text</span></span><br><span class="line"><span class="code">  -e &lt;value&gt; | --endpoint &lt;value&gt;</span></span><br><span class="line"><span class="code">        Kafka Connect REST URL, default is http://localhost:8083/</span></span><br><span class="line"><span class="code">  -f &lt;value&gt; | --format &lt;value&gt;</span></span><br><span class="line"><span class="code">        Format of the config, default is PROPERTIES. Valid options are &#x27;properties&#x27; and &#x27;json&#x27;.</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">  Command: ps</span></span><br><span class="line"><span class="code">  list active connectors names.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: get</span></span><br><span class="line"><span class="code">  get the configuration of the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: rm</span></span><br><span class="line"><span class="code">  remove the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: create</span></span><br><span class="line"><span class="code">  create the specified connector with the config from stdin; the connector cannot already exist.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: run</span></span><br><span class="line"><span class="code">  create or update the specified connector with the config from stdin.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: diff</span></span><br><span class="line"><span class="code">  diff the specified connector with the config from stdin.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: status</span></span><br><span class="line"><span class="code">  get connector and it&#x27;s task(s) state(s).</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: plugins</span></span><br><span class="line"><span class="code">  list the available connector class plugins on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: describe</span></span><br><span class="line"><span class="code">  list the configurations for a connector class plugin on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: pause</span></span><br><span class="line"><span class="code">  pause the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: restart</span></span><br><span class="line"><span class="code">  restart the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: resume</span></span><br><span class="line"><span class="code">  resume the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: validate</span></span><br><span class="line"><span class="code">  validate the connector config from stdin against a connector class plugin on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_ps</span></span><br><span class="line"><span class="code">  list the tasks belonging to a connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_status</span></span><br><span class="line"><span class="code">  get the status of a connector task.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_restart</span></span><br><span class="line"><span class="code">  restart the specified connector task.</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://kafka.apache.org/24/documentation.html#connect">http://kafka.apache.org/24/documentation.html#connect</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.confluent.io/5.5.0/connect/index.html">https://docs.confluent.io/5.5.0/connect/index.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+              <a href="/tags/Kafka-Connect/" rel="tag"># Kafka Connect</a>
+              <a href="/tags/Streaming/" rel="tag"># Streaming</a>
+              <a href="/tags/Sink/" rel="tag"># Sink</a>
+              <a href="/tags/Source/" rel="tag"># Source</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/16/hexo-github-actions-deploy-notes/" rel="prev" title="Hexo Deploy By Github Actions">
+      <i class="fa fa-chevron-left"></i> Hexo Deploy By Github Actions
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/23/kafka-connect-rest-api-notes/" rel="next" title="Kafka Connect REST API 笔记">
+      Kafka Connect REST API 笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concept"><span class="nav-number">2.</span> <span class="nav-text">Concept</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Connectors"><span class="nav-number">2.1.</span> <span class="nav-text">Connectors</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Configuration"><span class="nav-number">2.1.1.</span> <span class="nav-text">Configuration</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tasks"><span class="nav-number">2.2.</span> <span class="nav-text">Tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Task-Rebalancing"><span class="nav-number">2.2.1.</span> <span class="nav-text">Task Rebalancing</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workers"><span class="nav-number">2.3.</span> <span class="nav-text">Workers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Standalone"><span class="nav-number">2.3.1.</span> <span class="nav-text">Standalone</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Distributed"><span class="nav-number">2.3.2.</span> <span class="nav-text">Distributed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Converters"><span class="nav-number">2.4.</span> <span class="nav-text">Converters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Converter-Graphic"><span class="nav-number">2.4.1.</span> <span class="nav-text">Converter Graphic</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transforms"><span class="nav-number">2.5.</span> <span class="nav-text">Transforms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dead-Letter-Queue"><span class="nav-number">2.6.</span> <span class="nav-text">Dead Letter Queue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment-Configuration"><span class="nav-number">3.</span> <span class="nav-text">Deployment Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connect-Plugins"><span class="nav-number">4.</span> <span class="nav-text">Connect Plugins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connect-API"><span class="nav-number">5.</span> <span class="nav-text">Connect API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-API"><span class="nav-number">5.1.</span> <span class="nav-text">Java API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SinkConnector"><span class="nav-number">5.1.1.</span> <span class="nav-text">SinkConnector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SinkTask"><span class="nav-number">5.1.2.</span> <span class="nav-text">SinkTask</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REST-API"><span class="nav-number">5.2.</span> <span class="nav-text">REST API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ops"><span class="nav-number">5.3.</span> <span class="nav-text">Ops</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kafka-Connect-Logging"><span class="nav-number">5.3.1.</span> <span class="nav-text">Kafka Connect Logging</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lenses-io"><span class="nav-number">6.</span> <span class="nav-text">Lenses.io</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kakfa-Connect-UI"><span class="nav-number">6.1.</span> <span class="nav-text">Kakfa Connect UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-Connect-CLI"><span class="nav-number">6.2.</span> <span class="nav-text">Kafka Connect CLI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">134k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

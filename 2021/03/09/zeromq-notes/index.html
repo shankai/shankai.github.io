@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IntroduceZeroMQ, 一个开源的通用消息库。 ZeroMQ(也拼作ØMQ、0MQ 或 ZMQ)是一个高性能异步消息传递库，旨在在分布式或并发应用程序中使用。它提供了一个消息队列，但与面向消息的中间件不同，ZeroMQ系统可以在没有专用消息代理的情况下运行。 ZeroMQ支持各种传输(TCP、进程内、进程间、多播、WebSocket等等)上的通用消息传递模式(发布&#x2F;订阅、请求&#x2F;应答、客户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZeroMQ 笔记">
+<meta property="og:url" content="http://example.com/2021/03/09/zeromq-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="IntroduceZeroMQ, 一个开源的通用消息库。 ZeroMQ(也拼作ØMQ、0MQ 或 ZMQ)是一个高性能异步消息传递库，旨在在分布式或并发应用程序中使用。它提供了一个消息队列，但与面向消息的中间件不同，ZeroMQ系统可以在没有专用消息代理的情况下运行。 ZeroMQ支持各种传输(TCP、进程内、进程间、多播、WebSocket等等)上的通用消息传递模式(发布&#x2F;订阅、请求&#x2F;应答、客户">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-09T06:24:44.000Z">
+<meta property="article:modified_time" content="2021-03-20T13:25:27.101Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="ZMQ">
+<meta property="article:tag" content="MQ">
+<meta property="article:tag" content="0MQ">
+<meta property="article:tag" content="Socket">
+<meta property="article:tag" content="Messaging">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/09/zeromq-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ZeroMQ 笔记 | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/09/zeromq-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ZeroMQ 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 14:24:44" itemprop="dateCreated datePublished" datetime="2021-03-09T14:24:44+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-20 21:25:27" itemprop="dateModified" datetime="2021-03-20T21:25:27+08:00">2021-03-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><p>ZeroMQ, 一个开源的通用消息库。</p>
+<p>ZeroMQ(也拼作ØMQ、0MQ 或 ZMQ)是一个高性能异步消息传递库，旨在在分布式或并发应用程序中使用。它提供了一个消息队列，但与面向消息的中间件不同，ZeroMQ系统可以在没有专用消息代理的情况下运行。</p>
+<p>ZeroMQ支持各种传输(TCP、进程内、进程间、多播、WebSocket等等)上的通用消息传递模式(发布/订阅、请求/应答、客户端/服务器等)，使进程间消息传递像线程间消息传递一样简单。这使你的代码清晰，模块化和极容易扩展。</p>
+<p>ZeroMQ是由一个大型贡献者社区开发的。许多流行的编程语言都有第三方实现，C# 和 Java 也有 Native Ports。</p>
+<blockquote>
+<p><strong>ZeroMQ的哲学是从零开始的。零代表零代理(ZeroMQ是无代理的)、零延迟、零成本(它是免费的)和零管理。更普遍地说，“零”指的是渗透到项目中的极简主义文化。我们通过消除复杂性而不是暴露新功能来增加功能。</strong></p>
+</blockquote>
+<h3 id="Libzmq-the-low-level-library"><a href="#Libzmq-the-low-level-library" class="headerlink" title="Libzmq - the low level library"></a>Libzmq - the low level library</h3><p>Libzmq (<a target="_blank" rel="noopener" href="https://github.com/zeromq/libzmq">https://github.com/zeromq/libzmq</a>) 是大多数不同语言绑定背后的底层库。Libzmq 公开 C-API 及 C++ 的实现。</p>
+<h2 id="Languages"><a href="#Languages" class="headerlink" title="Languages"></a>Languages</h2><p>C、C++、C#、Erlang、F#、Go、Haskell、Java、Node.js、Perl、Python、Ruby、Rust 等。</p>
+<p>更多：<a target="_blank" rel="noopener" href="http://wiki.zeromq.org/bindings:_start">http://wiki.zeromq.org/bindings:_start</a></p>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/zeromq/jeromq">JeroMQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zeromq/jzmq">JZMQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zeromq/czmq/tree/master/bindings/jni">jczmq</a></li>
+</ul>
+<h2 id="Messages"><a href="#Messages" class="headerlink" title="Messages"></a>Messages</h2><h3 id="Messages-1"><a href="#Messages-1" class="headerlink" title="Messages"></a>Messages</h3><h4 id="Blob"><a href="#Blob" class="headerlink" title="Blob"></a>Blob</h4><p>ZeroMQ 消息是在应用程序或相同应用程序的组件之间传递的离散数据单元。从ZeroMQ本身的角度来看，消息被认为是不透明的二进制数据。</p>
+<p>在网络上，ZeroMQ 消息是可以容纳内存的从 0 开始任意大小的 Blob。可以使用 Protocol Buffers、msgpack、JSON 或应用程序需要表达的任何东西来进行自己的序列化。选择可移植的数据表示是明智的，可以自己做出权衡的决定。</p>
+<h4 id="Frame"><a href="#Frame" class="headerlink" title="Frame"></a>Frame</h4><p>最简单的 ZeroMQ 消息由一个帧(也称为消息部分)组成。</p>
+<p>帧是 ZeroMQ 消息的基本格式，帧是指定长度的数据块。</p>
+<p>ZeroMQ 保证传递消息的所有部分(一个或多个)，或者不传递任何部分。这允许以单个消息的形式发送或接收帧列表。</p>
+<h4 id="Multipart"><a href="#Multipart" class="headerlink" title="Multipart"></a>Multipart</h4><p>消息(单个或多个部分)必须装入内存。如果想发送任意大小的文件，应该将它们分解为多个块(piece)，并将每个块(piece)作为单个部分消息(single-part)发送。</p>
+<p><strong>使用 Multipart 数据不会减少内存消耗。</strong></p>
+<h3 id="Working-with-strings"><a href="#Working-with-strings" class="headerlink" title="Working with strings"></a>Working with strings</h3><p>将数据作为字符串传递通常是进行通信的最简单方法，因为序列化非常简单。对于ZeroMQ，有这样的规则：<strong>字符串是指定长度的，并且在发送时不带末尾null</strong>。</p>
+<p>以下函数（JeroMQ 为例）将字符串作为单帧消息发送到套接字，其中字符串的长度等于帧的长度。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.send(<span class="string">&quot;HELLO&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>要从套接字读取字符串，只需调用 <code>recv</code> 函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String hello = socket.recvStr()</span><br></pre></td></tr></table></figure>
+<p>如果需要更多的控制帧，可以使用 ZFrame 类。下面的代码片段展示了如何从字符串创建帧并发送帧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZFrame stringFrame = <span class="keyword">new</span> ZFrame(<span class="string">&quot;HELLO&quot;</span>);</span><br><span class="line">stringFrame.send(socket, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>调用 ZFrame 类的静态 recvFrame 函数，从套接字中读取一个帧并返回一个 ZFrame 对象。如果内容是字符串，则可以通过提供用于序列化它的字符集的 getString 方法来检索它。</p>
+<p>默认情况下，<code>ZMQ.CHARSET</code> 用于序列化和反序列化字符串的所有操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZFrame stringFrame = ZFrame.recvFrame(socket);</span><br><span class="line">String hello = stringFrame.getString(ZMQ.CHARSET);</span><br></pre></td></tr></table></figure>
+
+
+<p>因为我们利用帧的长度来反映字符串的长度，我们可以通过将每个字符串放入一个单独的帧来发送多个字符串。</p>
+<p>在一个消息中发送多个字符串帧是可以使用 <code>sendMore</code>方法的。这个方法将延迟消息的实际发送，直到最后一帧被发送。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">socket.sendMore(socket, <span class="string">&quot;HELLO&quot;</span>);</span><br><span class="line">socket.sendMore(socket, <span class="string">&quot;beautiful&quot;</span>);</span><br><span class="line">socket.send(socket, <span class="string">&quot;WORLD!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>可以使用 ZMsg 类构造多帧消息，而不必使用套接字的 send API。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ZMsg *strings = <span class="keyword">new</span> ZMsg();</span><br><span class="line">strings.add(<span class="string">&quot;HELLO&quot;</span>);</span><br><span class="line">strings.add(<span class="string">&quot;beautiful&quot;</span>);</span><br><span class="line">strings.add(<span class="string">&quot;WORLD&quot;</span>);</span><br><span class="line">strings.send(socket);</span><br></pre></td></tr></table></figure>
+<p>若要接收一系列字符串帧，请多次调用 <code>recvStr</code> 函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String hello     = socket.recvStr();</span><br><span class="line">String beautiful = socket.recvStr();</span><br><span class="line">String world 	 = socket.recvStr();</span><br></pre></td></tr></table></figure>
+<p>为了在一次调用中检索整个消息，可以使用 ZMsg 类的静态 <code>recvMsg</code> 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ZMsg strings = ZMsg.recvMsg(socket);</span><br><span class="line">String hello     = strings.popString();</span><br><span class="line">String beautiful = strings.popString();</span><br><span class="line">String world     = strings.popString();</span><br></pre></td></tr></table></figure>
+<h2 id="Socket-API"><a href="#Socket-API" class="headerlink" title="Socket API"></a>Socket API</h2><p>套接字实际上是网络编程的标准 API。这就是为什么 ZeroMQ 提供了一个熟悉的基于套接字的API。ZeroMQ 对开发人员特别有吸引力的一点是，它使用不同的套接字类型来实现任何任意的消息传递模式。此外，ZeroMQ 套接字对底层网络协议提供了一个清晰的抽象，这隐藏了这些协议的复杂性，使它们之间的切换非常容易。</p>
+<h3 id="与传统套接字的关键区别"><a href="#与传统套接字的关键区别" class="headerlink" title="与传统套接字的关键区别"></a>与传统套接字的关键区别</h3><p>一般来说，传统套接字为面向连接的可靠字节流(SOCK_STREAM)或不可靠数据报(SOCK_DGRAM)提供同步接口。相比之下，ZeroMQ 套接字提供了异步消息队列的抽象，其确切的队列语义取决于所使用的套接字类型。传统套接字传输字节流或离散数据报，ZeroMQ 套接字传输离散消息。</p>
+<p>ZeroMQ 套接字是异步的，这意味着物理连接的建立和断开、重新连接和有效交付的时间对用户是透明的，并由 ZeroMQ 自己组织。此外，如果对等端无法接收消息，则消息可能被排队。</p>
+<p>传统套接字只允许严格的一对一(两个对等体)、多对一(多个客户端、一个服务器)或在某些情况下一对多(多播)关系。除了 PAIR 套接字之外，ZeroMQ 套接字可以连接到多个端点，同时接受来自绑定到套接字的多个端点的入站连接，从而允许多对多关系。</p>
+<h3 id="套接字生命"><a href="#套接字生命" class="headerlink" title="套接字生命"></a>套接字生命</h3><p>ZeroMQ 套接字生命有四部分，类似 BSD 套接字：</p>
+<ul>
+<li>创建和销毁套接字，它们共同形成了一个套接字生命的因果循环；</li>
+<li>通过在套接字上设置选项并在必要时检查它们来配置套接字；</li>
+<li>通过创建与套接字的ZeroMQ连接，将套接字插入到网络拓扑中；</li>
+<li>通过在套接字上写入和接收消息来传递数据。</li>
+</ul>
+<h3 id="绑定与连接-Bind-vs-Connect"><a href="#绑定与连接-Bind-vs-Connect" class="headerlink" title="绑定与连接(Bind vs Connect)"></a>绑定与连接(Bind vs Connect)</h3><p>ZeroMQ 套接字并不在乎谁在绑定，谁在连接。在之前的示例中，你可能注意到的是服务端使用了绑定，客户端使用了连接。为什么是这样的，有什么区别？</p>
+<p>ZeroMQ 为每个基础的连接创建队列。如果你的套接字连接到了 3 个对等的套接字，那么在后台将有 3 个消息队列。</p>
+<p>使用绑定(Bind)，允许任意的对等套接字连接(Connect)上来，因此在绑定端不清楚到底会有多少个对等点，也不能提前创建队列。相反，队列是作为连接(Connect)到绑定套接字的单个对等体创建的。</p>
+<p>使用连接(Connect)，ZeroMQ 知道至少会有一个对等体，因此它可以立即创建单个队列。这适用于所有的套接字类型，除了路由器(ROUTER)，只有在我们连接的对等体确认我们的连接后才创建队列。</p>
+<p>因此，<strong>当向没有对等体的绑定(Bind)套接字或没有实时连接的路由器(ROUTER)发送消息时，没有队列来存储消息。</strong></p>
+<h4 id="何时用绑定-Bind-，何时用连接-Connect-？"><a href="#何时用绑定-Bind-，何时用连接-Connect-？" class="headerlink" title="何时用绑定(Bind)，何时用连接(Connect)？"></a>何时用绑定(Bind)，何时用连接(Connect)？</h4><p>一般情况下，在体系结构最稳定的点(Points)使用绑定(Bind)，在具有不稳定端点(Endpoints)的动态组件使用连接(Connect)。对于请求/应答(request/reply)，服务提供者可能是您绑定和客户端使用 Connect 的地方。就像普通的旧 TCP 一样。</p>
+<p>如果不知道哪个部分更稳定(比如点对点) ，可以考虑中间的一个稳定设备，这样所有的部分都可以去连接。</p>
+<h3 id="高水位标记-High-Water-Mark"><a href="#高水位标记-High-Water-Mark" class="headerlink" title="高水位标记(High-Water-Mark)"></a>高水位标记(High-Water-Mark)</h3><p>高水位线是对 ZeroMQ 在内存中排队的未完成消息的<strong>最大数量的硬性限制</strong>。</p>
+<p>如果达到此限制，套接字将进入异常状态，根据套接字类型，ZeroMQ 将采取适当的操作，如<strong>阻塞(Blocking)**或</strong>丢弃(Dropping)**发送的消息。请参考下面的套接字描述，以了解为每种套接字类型所采取的具体操作。</p>
+<h3 id="消息传递模式-Messaging-Patterns"><a href="#消息传递模式-Messaging-Patterns" class="headerlink" title="消息传递模式(Messaging Patterns)"></a>消息传递模式(Messaging Patterns)</h3><p>在 ZeroMQ 套接字 API 是对消息传递模式(Messaging Patterns)的包装。ZeroMQ 模式通过具有<strong>匹配类型</strong>的<strong>套接字对</strong>来实现。</p>
+<p>套接字类型定义了套接字的语义、它用于向内向外路由消息的策略、队列等。可以将某些类型的套接字连接在一起，例如，发布服务器套接字和订阅服务器套接字。套接字在“消息传递模式”中协同工作。</p>
+<p>内置的 ZeroMQ 核心模式如下：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#request-reply-pattern"><strong>Request-reply</strong></a>(请求/应答)，它将一组客户端连接到一组服务端。这是一种远程过程调用(RPC)和任务分布(Task Distribution)模式。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#publish-subscribe-pattern"><strong>Pub-sub</strong></a>(发布-订阅)，它将一组发布者连接到一组订阅者。这是一种数据分布(Data Distribution)模式。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#pipeline-pattern"><strong>Pipeline</strong></a>(管道)，它以扇出(fan-out)/扇入(fan-in)模式连接节点，该模式可以有多个步骤和循环。这是一个并行任务分配和收集(Parallel task distribution and collection)模式。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#exclusive-pair-pattern"><strong>Exclusive pair</strong></a>(独占对)，专门连接两个套接字。这是一种在进程中连接两个线程的模式，不要与“普通”的套接字对混淆。</p>
+</li>
+</ul>
+<p>还有更多ZeroMQ模式仍处于草案状态：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#client-server-pattern"><strong>Client-server</strong></a>(客户端-服务器)，它允许单个 ZeroMQ 服务器与一个或多个 ZeroMQ 客户机通话。客户端始终启动会话，在此之后，任何一方都可以异步地向另一方发送消息。</li>
+<li><a target="_blank" rel="noopener" href="https://zeromq.org/socket-api/#radio-dish-pattern"><strong>Radio-dish</strong></a>(无线接收天线)，用于一对多的数据分发，以扇形方式(fan out)将数据从一个发布者发送到多个订阅者。</li>
+</ul>
+<h4 id="Request-reply"><a href="#Request-reply" class="headerlink" title="Request-reply"></a>Request-reply</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://rfc.zeromq.org/spec/28/">https://rfc.zeromq.org/spec/28/</a></p>
+</blockquote>
+<p>请求-应答(Request-reply)模式适用于各种面向服务的体系结构。它有两种基本形式：** 同步(REQ 和 REP)<strong>和</strong>异步(DEALER 和 ROUTER) **，可以以各种方式混合使用。DEALER 和 ROUTER 套接字是许多高级协议的构建块，比如 rfc.zeromq.org/spec:18/mdp 协议。</p>
+<h5 id="REQ"><a href="#REQ" class="headerlink" title="REQ"></a>REQ</h5><p>客户端使用 <code>REQ</code> 套接字向服务发送请求并从服务接收响应。这种套接字类型只允许交替的发送和随后的接收调用。一个 <code>REQ</code> 套接字可以连接到任意数量的 <code>REP</code> 或 <code>ROUTER</code> 套接字。发送的每个请求都在所有连接的服务之间循环，接收到的每个应答都与最后发出的请求匹配。它是为简单的请求-应答模型而设计的，在这种模型中，针对失败对等体的可靠性不是问题。</p>
+<p>如果没有可用的服务，那么套接字上的任何发送操作都将阻塞，直到至少有一个服务可用。<code>REQ</code> 套接字不会丢弃任何消息。</p>
+<h5 id="REP"><a href="#REP" class="headerlink" title="REP"></a>REP</h5><p>服务使用 <code>REP</code> 套接字接收来自客户机的请求并向客户机发送应答。这种套接字类型只允许接收和随后的发送调用交替序列。接收到的每个请求都是来自所有客户机的公平队列(fair-queued)，发送的每个应答都被路由到发出最后一个请求的客户机。如果原始请求者不再存在，则静默丢弃应答。</p>
+<h5 id="DEALER"><a href="#DEALER" class="headerlink" title="DEALER"></a>DEALER</h5><p><code>DEALER</code> 套接字类型与一组匿名对等体通信，使用循环(round-robin)算法发送和接收消息。只要它不丢弃消息，它就是可靠的。对于与 <code>REP</code> 或 <code>ROUTER</code> 通信的客户端，<code>DEALER</code> 作为 <code>REQ</code> 的异步替代。<code>DEALER</code> 收到的消息从所有连接的对等体公平排队(fair-queued)。</p>
+<p>当 <code>DEALER</code> 由于达到了所有对等体的高水位而进入静音状态，或者如果根本没有对等体，那么套接字上的任何发送操作都将<strong>阻塞</strong>(Block)，直到静音状态结束或至少有一个对等体可用来发送；消息不会被丢弃。</p>
+<p>当 <code>DEALER</code> 连接到 <code>REP</code> 套接字时，发送的消息必须包含一个空帧作为消息的第一部分(分隔符)，然后是一个或多个正文部分。</p>
+<h5 id="ROUTER"><a href="#ROUTER" class="headerlink" title="ROUTER"></a>ROUTER</h5><p><code>ROUTER</code> 套接字类型与一组对等体对话，使用显式寻址，以便每个传出的消息被发送到一个特定的对等体连接。<code>ROUTER</code> 作为<code>REP</code>的异步替代品，经常用作服务器与 <code>DEALER</code> 通信的基础。</p>
+<p>当 <code>ROUTER</code> 套接字接收消息时，在将消息传递给应用程序之前，将包含原始对等体的路由id的消息部分预先添加到消息部分。接收到的消息从所有连接的对等体中公平排队(fair-queued)。当发送消息时，一个 <code>ROUTER</code> 套接字将删除消息的第一部分，并使用它来确定消息应该被路由到的对等体的路由id。如果对等体已经不存在或从未存在过，则该消息将被静默<strong>丢弃</strong>。</p>
+<p>当 <code>ROUTER</code> 套接字由于达到了对所有对等体的最高水位而进入静音状态时，发送到该套接字的任何消息都将被丢弃，直到静音状态结束。同样，路由到已达到单个高水位标记的对等点的任何消息也将被丢弃。</p>
+<p>当一个 <code>REQ</code> 套接字连接到一个 <code>ROUTER</code> 套接字时，除了原始对等体的路由id外，每个收到的消息还应该包含一个空的分隔符消息部分。因此，应用程序看到的每个接收到的消息的整个结构变成：一个或多个路由id部分、分隔符部分、一个或多个主体部分。当向 <code>REQ</code> 套接字发送应答时，应用程序必须包含分隔符部分。</p>
+<h4 id="Publish-subscribe"><a href="#Publish-subscribe" class="headerlink" title="Publish-subscribe"></a>Publish-subscribe</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://rfc.zeromq.org/spec/29/">https://rfc.zeromq.org/spec/29/</a></p>
+</blockquote>
+<p>发布-订阅(Publish-subscribe)模式用于以扇形方式将数据从一个发布者分发到多个订阅者的一对多分布。</p>
+<p>ZeroMQ 通过四种套接字类型来支持发布/订阅：<code>PUB</code>,<code>XPUB</code>,<code>SUB</code>,<code>XSUB</code>。</p>
+<h5 id="Topics"><a href="#Topics" class="headerlink" title="Topics"></a>Topics</h5><p>ZeroMQ 使用多部分(Multipart)消息来传递主题(Topic)信息。<code>Topic</code> 表示为字节数组，但也可以使用字符串和适当的文本编码。</p>
+<p>发布者必须在消息有效负载之前的第一个帧中包含主题。例如，向<code>status</code>主题的订阅者发布状态消息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Send a message on the &#x27;status&#x27; topic</span></span><br><span class="line">pub.sendMore(<span class="string">&quot;Status&quot;</span>);</span><br><span class="line">pub.send(<span class="string">&quot;All is well&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>订阅者通过 Socket 类的 subscribe 方法指定他们感兴趣的主题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Subscribe to the &#x27;status&#x27;</span></span><br><span class="line">sub.subscribe(<span class="string">&quot;status&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>一个订阅者(subscriber)套接字可以有多个订阅筛选器(filter)。</strong></p>
+<p>使用前缀检查将消息的主题(Topic)与订阅者的订阅主题进行比较，也就是说，订阅了 <code>topic</code> 的订阅者会收到主题为：<code>topic</code>或<code>topic/subtopic</code>或<code>topical</code>的消息，然而，它不会接收 <code>topi</code> 和 <code>TOPIC</code> 的主题消息。</p>
+<h5 id="PUB"><a href="#PUB" class="headerlink" title="PUB"></a>PUB</h5><p>发布者使用 <code>PUB</code> 套接字来分发数据。发送的消息以扇出的方式分发到所有连接的对等体。<strong>此套接字类型无法接收任何消息。</strong></p>
+<p>当 <code>PUB</code> 套接字由于达到了订阅者的高水位而进入静音状态时，将发送到有问题的订阅者的任何消息都将被<strong>丢弃</strong>，直到静音状态结束。对于这种套接字类型，Send 函数永远不会阻塞。</p>
+<h5 id="SUB"><a href="#SUB" class="headerlink" title="SUB"></a>SUB</h5><p>订阅者使用<code>SUB</code>套接字订阅由发布者分发的数据。最初，<code>SUB</code>套接字不订阅任何消息。<strong>此套接字类型没有实现 send 函数。</strong></p>
+<h5 id="XPUB"><a href="#XPUB" class="headerlink" title="XPUB"></a>XPUB</h5><p>与 <code>PUB</code> 相同，只是可以以传入消息的形式从对等节点接收订阅(Subscription)。订阅消息由两部分组成，一是<strong>字节1</strong>(用于订阅)或<strong>字节0</strong>(用于取消订阅)，二是在一后面跟着订阅主体。没有订阅或取消订阅前缀的消息也会被接收，但对订阅状态没有影响。</p>
+<h5 id="XSUB"><a href="#XSUB" class="headerlink" title="XSUB"></a>XSUB</h5><p>与<code>SUB</code>相同，不同的是您是通过向套接字发送订阅(Subscription)消息来进行订阅的。订阅消息由两部分组成，一是<strong>字节1</strong>(用于订阅)或<strong>字节0</strong>(用于取消订阅)，二是在一后面跟着订阅主体。没有订阅或取消订阅前缀的消息也会被发送，但对订阅状态没有影响。</p>
+<h4 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://rfc.zeromq.org/spec/30/">https://rfc.zeromq.org/spec/30/</a></p>
+</blockquote>
+<p>管道(pipeline)模式用于任务分配，通常是在一个多阶段管道中，其中一个或几个节点将工作推给多个工作人员，然后这些工作人员又将结果推给一个或几个收集器。该模式大多是可靠的，除非节点意外断开连接，否则它不会丢弃消息。它是可扩展的，节点可以在任何时候加入。</p>
+<p>ZeroMQ通过两种套接字类型支持流水线：<code>PUSH</code> 和 <code>PULL</code></p>
+<h5 id="PUSH"><a href="#PUSH" class="headerlink" title="PUSH"></a>PUSH</h5><p><code>PUSH</code> 套接字类型与一组匿名的 <code>PULL</code> 对等体对话，使用循环算法发送消息。<strong>没有为该套接字类型实现接收(<em>receive</em>)操作。</strong></p>
+<p>当由于到达所有下游节点的高水位，或没有下游节点，则套接字进入静音状态，此时任何套接字上发送操作将被<strong>阻塞</strong>，直到静音状态结束或至少一个下游节点发送可用；<strong>消息不会被丢弃</strong>。</p>
+<h5 id="PULL"><a href="#PULL" class="headerlink" title="PULL"></a>PULL</h5><p><code>PULL</code>套接字类型与一组匿名 <code>PUSH</code> 对等体对话，使用公平排队算法接收消息。<strong>没有为该套接字类型实现发送(<em>send</em>)操作。</strong></p>
+<h4 id="Exclusive-Pair"><a href="#Exclusive-Pair" class="headerlink" title="Exclusive Pair"></a>Exclusive Pair</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://rfc.zeromq.org/spec/31/">https://rfc.zeromq.org/spec/31/</a></p>
+</blockquote>
+<p>独占对 <code>PAIR</code> 不是一个通用套接字，用于两个对等体在结构上稳定的特定用例。这通常限制了 <code>PAIR</code> 只能在单个进程中使用，用于线程间通信。</p>
+<p><code>PAIR</code> 类型的套接字在任何时候只能连接到单个对等点。对通过 <code>PAIR</code> 套接字发送的消息不执行<strong>路由</strong>和<strong>筛选</strong>。</p>
+<p>当一个 <code>PAIR</code> 套接字由于已连接的对等点达到了高水位标记而进入静音状态，或者如果没有对等点被连接，那么套接字上的任何发送操作都会被阻塞，直到对等点可以发送为止；消息不会被丢弃。</p>
+<p>虽然 <code>PAIR</code> 套接字可以通过 <code>inproc</code> 以外的传输方式使用，但是它们不能自动重新连接，而且新连入的连接将被终止，而以前存在的任何连接(包括处于关闭状态的连接)在大多数情况下都不适合 TCP。</p>
+<h2 id="zguide"><a href="#zguide" class="headerlink" title="zguide"></a>zguide</h2><h3 id="Advanced-Request-Reply-Pattern"><a href="#Advanced-Request-Reply-Pattern" class="headerlink" title="Advanced Request-Reply Pattern"></a>Advanced Request-Reply Pattern</h3><p>路由的本质是消息中包含了一个身份帧（信封地址）。</p>
+<p>REQ 和 REP 是同步的；DEALER 和 ROUTER 是异步的，无视应答信封。</p>
+<p>DEALER 类似于异步 REQ 套接字，ROUTER 类似于异步 REP 套接字。在使用 REQ 套接字的地方，我们可以使用 DEALER; 我们只需要自己读写信封。在使用 REP 套接字的地方，我们可以粘贴 ROUTER; 我们只需要自己管理标识。</p>
+<p>可以将 REQ 和 DEALER 套接字视为“客户端”，将 REP 和 ROUTER 套接字视为“服务器”。通常，您需要 <code>bind</code> REP 和 ROUTER 套接字，并将 REQ 和 DEALER 套接字 <code>connect</code> 到它们。</p>
+<p>Identity 标识当前套接字的身份信息；envelope(Envelope Frame) 标识将要路由到的套接字地址</p>
+<p>请求-应答模式套接字有效的组合：</p>
+<ul>
+<li>REQ to REP</li>
+<li>DEALER to REP</li>
+<li>REQ to ROUTER</li>
+<li>DEALER to ROUTER</li>
+<li>DEALER to DEALER</li>
+<li>ROUTER to ROUTER</li>
+</ul>
+<p>无效组合：</p>
+<ul>
+<li>REQ to REQ  双方都希望通过相互发送消息来开始。</li>
+<li>REQ to DEALER 当有多个 REQ 时，DEALER 无法原路返回。</li>
+<li>REP to REP 双方都会等待对方发送第一条消息。</li>
+<li>REP to ROUTER ROUTER 不知道 REP 的地址。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ZMQ/" rel="tag"># ZMQ</a>
+              <a href="/tags/MQ/" rel="tag"># MQ</a>
+              <a href="/tags/0MQ/" rel="tag"># 0MQ</a>
+              <a href="/tags/Socket/" rel="tag"># Socket</a>
+              <a href="/tags/Messaging/" rel="tag"># Messaging</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/07/security-sasl-notes/" rel="prev" title="SASL 笔记">
+      <i class="fa fa-chevron-left"></i> SASL 笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/22/redisgears-notes/" rel="next" title="RedisGears 笔记">
+      RedisGears 笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce"><span class="nav-number">1.</span> <span class="nav-text">Introduce</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Libzmq-the-low-level-library"><span class="nav-number">1.1.</span> <span class="nav-text">Libzmq - the low level library</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Languages"><span class="nav-number">2.</span> <span class="nav-text">Languages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java"><span class="nav-number">2.1.</span> <span class="nav-text">Java</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Messages"><span class="nav-number">3.</span> <span class="nav-text">Messages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Messages-1"><span class="nav-number">3.1.</span> <span class="nav-text">Messages</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Blob"><span class="nav-number">3.1.1.</span> <span class="nav-text">Blob</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Frame"><span class="nav-number">3.1.2.</span> <span class="nav-text">Frame</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multipart"><span class="nav-number">3.1.3.</span> <span class="nav-text">Multipart</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Working-with-strings"><span class="nav-number">3.2.</span> <span class="nav-text">Working with strings</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket-API"><span class="nav-number">4.</span> <span class="nav-text">Socket API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E4%BC%A0%E7%BB%9F%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%85%B3%E9%94%AE%E5%8C%BA%E5%88%AB"><span class="nav-number">4.1.</span> <span class="nav-text">与传统套接字的关键区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%94%9F%E5%91%BD"><span class="nav-number">4.2.</span> <span class="nav-text">套接字生命</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E4%B8%8E%E8%BF%9E%E6%8E%A5-Bind-vs-Connect"><span class="nav-number">4.3.</span> <span class="nav-text">绑定与连接(Bind vs Connect)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E7%94%A8%E7%BB%91%E5%AE%9A-Bind-%EF%BC%8C%E4%BD%95%E6%97%B6%E7%94%A8%E8%BF%9E%E6%8E%A5-Connect-%EF%BC%9F"><span class="nav-number">4.3.1.</span> <span class="nav-text">何时用绑定(Bind)，何时用连接(Connect)？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E6%B0%B4%E4%BD%8D%E6%A0%87%E8%AE%B0-High-Water-Mark"><span class="nav-number">4.4.</span> <span class="nav-text">高水位标记(High-Water-Mark)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F-Messaging-Patterns"><span class="nav-number">4.5.</span> <span class="nav-text">消息传递模式(Messaging Patterns)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Request-reply"><span class="nav-number">4.5.1.</span> <span class="nav-text">Request-reply</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#REQ"><span class="nav-number">4.5.1.1.</span> <span class="nav-text">REQ</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#REP"><span class="nav-number">4.5.1.2.</span> <span class="nav-text">REP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DEALER"><span class="nav-number">4.5.1.3.</span> <span class="nav-text">DEALER</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ROUTER"><span class="nav-number">4.5.1.4.</span> <span class="nav-text">ROUTER</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Publish-subscribe"><span class="nav-number">4.5.2.</span> <span class="nav-text">Publish-subscribe</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Topics"><span class="nav-number">4.5.2.1.</span> <span class="nav-text">Topics</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PUB"><span class="nav-number">4.5.2.2.</span> <span class="nav-text">PUB</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SUB"><span class="nav-number">4.5.2.3.</span> <span class="nav-text">SUB</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XPUB"><span class="nav-number">4.5.2.4.</span> <span class="nav-text">XPUB</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XSUB"><span class="nav-number">4.5.2.5.</span> <span class="nav-text">XSUB</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pipeline"><span class="nav-number">4.5.3.</span> <span class="nav-text">Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PUSH"><span class="nav-number">4.5.3.1.</span> <span class="nav-text">PUSH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PULL"><span class="nav-number">4.5.3.2.</span> <span class="nav-text">PULL</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Exclusive-Pair"><span class="nav-number">4.5.4.</span> <span class="nav-text">Exclusive Pair</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zguide"><span class="nav-number">5.</span> <span class="nav-text">zguide</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Advanced-Request-Reply-Pattern"><span class="nav-number">5.1.</span> <span class="nav-text">Advanced Request-Reply Pattern</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">134k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

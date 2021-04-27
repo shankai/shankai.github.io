@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="RedisGears 版本: v1.0 Home RedisGears -  Redis 中数据处理的可编程引擎。  RedisGears 是一个 Serverless 的引擎，用于处理 Redis 中的事务、批处理和事件驱动的数据。它是一个动态的执行函数的框架，而这些函数反过来又实现了 Redis 的数据流，同时(几乎)完全抽象了数据的分布和部署的选择(如单机vs集群，OSS vs企业级)。函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RedisGears 笔记">
+<meta property="og:url" content="http://example.com/2021/04/22/redisgears-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="RedisGears 版本: v1.0 Home RedisGears -  Redis 中数据处理的可编程引擎。  RedisGears 是一个 Serverless 的引擎，用于处理 Redis 中的事务、批处理和事件驱动的数据。它是一个动态的执行函数的框架，而这些函数反过来又实现了 Redis 的数据流，同时(几乎)完全抽象了数据的分布和部署的选择(如单机vs集群，OSS vs企业级)。函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-22T06:24:44.000Z">
+<meta property="article:modified_time" content="2021-04-27T02:45:48.786Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="Cache">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Stream">
+<meta property="article:tag" content="Sync">
+<meta property="article:tag" content="Recipe">
+<meta property="article:tag" content="Redis Module">
+<meta property="article:tag" content="Lambda">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/04/22/redisgears-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RedisGears 笔记 | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/22/redisgears-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RedisGears 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-22 14:24:44" itemprop="dateCreated datePublished" datetime="2021-04-22T14:24:44+08:00">2021-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-27 10:45:48" itemprop="dateModified" datetime="2021-04-27T10:45:48+08:00">2021-04-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NoSQL/" itemprop="url" rel="index"><span itemprop="name">NoSQL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>22k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>20 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>RedisGears 版本: <code>v1.0</code></p>
+<h2 id="Home"><a href="#Home" class="headerlink" title="Home"></a>Home</h2><blockquote>
+<p>RedisGears -  Redis 中数据处理的可编程引擎。</p>
+</blockquote>
+<p>RedisGears 是一个 Serverless 的引擎，用于处理 Redis 中的事务、批处理和事件驱动的数据。它是一个动态的执行函数的框架，而这些函数反过来又实现了 Redis 的数据流，同时(几乎)完全抽象了数据的分布和部署的选择(如单机vs集群，OSS vs企业级)。函数可以用不同的语言实现，包括 Python and C APIs。</p>
+<h3 id="Diagram-Components"><a href="#Diagram-Components" class="headerlink" title="Diagram Components"></a>Diagram Components</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------------------------+</span><br><span class="line">| Redis Server               +--------------------------------------+ |</span><br><span class="line">|                            | RedisGears Module                    | |</span><br><span class="line">| +----------------+         |                                      | |</span><br><span class="line">| | Data           | Input   | +------------+ +-------------------+ | |</span><br><span class="line">| |                +--------&gt;+ | Function   | | APIs              | | |</span><br><span class="line">| | Key1 : Value1  |         | | +--------+ | | C, Python, ...    | | |</span><br><span class="line">| | Key2 : Value2  | Output  | | | Reader | | +-------------------+ | |</span><br><span class="line">| | Key3 : Value3  &lt;---------+ | +---+----+ | +-------------------+ | |</span><br><span class="line">| |      ...       |         | |     v      | | Redis commands    | | |</span><br><span class="line">| +----------------+         | | +---+----+ | | Gears admin &amp; ops | | |</span><br><span class="line">|                            | | | Step 1 | | +-------------------+ | |</span><br><span class="line">|                            | | +---+----+ | +-------------------+ | |</span><br><span class="line">| +----------------+         | |     v      | | Coordinator       | | |</span><br><span class="line">| | Events         |         | | +---+----+ | | Cluster MapReduce | | |</span><br><span class="line">| |                | Trigger | | | Step 2 | | +-------------------+ | |</span><br><span class="line">| | Data update    +--------&gt;+ | +---+----+ | +-------------------+ | |</span><br><span class="line">| | Stream message |         | |     v      | | Engine            | | |</span><br><span class="line">| | Time interval  |         | |    ...     | | Runtime execution | | |</span><br><span class="line">| |      ...       |         | +------------+ +-------------------+ | |</span><br><span class="line">| +----------------+         +--------------------------------------+ |</span><br><span class="line">+---------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Quickstart"><a href="#Quickstart" class="headerlink" title="Quickstart"></a>Quickstart</h2><h3 id="RedisGears-Cluster"><a href="#RedisGears-Cluster" class="headerlink" title="RedisGears Cluster"></a>RedisGears Cluster</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 30001:30001 -p 30002:30002 -p 30003:30003 redislabs&#x2F;rgcluster:latest</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="RedisGears-Standalone"><a href="#RedisGears-Standalone" class="headerlink" title="RedisGears Standalone"></a>RedisGears Standalone</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> run</span> </span><br><span class="line">docker run -d --name redisgears -p 6379:6379 redislabs/redisgears:latest</span><br><span class="line"><span class="meta">#</span><span class="bash"> redis-cli</span> </span><br><span class="line">docker exec -it redisgears redis-cli</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">function</span></span></span><br><span class="line">RG.PYEXECUTE &quot;GearsBuilder().run()&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p><code>RG</code> 是 <code>GearsBuilder()</code> 的别名。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Reader"><a href="#Reader" class="headerlink" title="Reader"></a>Reader</h3><ul>
+<li>KeysReader</li>
+</ul>
+<h3 id="Keys-Pattern"><a href="#Keys-Pattern" class="headerlink" title="Keys Pattern"></a>Keys Pattern</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RG.PYEXECUTE &quot;GearsBuilder().run(&#39;person:*&#39;)&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><h4 id="执行复杂函数"><a href="#执行复杂函数" class="headerlink" title="执行复杂函数"></a>执行复杂函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat mygear.py | docker exec -i redisgears redis-cli -x RG.PYEXECUTE</span><br></pre></td></tr></table></figure>
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><ul>
+<li><p><code>filter</code></p>
+</li>
+<li><p><code>map</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gb = GearsBuilder()                       # declare a function builder</span><br><span class="line">gb.map(lambda x: int(x[&#x27;value&#x27;][&#x27;age&#x27;]))  # map each record to just an age</span><br><span class="line">gb.run(&#x27;person:*&#x27;)                        # run it</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Expected result: [70, 14]</span></span></span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p><code>accumulate</code></p>
+</li>
+</ul>
+<h3 id="Blocking-vs-Nonblocking-Execution"><a href="#Blocking-vs-Nonblocking-Execution" class="headerlink" title="Blocking vs. Nonblocking Execution"></a>Blocking vs. Nonblocking Execution</h3><h4 id="UNBLOCKING"><a href="#UNBLOCKING" class="headerlink" title="UNBLOCKING"></a>UNBLOCKING</h4><blockquote>
+<p>非阻塞模式执行</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; RG.PYEXECUTE &quot;GB().run()&quot; UNBLOCKING</span><br><span class="line">&quot;0000000000000000000000000000000000000000-0&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="RG-DUMPEXECUTIONS"><a href="#RG-DUMPEXECUTIONS" class="headerlink" title="RG.DUMPEXECUTIONS"></a>RG.DUMPEXECUTIONS</h4><blockquote>
+<p>执行状态</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; RG.DUMPEXECUTIONS</span><br><span class="line">1) 1) &quot;executionId&quot;</span><br><span class="line">   2) &quot;0000000000000000000000000000000000000000-0&quot;</span><br><span class="line">   3) &quot;status&quot;</span><br><span class="line">   4) &quot;done&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="RG-GETRESULTS"><a href="#RG-GETRESULTS" class="headerlink" title="RG.GETRESULTS"></a>RG.GETRESULTS</h4><blockquote>
+<p>获取结果</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; RG.GETRESULTS 0000000000000000000000000000000000000000-0</span><br><span class="line">1) 1) &quot;&#123;&#x27;key&#x27;: &#x27;foo&#x27;, &#x27;value&#x27;: &#x27;bar&#x27;&#125;&quot;</span><br><span class="line">   2) &quot;&#123;&#x27;key&#x27;: &#x27;person:1&#x27;, &#x27;value&#x27;: &#123;&#x27;age&#x27;: &#x27;70&#x27;, &#x27;name&#x27;: &#x27;Rick Sanchez&#x27;&#125;&#125;&quot;</span><br><span class="line">   3) &quot;&#123;&#x27;key&#x27;: &#x27;person:2&#x27;, &#x27;value&#x27;: &#123;&#x27;age&#x27;: &#x27;14&#x27;, &#x27;name&#x27;: &#x27;Morty Smith&#x27;&#125;&#125;&quot;</span><br><span class="line">2) (empty list or set)</span><br></pre></td></tr></table></figure>
+<h4 id="RG-GETRESULTSBLOCKING"><a href="#RG-GETRESULTSBLOCKING" class="headerlink" title="RG.GETRESULTSBLOCKING"></a>RG.GETRESULTSBLOCKING</h4><blockquote>
+<p>转入阻塞模式，等待结果</p>
+</blockquote>
+<h3 id="Event-Processing"><a href="#Event-Processing" class="headerlink" title="Event Processing"></a>Event Processing</h3><blockquote>
+<p>默认是非阻塞执行</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gb.register()</span><br><span class="line">RG.DUMPEXECUTIONS      ## 执行状态</span><br><span class="line">RG.GETRESULTS          ## 获取结果</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Writing-Data"><a href="#Writing-Data" class="headerlink" title="Writing Data"></a>Writing Data</h3><blockquote>
+<p>execute()</p>
+<p>RedisGears Python API 附带 execute ()函数，该函数允许在数据库中执行任意 Redis 命令。</p>
+</blockquote>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name rgcluster -p 30001:30001 -p 30002:30002 -p 30003:30003 redislabs/rgcluster:latest</span><br><span class="line"></span><br><span class="line">docker exec -i rgcluster redis-cli -c -p 30001 &lt; data.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认情况下，cli 不遵循集群的重定向。要让 cli 自动在分片之间跳转，请使用 -c 命令行开关启动它。</span></span><br></pre></td></tr></table></figure>
+<p>data.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SET foo bar</span><br><span class="line">HSET person:1 name &quot;Rick Sanchez&quot; age 70</span><br><span class="line">HSET person:2 name &quot;Morty Smith&quot; age 14</span><br><span class="line">HSET person:3 name &quot;Summer Smith&quot; age 17</span><br><span class="line">HSET person:4 name &quot;Beth Smith&quot; age 35</span><br><span class="line">HSET person:5 name &quot;Shrimply Pibbles&quot; age 87</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Distributed-Processing"><a href="#Distributed-Processing" class="headerlink" title="Distributed Processing"></a>Distributed Processing</h3><blockquote>
+<p>当 RedisGears 在集群中运行时，默认情况下它将在集群的所有分片上执行函数。通过向 run ()操作提供 collect = False 参数来禁用。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:30001&gt; RG.PYEXECUTE &quot;GB().run(collect=False)&quot;</span><br><span class="line">1) 1) &quot;&#123;&#x27;key&#x27;: &#x27;person:1&#x27;, &#x27;value&#x27;: &#123;&#x27;age&#x27;: &#x27;70&#x27;, &#x27;name&#x27;: &#x27;Rick Sanchez&#x27;&#125;&#125;&quot;</span><br><span class="line">   2) &quot;&#123;&#x27;key&#x27;: &#x27;person:5&#x27;, &#x27;value&#x27;: &#123;&#x27;age&#x27;: &#x27;87&#x27;, &#x27;name&#x27;: &#x27;Shrimply Pibbles&#x27;&#125;&#125;&quot;</span><br><span class="line">2) (empty list or set)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h3><h3 id="Cluster-Map-and-Reduce"><a href="#Cluster-Map-and-Reduce" class="headerlink" title="Cluster Map and Reduce"></a>Cluster Map and Reduce</h3><blockquote>
+<p>accumulate-collect，这种情况只会将每个分片的最大值收集起来</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def maximum(a, x):</span><br><span class="line">  &#x27;&#x27;&#x27; Returns the maximum &#x27;&#x27;&#x27;</span><br><span class="line">  a = a if a else 0       # initialize the accumulator</span><br><span class="line">  return max(a, x)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Original, non-reduced, maximum <span class="keyword">function</span> version</span></span><br><span class="line">gb = GearsBuilder()</span><br><span class="line">gb.map(lambda x: int(x[&#x27;value&#x27;][&#x27;age&#x27;]))</span><br><span class="line">gb.accumulate(maximum)</span><br><span class="line">gb.run(&#x27;person:*&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Expected result: [87, 35, 14]</span></span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p> accumulate-collect-accumulate，这种情况会将所有分片的最大值收集起来后再计算最大值，得到最佳结果（1 个最大值）</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def maximum(a, x):</span><br><span class="line">  &#x27;&#x27;&#x27; Returns the maximum &#x27;&#x27;&#x27;</span><br><span class="line">  a = a if a else 0       # initialize the accumulator</span><br><span class="line">  return max(a, x)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Reduced maximum <span class="keyword">function</span></span></span><br><span class="line">gb = GearsBuilder()</span><br><span class="line">gb.map(lambda x: int(x[&#x27;value&#x27;][&#x27;age&#x27;]))</span><br><span class="line">gb.accumulate(maximum)</span><br><span class="line">gb.collect()</span><br><span class="line">gb.accumulate(maximum)</span><br><span class="line">gb.run(&#x27;person:*&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Expected result: [87]</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>aggregate()</p>
+</blockquote>
+<p>RedisGears Python API 包含 <code>aggregate()</code> 操作，该操作将<code>accumulate-collect-accumulate</code>步骤包装为单个步骤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Aggregated maximum version</span></span><br><span class="line">gb = GearsBuilder()</span><br><span class="line">gb.map(lambda x: int(x[&#x27;value&#x27;][&#x27;age&#x27;]))</span><br><span class="line">gb.aggregate(0,</span><br><span class="line">             lambda a, x: max(a, x),</span><br><span class="line">             lambda a, x: max(a, x))</span><br><span class="line">gb.run(&#x27;person:*&#x27;)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Expected result: [87]</span></span></span><br></pre></td></tr></table></figure>
+<p><code>aggregate()</code> 接受三个参数: 第一个是累加器的零值，另外两个是对累加函数的回调，这些函数将分别在本地和全局执行。</p>
+<h3 id="Local-vs-Global"><a href="#Local-vs-Global" class="headerlink" title="Local vs. Global"></a>Local vs. Global</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localgroupby  ## 由每个分片的引擎在本地执行</span><br><span class="line">groupby       ## 将结果重新分区，再由每个分片的引擎在本地执行 &#x3D; repartition + localgroupby</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Diagram-localgroupby-groupby"><a href="#Diagram-localgroupby-groupby" class="headerlink" title="Diagram(localgroupby, groupby)"></a>Diagram(localgroupby, groupby)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">+----------------------+   +----------------------+   +----------------------+</span><br><span class="line">| Shard A              |   | Shard B              |   | Shard C              |</span><br><span class="line">| +----------+-------+ |   | +----------+-------+ |   | +----------+-------+ |</span><br><span class="line">| | Key      | Value | |   | | Key      | Value | |   | | Key      | Value | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | +------------------+ |</span><br><span class="line">| | person:1 | &#123;...&#125; | |   | | person:3 | &#123;...&#125; | |   | | foo      | bar   | |</span><br><span class="line">| | person:5 | &#123;...&#125; | |   | | person:4 | &#123;...&#125; | |   | | person:2 | &#123;...&#125; | |</span><br><span class="line">| +-+--------+-------+ |   | +-+--------+-------+ |   | +-+--------+-------+ |</span><br><span class="line">|   v localgroupby()   |   |   v localgroupby()   |   |   v localgroupby()   |</span><br><span class="line">| +-+--------+-------+ |   | +-+--------+-------+ |   | +-+--------+-------+ |</span><br><span class="line">| | Key      | Value | |   | | Key      | Value | |   | | Key      | Value | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | +------------------+ |</span><br><span class="line">| | Sanchez  | 1     | |   | | Smith    | 2     | |   | | Smith    | 1     | |</span><br><span class="line">| | Pibbles  | 1     | |   | +-+----------------+ |   | +-+----------------+ |</span><br><span class="line">| +-+--------+-------+ |   |                      |   |                      |</span><br><span class="line">+----------------------+   +----------------------+   +----------------------+</span><br><span class="line">|   v repartition()    |   |   v repartition()    |   |   v repartition()    |</span><br><span class="line">| +-+--------+-------+ |   | +-+--------+-------+ |   | +-+--------+-------+ |</span><br><span class="line">| | Key      | Value | |   | | Key      | Value | |   | | Key      | Value | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | +------------------+ |</span><br><span class="line">| | Pibbles  | 1     | |   | | Sanchez  | 1     | |   | | Smith    | 2     | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | | Smith    | 1     | |</span><br><span class="line">|                      |   |                      |   | +------------------+ |</span><br><span class="line">|   v localgroupby()   |   |   v localgroupby()   |   |   v localgroupby()   |</span><br><span class="line">| +-+--------+-------+ |   | +-+--------+-------+ |   | +-+--------+-------+ |</span><br><span class="line">| | Key      | Value | |   | | Key      | Value | |   | | Key      | Value | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | +------------------+ |</span><br><span class="line">| | Pibbles  | 1     | |   | | Sanchez  | 1     | |   | | Smith    | 3     | |</span><br><span class="line">| +------------------+ |   | +------------------+ |   | +------------------+ |</span><br><span class="line">|                      |   +---|------------------+   +---|------------------+</span><br><span class="line">|                      |       |                          |</span><br><span class="line">| +-+--------+-------+ |       |   Implicit collect()     |</span><br><span class="line">| | Key      | Value |&lt;--------+--------------------------+</span><br><span class="line">| +------------------+ |</span><br><span class="line">| | Sanchez  | 1     | |</span><br><span class="line">| | Pibbles  | 1     | |</span><br><span class="line">| | Smith    | 3     | |</span><br><span class="line">| +------------------+ |</span><br><span class="line">+----------------------+</span><br></pre></td></tr></table></figure>
+
+
+<p>当绝对需要时，函数可以使用任意键对集群中的数据进行重新分区。当数据被重新分区时，每个工作线程被分配一个记录键的子集，并且这些键从所有其他工作线程传递到它。</p>
+<h4 id="Mock-localgroupby-repartition-localgroupby"><a href="#Mock-localgroupby-repartition-localgroupby" class="headerlink" title="Mock(localgroupby, repartition, localgroupby)"></a>Mock(localgroupby, repartition, localgroupby)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def fname(x):</span><br><span class="line">  &#39;&#39;&#39; Extracts the family name from a person&#39;s record &#39;&#39;&#39;</span><br><span class="line">  return x[&#39;value&#39;][&#39;name&#39;].split(&#39; &#39;)[1]</span><br><span class="line"></span><br><span class="line">def key(x):</span><br><span class="line">  &#39;&#39;&#39; Extracts the key of a record &#39;&#39;&#39;</span><br><span class="line">  return x[&#39;key&#39;]</span><br><span class="line"></span><br><span class="line">def counter(k, a, r):</span><br><span class="line">  &#39;&#39;&#39; Counts records &#39;&#39;&#39;</span><br><span class="line">  return (a if a else 0) + 1</span><br><span class="line"></span><br><span class="line">def summer(k, a, r):</span><br><span class="line">  &#39;&#39;&#39; Sums record values &#39;&#39;&#39;</span><br><span class="line">  return (a if a else 0) + r[&#39;value&#39;]</span><br><span class="line"></span><br><span class="line"># Repartition for storing counts</span><br><span class="line">gb &#x3D; GearsBuilder()</span><br><span class="line">gb.localgroupby(fname, counter)</span><br><span class="line">gb.repartition(key)</span><br><span class="line">gb.localgroupby(key, summer)</span><br><span class="line">gb.foreach(lambda x: execute(&#39;SET&#39;, x[&#39;key&#39;], x[&#39;value&#39;]))</span><br><span class="line">gb.run(&#39;person:*&#39;)</span><br><span class="line"></span><br><span class="line"># Expected result: the same + stored in Redis String keys</span><br></pre></td></tr></table></figure>
+<p><strong>RedisGears 的 Python API 包含了 aggregateby ()操作，它等同于使用 GB () . localgroupby () . repartition () . localgroupby ()流。</strong></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><h3 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/runtime.html">https://oss.redislabs.com/redisgears/runtime.html</a></p>
+</blockquote>
+<p>Python RedisGears 函数使用嵌入式 Python 解释器运行。每个函数都使用一个单独的子解释器。所有函数共享相同的环境和依赖关系。导入的环境有几个默认值。</p>
+<h4 id="Python-Interpreter"><a href="#Python-Interpreter" class="headerlink" title="Python Interpreter"></a>Python Interpreter</h4><p>embeds python 3.7.2+</p>
+<h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h4><p>解释器的环境可以用任何依赖的包进行扩展，这些包以后可以被它们各自的子解释器中的函数导入和使用。</p>
+<h4 id="GearsBuilder"><a href="#GearsBuilder" class="headerlink" title="GearsBuilder"></a>GearsBuilder</h4><p>默认环境提供的函数上下文构造器。</p>
+<h4 id="execute"><a href="#execute" class="headerlink" title="execute"></a>execute</h4><p>执行命令函数，默认环境提供的执行 Redis 命令的函数。</p>
+<h5 id="Python-API"><a href="#Python-API" class="headerlink" title="Python API"></a>Python API</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute</span>(<span class="params">command, *args</span>)</span></span><br></pre></td></tr></table></figure>
+<h5 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Pings the server (reply should be &#x27;PONG&#x27;)</span></span><br><span class="line">reply = execute(<span class="string">&#x27;PING&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="atomic"><a href="#atomic" class="headerlink" title="atomic"></a>atomic</h4><p>原子操作函数，上下文通过阻塞主 Redis 进程来确保它中的所有操作都以原子的方式执行。</p>
+<h5 id="Python-API-1"><a href="#Python-API-1" class="headerlink" title="Python API"></a>Python API</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">atomic</span>()</span></span><br></pre></td></tr></table></figure>
+<h5 id="Examples-1"><a href="#Examples-1" class="headerlink" title="Examples"></a>Examples</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Increments two keys atomically</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">transaction</span>(<span class="params">_</span>):</span></span><br><span class="line">    <span class="keyword">with</span> atomic():</span><br><span class="line">        execute(<span class="string">&#x27;INCR&#x27;</span>, <span class="string">f&#x27;&#123;&#123;<span class="subst">&#123;hashtag()&#125;</span>&#125;&#125;:foo&#x27;</span>)</span><br><span class="line">        execute(<span class="string">&#x27;INCR&#x27;</span>, <span class="string">f&#x27;&#123;&#123;<span class="subst">&#123;hashtag()&#125;</span>&#125;&#125;:bar&#x27;</span>)</span><br><span class="line"></span><br><span class="line">gb = GB(<span class="string">&#x27;ShardsIDReader&#x27;</span>)</span><br><span class="line">gb.foreach(transaction)</span><br><span class="line">gb.run()</span><br></pre></td></tr></table></figure>
+<h4 id="configGet"><a href="#configGet" class="headerlink" title="configGet"></a>configGet</h4><p>这个函数获取 RedisGears 配置选项的当前值。</p>
+<h4 id="gearsConfigGet"><a href="#gearsConfigGet" class="headerlink" title="gearsConfigGet"></a>gearsConfigGet</h4><p>这个函数获取RedisGears配置选项的当前值，如果该键不存在，则返回默认值。</p>
+<h4 id="hashtag"><a href="#hashtag" class="headerlink" title="hashtag"></a>hashtag</h4><p>这个函数返回一个 hashtag，该 hashtag 映射到本地引擎的分片所服务的最低哈希槽。换句话说，它作为一个 hashtag 在集群中进行分区时非常有用。</p>
+<h4 id="log"><a href="#log" class="headerlink" title="log"></a>log</h4><p>这个函数打印一条消息到Redis的日志中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log</span>(<span class="params">message, level=<span class="string">&#x27;notice&#x27;</span></span>)</span></span><br></pre></td></tr></table></figure>
+<p><code>level</code> 取值 <code>debug</code>,<code>verbose</code>,<code>notice</code>,<code>warning</code></p>
+<h3 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h3><p>RedisGears 函数是数据流中处理步骤的正式描述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">                  +------------+</span><br><span class="line">                  | Function   |</span><br><span class="line">+-------------+   | +--------+ |</span><br><span class="line">| Input data  +--&gt;+ | Reader | |</span><br><span class="line">+-------------+   | +---+----+ |</span><br><span class="line">                  |     v      |</span><br><span class="line">                  | +---+----+ |</span><br><span class="line">                  | | Step 1 | |</span><br><span class="line">                  | +---+----+ |</span><br><span class="line">                  |     |      |</span><br><span class="line">                  |    ...     |</span><br><span class="line">                  |     v      |</span><br><span class="line">                  | +---+----+ |</span><br><span class="line">                  | | Step n | |</span><br><span class="line">                  | +---+----+ |</span><br><span class="line">                  |     v      |</span><br><span class="line">+-------------+   | +---+----+ |</span><br><span class="line">| Results     +&lt;--+ | Action | |</span><br><span class="line">+-------------+   | +--------+ |</span><br><span class="line">                  +------------+</span><br></pre></td></tr></table></figure>
+<p>一个函数总是：</p>
+<ol>
+<li>始于一个 Reader</li>
+<li>操作零个或多个 Records</li>
+<li>包含零个或多个 Operations (Step)</li>
+<li>终于一个 Action</li>
+<li>返回零个或多个 Results</li>
+<li>可能会产生更多错误。</li>
+</ol>
+<h4 id="Execution"><a href="#Execution" class="headerlink" title="Execution"></a>Execution</h4><p>一个函数由 RedisGears 引擎以以下两种方式之一执行:</p>
+<ul>
+<li><code>Batch</code> 立即执行，对已有数据执行</li>
+<li><code>Event</code>由新事件及其数据触发执行</li>
+</ul>
+<p>函数的执行方式是由它的动作决定的。有两种类型的行动:</p>
+<ul>
+<li><code>Run</code> 批量运行函数</li>
+<li><code>Register</code> 注册由事件触发的函数</li>
+</ul>
+<p>当以批处理或事件的形式执行时，函数的上下文由引擎管理。除了函数的逻辑之外，上下文还包括内部执行步骤、状态、统计数据、结果和遇到的任何错误。</p>
+<h4 id="Execution-ID"><a href="#Execution-ID" class="headerlink" title="Execution ID"></a>Execution ID</h4><p>每个函数的执行都在内部分配了一个惟一的值，称为 <code>Execution ID</code>。</p>
+<p>ID 是由两部分组成的字符串值，以“-”分隔，如下所示:</p>
+<ul>
+<li><code>Shard ID</code> 集群中一个 Shard 的标识符，长度为40个字节</li>
+<li><code>Sequence</code> 一个不断增加的计数器</li>
+</ul>
+<p><code>Execution ID</code>示例：</p>
+<p>Redis Standalone Mode: <code>0000000000000000000000000000000000000000-1</code></p>
+<p>Redis Cluster Mode: <code>a007297351b007297351c007297351d007297351-1</code></p>
+<h4 id="Execution-Plan"><a href="#Execution-Plan" class="headerlink" title="Execution Plan"></a>Execution Plan</h4><p>在执行该功能之前，引擎会生成一个执行计划。该计划包含引擎执行功能将采取的基本步骤。</p>
+<h4 id="Execution-Parallelization"><a href="#Execution-Parallelization" class="headerlink" title="Execution Parallelization"></a>Execution Parallelization</h4><p>在集群中执行时，执行计划由启动器生成。然后，默认情况下，它将在所有碎片上共享并并行执行。</p>
+<p>发起者的协调器协调分布式操作。</p>
+<h4 id="Execution-Status"><a href="#Execution-Status" class="headerlink" title="Execution Status"></a>Execution Status</h4><p><code>Execution Status</code>描述了功能当前的执行状态。它可以是以下几种之一：<br><code>created</code> 已创建<br><code>running</code> 正在执行<br><code>done</code>执行完成<br><code>aborted</code>执行被终止<br><code>pending_cluster</code>启动器正在等待所有 Worker 执行完成<br><code>pending_run</code>Worker 挂起等待启动器确认执行<br><code>pending_receive</code>启动器在接收执行时挂起 Worker 的确认(ACK)<br><code>pending_termination</code>Worker 正在等待来自启动器的终止消息</p>
+<p>下图演示了状态转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">       Initiator                                  Worker</span><br><span class="line">+---------------------+  execution plan   +---------------------+</span><br><span class="line">|             created +------------------&gt;+ created             |</span><br><span class="line">+----------+----------+                   +----------+----------+</span><br><span class="line">           v                                         v</span><br><span class="line">+----------+----------+  acknowledgement  +----------+----------+</span><br><span class="line">|     pending_receive +&lt;------------------+ pending_run         |</span><br><span class="line">+----------+----------+                   +---------------------+</span><br><span class="line">           v</span><br><span class="line">+----------+----------+  start execution  +---------------------+</span><br><span class="line">|             running +------------------&gt;+ running             |</span><br><span class="line">+----------+----------+                   +----------+----------+</span><br><span class="line">           v                                         v</span><br><span class="line">+----------+----------+      results      +----------+----------+</span><br><span class="line">|     pending_cluster +&lt;------------------+ pending_termination |</span><br><span class="line">+----------+----------+                   +---------------------+</span><br><span class="line">           v</span><br><span class="line">+----------+----------+     terminate     +---------------------+</span><br><span class="line">|                done +------------------&gt;+ done                |</span><br><span class="line">+---------------------+                   +---------------------+</span><br></pre></td></tr></table></figure>
+<h4 id="Registration"><a href="#Registration" class="headerlink" title="Registration"></a>Registration</h4><p>事件驱动函数的表示称为注册(Registration)。</p>
+<p>注册被持久化在 Redis 的快照中，也就是 RDB 文件中。这允许在发生故障时恢复数据库中的数据和事件处理程序。</p>
+<h4 id="Registration-ID"><a href="#Registration-ID" class="headerlink" title="Registration ID"></a>Registration ID</h4><p>每个注册都有一个唯一的内部标识符，称为 <code>Registration ID</code>。它以与 <code>Execution ID</code> 相同的方式生成，尽管看起来相同，但两者不应该混淆。</p>
+<h4 id="Context-Builder"><a href="#Context-Builder" class="headerlink" title="Context Builder"></a>Context Builder</h4><p>Python 中的 RedisGears 函数总是以一个上下文构建器——<code>GearsBuilder</code> 类开始。</p>
+<h4 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h4><p>动作 (<code>Action</code>) 是一种特殊类型的操作。它总是函数的最后一步。</p>
+<h5 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h5><p><code>Run</code>动作作为批处理(<code>Batch</code>)运行函数。函数只执行一次，一旦读取器耗尽数据就退出。</p>
+<h6 id="Python-API-2"><a href="#Python-API-2" class="headerlink" title="Python API"></a>Python API</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GearsBuilder</span>.<span class="title">run</span>(<span class="params">arg=<span class="literal">None</span>, convertToStr=<span class="literal">True</span>, collect=<span class="literal">True</span></span>)</span></span><br></pre></td></tr></table></figure>
+<p>Arguments</p>
+<ul>
+<li>arg<ul>
+<li>一个类似于全局的模式，用于 <code>KeysReader</code> 和 <code>KeysOnlyReader</code></li>
+<li><code>StreamReader</code> 的密钥名称</li>
+<li>用于 <code>PythonReader</code> 的 Python 生成器</li>
+</ul>
+</li>
+<li>convertToStr 当为 <code>true</code>时将在流程末尾添加一个 <code>map</code>操作，用于字符串化记录</li>
+<li>collect 当为 <code>true</code> 时将在流程末尾添加一个 <code>collect</code> 操作</li>
+</ul>
+<h5 id="Register"><a href="#Register" class="headerlink" title="Register"></a>Register</h5><p>Register 操作将函数注册为事件处理程序。每次有事件出现时都执行该函数。每次执行时，函数对事件的数据进行操作，完成后将暂停，直到新事件调用它。</p>
+<h6 id="Python-API-3"><a href="#Python-API-3" class="headerlink" title="Python API"></a>Python API</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GearsBuilder</span>.<span class="title">register</span>(<span class="params">convertToStr=<span class="literal">True</span>, collect=<span class="literal">True</span>, mode=<span class="string">&#x27;async&#x27;</span>, onRegistered=<span class="literal">None</span></span>)</span></span><br></pre></td></tr></table></figure>
+<p>Arguments</p>
+<ul>
+<li>convertToStr 当为 <code>true</code>时将在流程末尾添加一个 <code>map</code>操作，用于字符串化记录</li>
+<li>collect 当为 <code>true</code> 时将在流程末尾添加一个 <code>collect</code> 操作</li>
+<li>mode 触发函数的执行方式。可以是：<ul>
+<li><code>async</code> 在整个集群中异步执行</li>
+<li><code>async_local</code>执行将是异步的，并且仅限于处理分片</li>
+<li><code>sync</code>本地同步执行</li>
+</ul>
+</li>
+<li>onRegistered 一个函数回调函数，在每个shard上注册函数时被调用。这是初始化非序列化对象(如网络连接)的好地方。</li>
+</ul>
+<p><strong>注意，可以将更多参数传递给 register函数，这些参数取决于 reader，详见 Readers 说明。</strong></p>
+<h4 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h4><p>函数的执行产生零条或多条结果记录。结果由函数最后一次操作和最后一次操作之前的任何记录组成。</p>
+<p>结果存储在函数的执行上下文中。</p>
+<h3 id="Readers"><a href="#Readers" class="headerlink" title="Readers"></a>Readers</h3><p>Reader 是任何 RedisGears 函数必须执行的第一步，每个函数都有一个 Reader。Reader 读取数据并从中生成输入记录(Input)。输入记录由函数使用。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Reader</th>
+<th align="left">Output</th>
+<th align="left">Batch</th>
+<th align="left">Event</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#keysreader">KeysReader</a></td>
+<td align="left">Redis keys and values</td>
+<td align="left"><strong>Yes</strong></td>
+<td align="left"><strong>Yes</strong></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#keysonlyreader">KeysOnlyReader</a></td>
+<td align="left">Redis keys</td>
+<td align="left"><strong>Yes</strong></td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#streamreader">StreamReader</a></td>
+<td align="left">Redis Stream messages</td>
+<td align="left"><strong>Yes</strong></td>
+<td align="left"><strong>Yes</strong></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#pythonreader">PythonReader</a></td>
+<td align="left">Arbitrary</td>
+<td align="left"><strong>Yes</strong></td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#shardsidreader">ShardsIDReader</a></td>
+<td align="left">Shard ID</td>
+<td align="left"><strong>Yes</strong></td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/readers.html#commandreader">CommandReader</a></td>
+<td align="left">Command arguments</td>
+<td align="left">No</td>
+<td align="left"><strong>Yes</strong></td>
+</tr>
+</tbody></table>
+<h3 id="Operations"><a href="#Operations" class="headerlink" title="Operations"></a>Operations</h3><p>操作(Operation)是 RedisGears 函数的构建块。可采用不同的操作类型实现多种结果，满足各种数据处理需求。</p>
+<p>操作可以有零个或多个参数来控制其操作。根据操作的类型参数，可以是语言原生数据类型和函数回调。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Operation</th>
+<th align="left">Description</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#map">Map</a></td>
+<td align="left">Maps 1:1</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#flatmap">FlatMap</a></td>
+<td align="left">Maps 1:N</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#foreach">ForEach</a></td>
+<td align="left">Does something for each record</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#filter">Filter</a></td>
+<td align="left">Filters records</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#accumulate">Accumulate</a></td>
+<td align="left">Maps N:1</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#localgroupby">LocalGroupBy</a></td>
+<td align="left">Groups records by key (many-to-less) <code>extractor</code> + <code>reducer</code></td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#limit">Limit</a></td>
+<td align="left">Limits the number of records</td>
+<td align="left">Local</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#collect">Collect</a></td>
+<td align="left">Shuffles all records to one engine</td>
+<td align="left">Global</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#repartition">Repartition</a></td>
+<td align="left">Shuffles records between all engines</td>
+<td align="left">Global</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#groupby">GroupBy</a></td>
+<td align="left">Groups records by key (many-to-less) <code>repartition</code>+<code>extractor</code>+<code>reducer</code></td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#batchgroupby">BatchGroupBy</a></td>
+<td align="left">Groups records by key (many-to-less)<code>repartition</code>+<code>extractor</code>+<code>batch reducer</code></td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#sort">Sort</a></td>
+<td align="left">Sorts records <code>aggregate</code>+<code>local sort</code>+<code>flatmap</code></td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#distinct">Distinct</a></td>
+<td align="left">Makes distinct records</td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#aggregate">Aggregate</a></td>
+<td align="left">Aggregates records (many-to-one) <code>accumulator</code>+<code>collect</code>+<code>accumulator</code></td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#aggregateby">AggregateBy</a></td>
+<td align="left">Aggregates records by key (many-to-less) <code>extractor</code>+<code>reducer</code>+<code>repartition</code>+<code>extractor</code>+<code>reducer</code></td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#count">Count</a></td>
+<td align="left">Counts records <code>aggregate</code>(local counting + global suming)</td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#countby">CountBy</a></td>
+<td align="left">Counts records by key <code>aggregate</code> (extractor + local counting + global suming)</td>
+<td align="left">Sugar</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/operations.html#avg">Avg</a></td>
+<td align="left">Computes the average <code>aggregate</code>(global sum + global count + local map)</td>
+<td align="left">Sugar</td>
+</tr>
+</tbody></table>
+<h4 id="Terminology"><a href="#Terminology" class="headerlink" title="Terminology"></a>Terminology</h4><h5 id="Local"><a href="#Local" class="headerlink" title="Local"></a>Local</h5><p>本地(Local)操作的执行是在以独立模式或集群模式部署的 RedisGears 引擎中执行的。</p>
+<p>当在独立模式下使用时，只有一个引擎在本地执行所有数据上的所有操作。</p>
+<p>当再集群模式下使用时，该操作将分布到所有分片。每个分片的引擎也在本地执行操作。然而，分片的引擎只能处理集群对它们进行分区的数据。</p>
+<h5 id="Global"><a href="#Global" class="headerlink" title="Global"></a>Global</h5><p>全局(Global)操作只在集群 RedisGears 环境的上下文中相关。这些是收集(collect)和重分区(repartition)操作，用于在分片之间转移记录。</p>
+<h5 id="Sugar"><a href="#Sugar" class="headerlink" title="Sugar"></a>Sugar</h5><p>Sugar 操作是实用程序操作。这些是通过基本操作和相关回调在内部实现的。</p>
+<h5 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h5><p>Callback 用于在 API 所使用的语言中调用函数(回调函数)。</p>
+<h5 id="Extractor"><a href="#Extractor" class="headerlink" title="Extractor"></a>Extractor</h5><p>Extractor 是一个回调函数，它接收输入记录(record)作为参数。它返回从记录中提取的值(value)。返回值应该是本机字符串(Native String)。</p>
+<h5 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h5><p>Mapper 是一个回调函数，它接收输入记录(record)作为参数。它必须返回一个输出记录(record)。</p>
+<h5 id="Expander"><a href="#Expander" class="headerlink" title="Expander"></a>Expander</h5><p>Expander 是一个回调函数，它接收输入记录(record)，必须返回一个或多个输出记录(record)。</p>
+<h5 id="Processor"><a href="#Processor" class="headerlink" title="Processor"></a>Processor</h5><p>Processor 是一个回调函数，它接收输入记录(record)，它不该返回任何东西。</p>
+<h5 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h5><p>Filter 是一个回调函数，它接收输入记录(record)，它必须返回一个布尔值(boolean)。</p>
+<h5 id="Accumulator"><a href="#Accumulator" class="headerlink" title="Accumulator"></a>Accumulator</h5><p>Accumulator 是一个回调函数，它接收输入记录和累加器变量。它将输入聚集到累加器变量中，累加器变量存储函数调用之间的状态。函数必须在每次调用后返回累加器的更新值。</p>
+<h5 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h5><p>Reducer 是一个回调函数，它接收一个键、一个输入和一个称为累加器的变量。它的执行类似于 Accumulator 回调，不同之处在于它为每个 reduced 的键维护一个累加器。</p>
+<h5 id="Batch-Reducer"><a href="#Batch-Reducer" class="headerlink" title="Batch Reducer"></a>Batch Reducer</h5><p>Batch Reducer 是一个回调函数，它接收一个键和一个输入记录列表。它的执行类似于 reducer 回调，不同之处在于它的输入是一个记录列表，而不是单个记录。它将为这些记录返回一个累加器值。</p>
+<hr>
+<h3 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h3><p>RedisGears 是通过 Redis 客户端发送给服务器的命令来运行的。</p>
+<h4 id="Registration-1"><a href="#Registration-1" class="headerlink" title="Registration"></a>Registration</h4><h5 id="RG-DUMPREGISTRATIONS"><a href="#RG-DUMPREGISTRATIONS" class="headerlink" title="RG.DUMPREGISTRATIONS"></a>RG.DUMPREGISTRATIONS</h5><blockquote>
+<p>用来输出函数注册列表</p>
+</blockquote>
+<h5 id="RG-UNREGISTER"><a href="#RG-UNREGISTER" class="headerlink" title="RG.UNREGISTER "></a>RG.UNREGISTER <id></h5><blockquote>
+<p>用来取消某个函数的注册。</p>
+</blockquote>
+<h4 id="EXECUTION"><a href="#EXECUTION" class="headerlink" title="EXECUTION"></a>EXECUTION</h4><h5 id="RG-PYEXECUTE-““-UNBLOCKING-REQUIREMENTS-“-…”"><a href="#RG-PYEXECUTE-““-UNBLOCKING-REQUIREMENTS-“-…”" class="headerlink" title="RG.PYEXECUTE ““ [UNBLOCKING] [REQUIREMENTS “ …”]"></a>RG.PYEXECUTE “<function>“ [UNBLOCKING] [REQUIREMENTS “<dep> …”]</h5><blockquote>
+<p>用于执行 Python 函数</p>
+</blockquote>
+<h5 id="RG-DUMPEXECUTIONS-1"><a href="#RG-DUMPEXECUTIONS-1" class="headerlink" title="RG.DUMPEXECUTIONS"></a>RG.DUMPEXECUTIONS</h5><blockquote>
+<p>用于输出函数执行列表。执行列表的长度由 <code>MaxExecutions</code>配置选项限制。</p>
+</blockquote>
+<h5 id="RG-GETEXECUTION-SHARD-CLUSTER"><a href="#RG-GETEXECUTION-SHARD-CLUSTER" class="headerlink" title="RG.GETEXECUTION  [SHARD|CLUSTER]"></a>RG.GETEXECUTION <id> [SHARD|CLUSTER]</h5><blockquote>
+<p>用于获取函数执行细节：执行计划，步骤等</p>
+</blockquote>
+<h5 id="RG-GETRESULTS-1"><a href="#RG-GETRESULTS-1" class="headerlink" title="RG.GETRESULTS "></a>RG.GETRESULTS <id></h5><blockquote>
+<p>用于获取函数的执行结果及错误信息</p>
+</blockquote>
+<h5 id="RG-GETRESULTSBLOCKING-1"><a href="#RG-GETRESULTSBLOCKING-1" class="headerlink" title="RG.GETRESULTSBLOCKING "></a>RG.GETRESULTSBLOCKING <id></h5><blockquote>
+<p>取消函数在后台（UNBLOCKING）执行。取消执行的客户端被阻塞，直到函数执行结束，然后发送任何结果和错误。</p>
+</blockquote>
+<h5 id="RG-DROPEXECUTION"><a href="#RG-DROPEXECUTION" class="headerlink" title="RG.DROPEXECUTION "></a>RG.DROPEXECUTION <id></h5><blockquote>
+<p>用于删除一个函数的执行。</p>
+</blockquote>
+<h5 id="RG-ABORTEXECUTION"><a href="#RG-ABORTEXECUTION" class="headerlink" title="RG.ABORTEXECUTION "></a>RG.ABORTEXECUTION <id></h5><blockquote>
+<p>在运行过程中中止函数的执行。</p>
+</blockquote>
+<h4 id="Trigger"><a href="#Trigger" class="headerlink" title="Trigger"></a>Trigger</h4><h5 id="RG-TRIGGER-arg-…"><a href="#RG-TRIGGER-arg-…" class="headerlink" title="RG.TRIGGER  [arg …]"></a>RG.TRIGGER <trigger> [arg …]</h5><blockquote>
+<p>用来触发已注册的 CommandReader 函数的执行。</p>
+</blockquote>
+<h4 id="Global-1"><a href="#Global-1" class="headerlink" title="Global"></a>Global</h4><h5 id="RG-CONFIGGET-…"><a href="#RG-CONFIGGET-…" class="headerlink" title="RG.CONFIGGET  […]"></a>RG.CONFIGGET <key> […]</h5><blockquote>
+<p>返回一个或多个内置配置或用户定义选项的值。</p>
+</blockquote>
+<h5 id="RG-CONFIGSET-…"><a href="#RG-CONFIGSET-…" class="headerlink" title="RG.CONFIGSET   […]"></a>RG.CONFIGSET <key> <value> […]</h5><blockquote>
+<p>设置一个或多个内置配置或用户定义选项的值。</p>
+</blockquote>
+<h5 id="RG-PYSTATS"><a href="#RG-PYSTATS" class="headerlink" title="RG.PYSTATS"></a>RG.PYSTATS</h5><blockquote>
+<p>从 Python 解释器返回内存使用统计信息。</p>
+</blockquote>
+<h5 id="RG-PYDUMPREQS-version-1-0-1"><a href="#RG-PYDUMPREQS-version-1-0-1" class="headerlink" title="RG.PYDUMPREQS (version 1.0.1)"></a>RG.PYDUMPREQS (version 1.0.1)</h5><blockquote>
+<p>返回所有可用 Python 依赖的列表(包含关于每个依赖的信息)。</p>
+</blockquote>
+<h5 id="RG-INFOCLUSTER"><a href="#RG-INFOCLUSTER" class="headerlink" title="RG.INFOCLUSTER"></a>RG.INFOCLUSTER</h5><blockquote>
+<p>显示集群信息。</p>
+</blockquote>
+<h5 id="RG-REFRESHCLUSTER"><a href="#RG-REFRESHCLUSTER" class="headerlink" title="RG.REFRESHCLUSTER"></a>RG.REFRESHCLUSTER</h5><blockquote>
+<p>刷新节点的集群拓扑视图。<strong>需要在集群的每个节点执行</strong></p>
+</blockquote>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p>RedisGears 提供了配置选项来控制它的操作。这些选项可以在模块启动时设置，在某些情况下也可以在运行时设置。</p>
+<p><strong>Bootstrap Configuration</strong> 在加载 Redis Module 时配置，<strong>Runtime Configuration</strong> 在运行时配置（详见命令：<code>RG.CONFIGSET &lt;key&gt; &lt;value&gt; [...]</code> 、<code>RG.CONFIGGET &lt;key&gt; [...]</code>）。</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+<th>期望值</th>
+<th>默认值</th>
+<th>运行时可配置性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MaxExecutions</td>
+<td>MaxExecutions 配置选项控制将保存在执行列表中的最大执行次数。<br />一旦达到这个阈值，就会按照创建顺序(FIFO)从列表中删除旧的执行。<br />只有已经完成的执行(例如“完成”或“中止”状态)被删除。</td>
+<td>Integer</td>
+<td>1000</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>MaxExecutionsPerRegistration</td>
+<td>MaxExecutionsPerRegistration 配置选项控制每个注册保存在列表中的最大执行次数。<br />一旦达到这个阈值，该注册的旧执行将按创建顺序(FIFO)从列表中删除。<br />只有已经完成的执行(例如“完成”或“中止”状态)被删除。</td>
+<td>Integer</td>
+<td>100</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>ProfileExecutions</td>
+<td>ProfileExecutions 配置选项控制是否对执行进行分析。对性能损耗较大，建议用于调试操作。</td>
+<td>0 (disabled)<br />1 (enabled)</td>
+<td>0</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>PythonAttemptTraceback</td>
+<td>PythonAttemptTraceback 配置选项控制引擎是否试图为 Python 运行时错误产生堆栈跟踪。</td>
+<td>0 (disabled)<br />1 (enabled)</td>
+<td>1</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>DownloadDeps</td>
+<td>DownloadDeps 配置选项控制 RedisGears 是否会尝试下载缺少的 Python 依赖项。</td>
+<td>0 (disabled)<br />1 (enabled)</td>
+<td>1</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>DependenciesUrl</td>
+<td>DependenciesUrl 配置选项控制 RedisGears 试图从何处下载其 Python 依赖项。</td>
+<td>URL-like string</td>
+<td>与RedisGears版本有关</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>DependenciesSha256</td>
+<td>DependenciesSha256 配置选项指定 Python 依赖项的 SHA256 哈希值。<br />在下载依赖项之后，将验证此值，如果不匹配，将停止服务器的启动。</td>
+<td>String</td>
+<td>与RedisGears版本有关</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>PythonInstallationDir</td>
+<td>PythonInstallationDir 配置选项指定了 RedisGears 的 Python 依赖项的路径。</td>
+<td>String</td>
+<td>/var/opt/redislabs/modules/rg</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>CreateVenv</td>
+<td>CreateVenv 配置选项控制引擎是否创建虚拟 Python 环境。</td>
+<td>0 (disabled)<br />1 (enabled)</td>
+<td>0</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>ExecutionThreads</td>
+<td>ExecutionThreads 配置选项控制将要执行的线程数。</td>
+<td>Integer &gt; 0</td>
+<td>3</td>
+<td>Not Supported</td>
+</tr>
+<tr>
+<td>ExecutionMaxIdleTime</td>
+<td>ExecutionMaxIdleTime 配置选项控制中止执行之前的最大空闲时间(以毫秒为单位)。空闲时间意味着执行没有进展。空闲时间的主要原因是在等待来自另一个失败(即崩溃)碎片的记录时被阻塞的执行。在这种情况下，执行将在指定的时间限制后中止。当执行再次开始进行时，将重置空闲计时器。</td>
+<td>Integer &gt; 0</td>
+<td>5 seconds</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>PythonInstallReqMaxIdleTime<br /><strong>1.0.1</strong></td>
+<td>PythonInstallReqMaxIdleTime 配置选项控制 Python 依赖安装中止之前的最大空闲时间(以毫秒为单位)。“空闲时间”表示安装没有进展。空闲时间的主要原因与ExecutionMaxIdleTime 相同。</td>
+<td>Integer &gt; 0</td>
+<td>30000</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>SendMsgRetries<br /><strong>1.0.1</strong></td>
+<td>SendMsgRetries 配置选项控制在 RedisGears 的分片之间发送消息的最大重试次数。当消息被发送，而 shard 在确认之前断开连接，或者当它返回一个错误时，该消息将被重新发送，直到达到这个阈值。设置为0表示不限制重试次数。</td>
+<td>Integer &gt;= 0</td>
+<td>3</td>
+<td>Supported</td>
+</tr>
+</tbody></table>
+<h2 id="Examples-2"><a href="#Examples-2" class="headerlink" title="Examples"></a>Examples</h2><p>RedisGears Examples: <a target="_blank" rel="noopener" href="https://oss.redislabs.com/redisgears/examples.html">https://oss.redislabs.com/redisgears/examples.html</a></p>
+<h2 id="Clients"><a href="#Clients" class="headerlink" title="Clients"></a>Clients</h2><p>RedisGears 是一个 Redis 模块，所以需要 Redis 客户端来操作它。任何支持发送原始 Redis 命令的客户端都可以使用。</p>
+<p>Redis Clients: <a target="_blank" rel="noopener" href="https://redis.io/clients">https://redis.io/clients</a></p>
+<p>RedisGears-specific clients: <a target="_blank" rel="noopener" href="https://github.com/RedisGears/redisgears-py">https://github.com/RedisGears/redisgears-py</a></p>
+<h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><h3 id="Isolation-Technics-隔离技术"><a href="#Isolation-Technics-隔离技术" class="headerlink" title="Isolation Technics - 隔离技术"></a>Isolation Technics - 隔离技术</h3><h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><ul>
+<li>全局字典(当前版本支持)</li>
+<li>子解释器(当前版本出现不兼容某些库而未启用，后续版本提供开关支持</li>
+</ul>
+<h2 id="Samples"><a href="#Samples" class="headerlink" title="Samples"></a>Samples</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="RedisGears-Cluster-1"><a href="#RedisGears-Cluster-1" class="headerlink" title="RedisGears Cluster"></a>RedisGears Cluster</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## RedisGears Cluster</span><br><span class="line"># docker run -p 30001:30001 -p 30002:30002 -p 30003:30003 --name rgc redislabs&#x2F;rgcluster:latest</span><br><span class="line">docker run -p 30001:30001 -p 30002:30002 -p 30003:30003 --name rgc redislabs&#x2F;rgcluster:1.2.1</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## mysql </span><br><span class="line">docker run --name rgmysql -e MYSQL_ROOT_PASSWORD&#x3D;root -p 3306:3306 -d mysql:8.0</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># root</span><br><span class="line">mysql -p </span><br><span class="line"># Enter password: &#96;root&#96;</span><br><span class="line"></span><br><span class="line"># show databases;</span><br><span class="line"># DROP USER &#39;rguser&#39;@&#39;%&#39;;</span><br><span class="line"></span><br><span class="line">create database rgdb;</span><br><span class="line">create user &#39;rguser&#39;@&#39;%&#39; identified by &#39;rguser&#39;;</span><br><span class="line"></span><br><span class="line"># mysql 8.0 syntax</span><br><span class="line">grant all privileges on rgdb.* TO &#39;rguser&#39;@&#39;%&#39;;</span><br><span class="line">flush privileges;</span><br><span class="line">exit;</span><br><span class="line"></span><br><span class="line">mysql -u rguser -p;</span><br><span class="line">use rgdb;</span><br><span class="line">CREATE TABLE IF NOT EXISTS &#96;person&#96;(</span><br><span class="line">   &#96;id&#96; VARCHAR(100),</span><br><span class="line">   &#96;first&#96; VARCHAR(100),</span><br><span class="line">   &#96;last&#96; VARCHAR(40),</span><br><span class="line">   &#96;age&#96; INT,</span><br><span class="line">   PRIMARY KEY ( &#96;id&#96; )</span><br><span class="line">)ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line">describe person;</span><br></pre></td></tr></table></figure>
+<h4 id="Monitor-UI"><a href="#Monitor-UI" class="headerlink" title="Monitor UI"></a>Monitor UI</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">## Monitor UI</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;RedisGears&#x2F;RedisGearsMonitor.git</span><br><span class="line">cd RedisGearsMonitor</span><br><span class="line"></span><br><span class="line">npm install</span><br><span class="line">node main.js --port 30001</span><br><span class="line"></span><br><span class="line"># http:&#x2F;&#x2F;localhost:9001&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Run-Recipe"><a href="#Run-Recipe" class="headerlink" title="Run Recipe"></a>Run Recipe</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## run recipe</span><br><span class="line"># pip3 install gears-cli</span><br><span class="line"># gears-cli --host &lt;host&gt; --port &lt;post&gt; --password &lt;password&gt; run example.py REQUIREMENTS rgsync PyMySQL cryptography</span><br><span class="line"># gears-cli run --host localhost --port 30001 example.py REQUIREMENTS rgsync PyMySQL cryptography</span><br><span class="line"></span><br><span class="line">gears-cli run --host localhost --port 30001 example.py REQUIREMENTS git+https:&#x2F;&#x2F;gitlab.com&#x2F;shankai&#x2F;rgsync.git  PyMySQL cryptography</span><br><span class="line"></span><br><span class="line"># 这条是异常信息： failed running gear function (Failed install requirement on shard, check shard log for more info.)</span><br><span class="line"># OK 代表发布成功。</span><br><span class="line"># gears-cli run 之后，redisgears cluster 会动态加载相关模块。</span><br><span class="line"># Monitor UI 会显示 PersonsWriteBehind Registrations 相关状态信息。</span><br></pre></td></tr></table></figure>
+<h5 id="example-py-WriteBehind-RGWriteThrough"><a href="#example-py-WriteBehind-RGWriteThrough" class="headerlink" title="example.py  (WriteBehind + RGWriteThrough)"></a>example.py  (WriteBehind + RGWriteThrough)</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rgsync <span class="keyword">import</span> RGWriteBehind, RGWriteThrough</span><br><span class="line"><span class="keyword">from</span> rgsync.Connectors <span class="keyword">import</span> MySqlConnector, MySqlConnection</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Create MySQL connection object</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># connection = MySqlConnection(&#x27;demouser&#x27;, &#x27;Password123!&#x27;, &#x27;localhost:3306/test&#x27;)</span></span><br><span class="line">connection = MySqlConnection(<span class="string">&#x27;rguser&#x27;</span>, <span class="string">&#x27;rguser&#x27;</span>, <span class="string">&#x27;localhost:3306/rgdb&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Create MySQL persons connector</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">personsConnector = MySqlConnector(connection, <span class="string">&#x27;person&#x27;</span>, <span class="string">&#x27;id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">personsMappings = &#123;</span><br><span class="line">	<span class="string">&#x27;first_name&#x27;</span>:<span class="string">&#x27;first&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;last_name&#x27;</span>:<span class="string">&#x27;last&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;age&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">RGWriteBehind(GB,  keysPrefix=<span class="string">&#x27;person&#x27;</span>, mappings=personsMappings, connector=personsConnector, name=<span class="string">&#x27;PersonsWriteBehind&#x27;</span>,  version=<span class="string">&#x27;99.99.99&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># RGWriteThrough(GB, keysPrefix=&#x27;__&#x27;, mappings=personsMappings, connector=personsConnector, name=&#x27;PersonsWriteThrough&#x27;, version=&#x27;99.99.99&#x27;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="演示操作"><a href="#演示操作" class="headerlink" title="演示操作"></a>演示操作</h3><h4 id="WriteBehind"><a href="#WriteBehind" class="headerlink" title="WriteBehind"></a>WriteBehind</h4><h5 id="hmset-不同操作完成后，在-mysql-rgdb-person-表中查看数据同步结果"><a href="#hmset-不同操作完成后，在-mysql-rgdb-person-表中查看数据同步结果" class="headerlink" title="hmset (不同操作完成后，在 mysql rgdb.person 表中查看数据同步结果)"></a><code>hmset</code> (不同操作完成后，在 mysql rgdb.person 表中查看数据同步结果)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">hmset person:1 first_name zhang last_name san age 21</span><br><span class="line">hmset person:2 first_name li last_name sisi age 18</span><br><span class="line"></span><br><span class="line">hmset person:10 first_name li last_name sisi age 18</span><br><span class="line"></span><br><span class="line">## 复制控制</span><br><span class="line"></span><br><span class="line">## 变更并同步(默认行为)</span><br><span class="line">hmset person:3 first_name li last_name sisi age 22 # &#x3D;</span><br><span class="line"></span><br><span class="line">## 变更不同步</span><br><span class="line">hmset person:3 first_name li last_name sisi age 50 # +</span><br><span class="line"># HGETALL person:3</span><br><span class="line"></span><br><span class="line">## 删除并同步</span><br><span class="line">hmset person:3 # ~</span><br><span class="line"></span><br><span class="line">hmset person:3 first_name li last_name sisi age 22 # &#x3D;</span><br><span class="line">## 删除不同步</span><br><span class="line">hmset person:3 # -</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h5 id="正好一次（源码有缺陷，mysql-connector-修复见-https-gitlab-com-shankai-rgsync）"><a href="#正好一次（源码有缺陷，mysql-connector-修复见-https-gitlab-com-shankai-rgsync）" class="headerlink" title="正好一次（源码有缺陷，mysql connector 修复见 https://gitlab.com/shankai/rgsync）"></a>正好一次（源码有缺陷，<code>mysql connector</code> 修复见 <code>https://gitlab.com/shankai/rgsync</code>）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS &#96;exactlyonce&#96;(</span><br><span class="line">   &#96;id&#96; VARCHAR(100),</span><br><span class="line">   &#96;val&#96; VARCHAR(100),</span><br><span class="line">   PRIMARY KEY ( &#96;id&#96; )</span><br><span class="line">)ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line">describe exactlyonce;</span><br></pre></td></tr></table></figure>
+<p><code>example.py</code> 文件内修改 personsConnector 实例化，添加 <code>exactlyOnceTableName</code> 参数值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">personsConnector &#x3D; MySqlConnector(connection, &#39;person&#39;, &#39;id&#39;, &#39;exactlyonce&#39;)</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="ACK"><a href="#ACK" class="headerlink" title="ACK"></a>ACK</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># </span><br><span class="line">hset person:007 first_name James last_name Bond age 43 # &#x3D;6ce0c902-30c2-4ac9-8342-2f04fb359a944412</span><br><span class="line"># XREAD BLOCK &lt;timeout&gt; STREAMS &#123;&lt;hash key&gt;&#125;&lt;uuid&gt; 0-0</span><br><span class="line">XREAD BLOCK 2000 STREAMS &#123;person:007&#125;6ce0c902-30c2-4ac9-8342-2f04fb359a944412 0-0</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="WriteThrough"><a href="#WriteThrough" class="headerlink" title="WriteThrough"></a>WriteThrough</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HSET __&#123;person:100&#125; first_name foo last_name bar age 20 # &#x3D;123456</span><br><span class="line"></span><br><span class="line">XREAD BLOCK 2000 STREAMS &#123;person:104&#125;123456 0-0</span><br></pre></td></tr></table></figure>
+<p>(完)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cache/" rel="tag"># Cache</a>
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Stream/" rel="tag"># Stream</a>
+              <a href="/tags/Sync/" rel="tag"># Sync</a>
+              <a href="/tags/Recipe/" rel="tag"># Recipe</a>
+              <a href="/tags/Redis-Module/" rel="tag"># Redis Module</a>
+              <a href="/tags/Lambda/" rel="tag"># Lambda</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/09/zeromq-notes/" rel="prev" title="ZeroMQ 笔记">
+      <i class="fa fa-chevron-left"></i> ZeroMQ 笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Home"><span class="nav-number">1.</span> <span class="nav-text">Home</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Diagram-Components"><span class="nav-number">1.1.</span> <span class="nav-text">Diagram Components</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quickstart"><span class="nav-number">2.</span> <span class="nav-text">Quickstart</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RedisGears-Cluster"><span class="nav-number">2.1.</span> <span class="nav-text">RedisGears Cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RedisGears-Standalone"><span class="nav-number">2.2.</span> <span class="nav-text">RedisGears Standalone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reader"><span class="nav-number">3.1.</span> <span class="nav-text">Reader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keys-Pattern"><span class="nav-number">3.2.</span> <span class="nav-text">Keys Pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Function"><span class="nav-number">3.3.</span> <span class="nav-text">Function</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%A4%8D%E6%9D%82%E5%87%BD%E6%95%B0"><span class="nav-number">3.3.1.</span> <span class="nav-text">执行复杂函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.3.2.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blocking-vs-Nonblocking-Execution"><span class="nav-number">3.4.</span> <span class="nav-text">Blocking vs. Nonblocking Execution</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UNBLOCKING"><span class="nav-number">3.4.1.</span> <span class="nav-text">UNBLOCKING</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RG-DUMPEXECUTIONS"><span class="nav-number">3.4.2.</span> <span class="nav-text">RG.DUMPEXECUTIONS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RG-GETRESULTS"><span class="nav-number">3.4.3.</span> <span class="nav-text">RG.GETRESULTS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RG-GETRESULTSBLOCKING"><span class="nav-number">3.4.4.</span> <span class="nav-text">RG.GETRESULTSBLOCKING</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Processing"><span class="nav-number">3.5.</span> <span class="nav-text">Event Processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-Data"><span class="nav-number">3.6.</span> <span class="nav-text">Writing Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-number">3.7.</span> <span class="nav-text">Cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Processing"><span class="nav-number">3.8.</span> <span class="nav-text">Distributed Processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce"><span class="nav-number">3.9.</span> <span class="nav-text">MapReduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-Map-and-Reduce"><span class="nav-number">3.10.</span> <span class="nav-text">Cluster Map and Reduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-vs-Global"><span class="nav-number">3.11.</span> <span class="nav-text">Local vs. Global</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Diagram-localgroupby-groupby"><span class="nav-number">3.11.1.</span> <span class="nav-text">Diagram(localgroupby, groupby)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mock-localgroupby-repartition-localgroupby"><span class="nav-number">3.11.2.</span> <span class="nav-text">Mock(localgroupby, repartition, localgroupby)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Runtime"><span class="nav-number">4.1.</span> <span class="nav-text">Runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Python-Interpreter"><span class="nav-number">4.1.1.</span> <span class="nav-text">Python Interpreter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment"><span class="nav-number">4.1.2.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GearsBuilder"><span class="nav-number">4.1.3.</span> <span class="nav-text">GearsBuilder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execute"><span class="nav-number">4.1.4.</span> <span class="nav-text">execute</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Python-API"><span class="nav-number">4.1.4.1.</span> <span class="nav-text">Python API</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Examples"><span class="nav-number">4.1.4.2.</span> <span class="nav-text">Examples</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#atomic"><span class="nav-number">4.1.5.</span> <span class="nav-text">atomic</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Python-API-1"><span class="nav-number">4.1.5.1.</span> <span class="nav-text">Python API</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Examples-1"><span class="nav-number">4.1.5.2.</span> <span class="nav-text">Examples</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configGet"><span class="nav-number">4.1.6.</span> <span class="nav-text">configGet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gearsConfigGet"><span class="nav-number">4.1.7.</span> <span class="nav-text">gearsConfigGet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hashtag"><span class="nav-number">4.1.8.</span> <span class="nav-text">hashtag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log"><span class="nav-number">4.1.9.</span> <span class="nav-text">log</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functions"><span class="nav-number">4.2.</span> <span class="nav-text">Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution"><span class="nav-number">4.2.1.</span> <span class="nav-text">Execution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution-ID"><span class="nav-number">4.2.2.</span> <span class="nav-text">Execution ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution-Plan"><span class="nav-number">4.2.3.</span> <span class="nav-text">Execution Plan</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution-Parallelization"><span class="nav-number">4.2.4.</span> <span class="nav-text">Execution Parallelization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution-Status"><span class="nav-number">4.2.5.</span> <span class="nav-text">Execution Status</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Registration"><span class="nav-number">4.2.6.</span> <span class="nav-text">Registration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Registration-ID"><span class="nav-number">4.2.7.</span> <span class="nav-text">Registration ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Context-Builder"><span class="nav-number">4.2.8.</span> <span class="nav-text">Context Builder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Actions"><span class="nav-number">4.2.9.</span> <span class="nav-text">Actions</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Run"><span class="nav-number">4.2.9.1.</span> <span class="nav-text">Run</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Python-API-2"><span class="nav-number">4.2.9.1.1.</span> <span class="nav-text">Python API</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Register"><span class="nav-number">4.2.9.2.</span> <span class="nav-text">Register</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Python-API-3"><span class="nav-number">4.2.9.2.1.</span> <span class="nav-text">Python API</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Results"><span class="nav-number">4.2.10.</span> <span class="nav-text">Results</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Readers"><span class="nav-number">4.3.</span> <span class="nav-text">Readers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Operations"><span class="nav-number">4.4.</span> <span class="nav-text">Operations</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Terminology"><span class="nav-number">4.4.1.</span> <span class="nav-text">Terminology</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Local"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">Local</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Global"><span class="nav-number">4.4.1.2.</span> <span class="nav-text">Global</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sugar"><span class="nav-number">4.4.1.3.</span> <span class="nav-text">Sugar</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Callback"><span class="nav-number">4.4.1.4.</span> <span class="nav-text">Callback</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Extractor"><span class="nav-number">4.4.1.5.</span> <span class="nav-text">Extractor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Mapper"><span class="nav-number">4.4.1.6.</span> <span class="nav-text">Mapper</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Expander"><span class="nav-number">4.4.1.7.</span> <span class="nav-text">Expander</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Processor"><span class="nav-number">4.4.1.8.</span> <span class="nav-text">Processor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Filter"><span class="nav-number">4.4.1.9.</span> <span class="nav-text">Filter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Accumulator"><span class="nav-number">4.4.1.10.</span> <span class="nav-text">Accumulator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Reducer"><span class="nav-number">4.4.1.11.</span> <span class="nav-text">Reducer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Batch-Reducer"><span class="nav-number">4.4.1.12.</span> <span class="nav-text">Batch Reducer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commands"><span class="nav-number">4.5.</span> <span class="nav-text">Commands</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Registration-1"><span class="nav-number">4.5.1.</span> <span class="nav-text">Registration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-DUMPREGISTRATIONS"><span class="nav-number">4.5.1.1.</span> <span class="nav-text">RG.DUMPREGISTRATIONS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-UNREGISTER"><span class="nav-number">4.5.1.2.</span> <span class="nav-text">RG.UNREGISTER </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXECUTION"><span class="nav-number">4.5.2.</span> <span class="nav-text">EXECUTION</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-PYEXECUTE-%E2%80%9C%E2%80%9C-UNBLOCKING-REQUIREMENTS-%E2%80%9C-%E2%80%A6%E2%80%9D"><span class="nav-number">4.5.2.1.</span> <span class="nav-text">RG.PYEXECUTE ““ [UNBLOCKING] [REQUIREMENTS “ …”]</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-DUMPEXECUTIONS-1"><span class="nav-number">4.5.2.2.</span> <span class="nav-text">RG.DUMPEXECUTIONS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-GETEXECUTION-SHARD-CLUSTER"><span class="nav-number">4.5.2.3.</span> <span class="nav-text">RG.GETEXECUTION  [SHARD|CLUSTER]</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-GETRESULTS-1"><span class="nav-number">4.5.2.4.</span> <span class="nav-text">RG.GETRESULTS </span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-GETRESULTSBLOCKING-1"><span class="nav-number">4.5.2.5.</span> <span class="nav-text">RG.GETRESULTSBLOCKING </span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-DROPEXECUTION"><span class="nav-number">4.5.2.6.</span> <span class="nav-text">RG.DROPEXECUTION </span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-ABORTEXECUTION"><span class="nav-number">4.5.2.7.</span> <span class="nav-text">RG.ABORTEXECUTION </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trigger"><span class="nav-number">4.5.3.</span> <span class="nav-text">Trigger</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-TRIGGER-arg-%E2%80%A6"><span class="nav-number">4.5.3.1.</span> <span class="nav-text">RG.TRIGGER  [arg …]</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-1"><span class="nav-number">4.5.4.</span> <span class="nav-text">Global</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-CONFIGGET-%E2%80%A6"><span class="nav-number">4.5.4.1.</span> <span class="nav-text">RG.CONFIGGET  […]</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-CONFIGSET-%E2%80%A6"><span class="nav-number">4.5.4.2.</span> <span class="nav-text">RG.CONFIGSET   […]</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-PYSTATS"><span class="nav-number">4.5.4.3.</span> <span class="nav-text">RG.PYSTATS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-PYDUMPREQS-version-1-0-1"><span class="nav-number">4.5.4.4.</span> <span class="nav-text">RG.PYDUMPREQS (version 1.0.1)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-INFOCLUSTER"><span class="nav-number">4.5.4.5.</span> <span class="nav-text">RG.INFOCLUSTER</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RG-REFRESHCLUSTER"><span class="nav-number">4.5.4.6.</span> <span class="nav-text">RG.REFRESHCLUSTER</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">4.6.</span> <span class="nav-text">Configuration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Examples-2"><span class="nav-number">5.</span> <span class="nav-text">Examples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clients"><span class="nav-number">6.</span> <span class="nav-text">Clients</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Design"><span class="nav-number">7.</span> <span class="nav-text">Design</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Isolation-Technics-%E9%9A%94%E7%A6%BB%E6%8A%80%E6%9C%AF"><span class="nav-number">7.1.</span> <span class="nav-text">Isolation Technics - 隔离技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Python"><span class="nav-number">7.1.1.</span> <span class="nav-text">Python</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Samples"><span class="nav-number">8.</span> <span class="nav-text">Samples</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">8.1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RedisGears-Cluster-1"><span class="nav-number">8.1.1.</span> <span class="nav-text">RedisGears Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL"><span class="nav-number">8.1.2.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monitor-UI"><span class="nav-number">8.1.3.</span> <span class="nav-text">Monitor UI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Run-Recipe"><span class="nav-number">8.1.4.</span> <span class="nav-text">Run Recipe</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#example-py-WriteBehind-RGWriteThrough"><span class="nav-number">8.1.4.1.</span> <span class="nav-text">example.py  (WriteBehind + RGWriteThrough)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA%E6%93%8D%E4%BD%9C"><span class="nav-number">8.2.</span> <span class="nav-text">演示操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WriteBehind"><span class="nav-number">8.2.1.</span> <span class="nav-text">WriteBehind</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#hmset-%E4%B8%8D%E5%90%8C%E6%93%8D%E4%BD%9C%E5%AE%8C%E6%88%90%E5%90%8E%EF%BC%8C%E5%9C%A8-mysql-rgdb-person-%E8%A1%A8%E4%B8%AD%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E7%BB%93%E6%9E%9C"><span class="nav-number">8.2.1.1.</span> <span class="nav-text">hmset (不同操作完成后，在 mysql rgdb.person 表中查看数据同步结果)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%A5%BD%E4%B8%80%E6%AC%A1%EF%BC%88%E6%BA%90%E7%A0%81%E6%9C%89%E7%BC%BA%E9%99%B7%EF%BC%8Cmysql-connector-%E4%BF%AE%E5%A4%8D%E8%A7%81-https-gitlab-com-shankai-rgsync%EF%BC%89"><span class="nav-number">8.2.1.2.</span> <span class="nav-text">正好一次（源码有缺陷，mysql connector 修复见 https:&#x2F;&#x2F;gitlab.com&#x2F;shankai&#x2F;rgsync）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ACK"><span class="nav-number">8.2.1.3.</span> <span class="nav-text">ACK</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WriteThrough"><span class="nav-number">8.2.2.</span> <span class="nav-text">WriteThrough</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">134k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

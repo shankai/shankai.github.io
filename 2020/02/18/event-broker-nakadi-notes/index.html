@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简介Nakadi 的目标是提供一个事件经纪人基础设施，以便:  通过安全的 RESTful API 进行抽象事件交付 这允许微服务团队维护服务边界，而不直接依赖于任何特定的消息代理技术。 可以为每个事件类型单独管理访问权限，并使用 OAuth 和自定义授权插件进行保护。  支持事件驱动应用程序和异步微服务的方便开发 可以使用事件类型架构定义事件类型，并通过注册表进行管理。 在发布事件类型之前，将根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Event Broker Nakadi Notes">
+<meta property="og:url" content="http://example.com/2020/02/18/event-broker-nakadi-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="简介Nakadi 的目标是提供一个事件经纪人基础设施，以便:  通过安全的 RESTful API 进行抽象事件交付 这允许微服务团队维护服务边界，而不直接依赖于任何特定的消息代理技术。 可以为每个事件类型单独管理访问权限，并使用 OAuth 和自定义授权插件进行保护。  支持事件驱动应用程序和异步微服务的方便开发 可以使用事件类型架构定义事件类型，并通过注册表进行管理。 在发布事件类型之前，将根">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-16T10:16:41.890Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="Message Queue">
+<meta property="article:tag" content="Kafka">
+<meta property="article:tag" content="Event Broker">
+<meta property="article:tag" content="Nakadi">
+<meta property="article:tag" content="HttpStream">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/02/18/event-broker-nakadi-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Event Broker Nakadi Notes | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/18/event-broker-nakadi-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Event Broker Nakadi Notes
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-18 10:00:00" itemprop="dateCreated datePublished" datetime="2020-02-18T10:00:00+08:00">2020-02-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-16 18:16:41" itemprop="dateModified" datetime="2021-02-16T18:16:41+08:00">2021-02-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Nakadi 的目标是提供一个事件经纪人基础设施，以便:</p>
+<ul>
+<li><p>通过安全的 RESTful API 进行抽象事件交付</p>
+<p>这允许微服务团队维护服务边界，而不直接依赖于任何特定的消息代理技术。 可以为每个事件类型单独管理访问权限，并使用 OAuth 和自定义授权插件进行保护。</p>
+</li>
+<li><p>支持事件驱动应用程序和异步微服务的方便开发</p>
+<p>可以使用事件类型架构定义事件类型，并通过注册表进行管理。 在发布事件类型之前，将根据模式验证所有事件。 它为数据使用者提供了数据质量和数据一致性的保证。</p>
+</li>
+<li><p>有效的低延迟事件传递</p>
+<p>一旦发布者使用简单的 Http Post 发送事件，就可以通过流式 HTTP 连接推送到消费者，从而实现接近实时的事件处理。消费者连接具有保持活力控制并支持使用订阅管理流偏移量。</p>
+</li>
+</ul>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><ul>
+<li>类似 Kafka 队列上的 REST 抽象</li>
+<li>事件类型的CRUD</li>
+<li>事件批量发布</li>
+<li>Low-level API（消费）<ul>
+<li>手动的客户端分区管理</li>
+<li>不支持提交</li>
+</ul>
+</li>
+<li>High-level API（订阅）<ul>
+<li>在消费者客户端之间自动重新分配分区</li>
+<li>支持提交，移动服务器端游标</li>
+</ul>
+</li>
+</ul>
+<h3 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h3><ul>
+<li><p>模式注册表</p>
+</li>
+<li><p>模式进化</p>
+</li>
+<li><p>事件类型类别</p>
+<blockquote>
+<p>categories: 每个事件类别为一个事件类型启用不同的功能，特别是它们的模式和验证规则</p>
+</blockquote>
+<ul>
+<li><strong>Business</strong> 作为业务流程的一部分或驱动业务流程的事件，如客户订单中的状态转换。</li>
+<li><strong>Data Change</strong> 表示对记录或其他项或新项的更改的事件。 更改事件与创建、更新、删除或快照操作相关联。</li>
+<li><strong>Undefined</strong> 适用于生产者完全自定义的事件的自由格式类别。</li>
+</ul>
+</li>
+<li><p>分区策略（Random/Hash/User Defined）</p>
+<ul>
+<li><strong>Random</strong> 分区是随机选择的，事件将均匀地分布在分区之间。 Nakadi 使用的默认选项是 Random。</li>
+<li><strong>Hash</strong> 通过对事件类型的 <code>partition_key_fields</code>中定义的字段值进行哈希处理来选择分区。 在实践中，这意味着那些大致相同的逻辑实体和具有相同的分区键值的事件将被发送到相同的分区。</li>
+<li><strong>user_defined</strong> 分区由生产者在发送事件时设置。 此选项仅适用于 <code>business</code>和 <code>data change</code> 类别。</li>
+</ul>
+</li>
+<li><p>事件强化策略</p>
+</li>
+<li><p>事件验证（通过模式）</p>
+</li>
+</ul>
+<h3 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h3><ul>
+<li>OAuth2 认证</li>
+<li>事件类型授权</li>
+<li>黑名单</li>
+</ul>
+<h3 id="Operations"><a href="#Operations" class="headerlink" title="Operations"></a>Operations</h3><ul>
+<li>Timelines<ul>
+<li>允许透明地将生产和消费切换到不同的集群(tier、region、 AZ) ，而不会移动实际数据和任何服务降级</li>
+<li>为其他流媒体技术和引擎的实现提供了可能(比如 AWS Kinesis，Google pub / sub 等等)</li>
+</ul>
+</li>
+</ul>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Nakadi API 允许通过 HTTP 发布和消费事件。</p>
+<p>理解事件的一个好方法是，它们类似于流处理或队列系统中的消息，但具有可以理解和验证的定义结构。 包含描述事件的信息的对象称为事件类型。</p>
+<p>要发布和消费事件，拥有事件的应用程序必须首先向 Nakadi 注册一个新的事件类型。 事件类型包含诸如其名称、应用程序、分区和丰富数据的策略以及 JSON 模式等信息。 Nakadi 支持列出所有可用事件类型的事件类型注册表 API。</p>
+<p>一旦创建了事件类型，称为流的资源就可用于该事件类型。 流将接受来自生产者的类型的事件，并且一个或多个消费者可以从中读取。 Nakadi 可以验证发送到流的每个事件。</p>
+<p>事件类型的流可以划分为一个或多个分区。 每个事件被精确地放置到一个分区中。 每个分区代表一个有序的日志——一旦一个事件被添加到一个分区中，它的位置永远不会改变，但是没有跨分区的全局排序。</p>
+<p>消费者可以使用分配给每个分区的游标读取事件并跟踪它们在流中的位置。 消费者还可以使用光标从特定位置的流中读取数据。 多个使用者可以从同一个流中读取，允许不同的应用程序同时读取流。</p>
+<h3 id="事件应用分类"><a href="#事件应用分类" class="headerlink" title="事件应用分类"></a>事件应用分类</h3><ul>
+<li><p><strong>Event Type Owners</strong> 事件类型所有者通过事件类型注册表与 Nakadi 交互，以基于模式定义事件类型并创建事件流。</p>
+</li>
+<li><p><strong>Event Producers</strong> 生产者将符合事件类型模式的事件发布到事件类型的流。</p>
+</li>
+<li><p><strong>Event Consumers</strong> 消费者从事件流中读取事件，多个消费者可以从同一流中读取数据。</p>
+</li>
+</ul>
+<h3 id="Cursors-Offsets-Partitiions（游标-偏移量-分区）"><a href="#Cursors-Offsets-Partitiions（游标-偏移量-分区）" class="headerlink" title="Cursors, Offsets, Partitiions（游标, 偏移量, 分区）"></a>Cursors, Offsets, Partitiions（游标, 偏移量, 分区）</h3><p>默认情况下，事件资源将从事件类型的所有分区和流的末端(或“尾端”)消耗。 要只选择特定的分区和流中要开始的位置，可以在请求中提供 X-Nakadi-Cursors 标头:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -v http:&#x2F;&#x2F;localhost:8080&#x2F;event-types&#x2F;order.ORDER_RECEIVED&#x2F;events \</span><br><span class="line">  -H &#39;X-Nakadi-Cursors: [&#123;&quot;partition&quot;: &quot;0&quot;, &quot;offset&quot;:&quot;12&quot;&#125;]&#39;</span><br></pre></td></tr></table></figure>
+<p>标头值是游标的 JSON 数组。 数组中的每个游标描述流的分区和从中流出的偏移量。 请注意，同一个分区中的事件保持了它们的总体顺序。</p>
+<p>光标的偏移量值允许您选择要从流中的哪个位置使用。 这可以是任何已知的偏移量值，也可以是将从头开始启动流的专用值 BEGIN。 例如，从分区0开始读:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -v http:&#x2F;&#x2F;localhost:8080&#x2F;event-types&#x2F;order.ORDER_RECEIVED&#x2F;events \</span><br><span class="line">  -H &#39;X-Nakadi-Cursors:[&#123;&quot;partition&quot;: &quot;0&quot;, &quot;offset&quot;:&quot;BEGIN&quot;&#125;]&#39;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Event-Stream-Keepalives-事件流保活"><a href="#Event-Stream-Keepalives-事件流保活" class="headerlink" title="Event Stream Keepalives 事件流保活"></a>Event Stream Keepalives 事件流保活</h3><p>如果没有事件需要发送，Nakadi 将通过定期发送一个没有事件但包含指向当前偏移量的指针的批处理来保持流连接打开。 例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -v http:&#x2F;&#x2F;localhost:8080&#x2F;event-types&#x2F;order.ORDER_RECEIVED&#x2F;events </span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 OK</span><br><span class="line"></span><br><span class="line">&#123;&quot;cursor&quot;:&#123;&quot;partition&quot;:&quot;0&quot;,&quot;offset&quot;:&quot;6&quot;&#125;,&quot;events&quot;:[&#123;&quot;order_number&quot;: &quot;ORDER_003&quot;, &quot;metadata&quot;: &#123;&quot;eid&quot;: &quot;4cc6d2f0-eb01-11e5-b606-1c6f65464fc6&quot;, &quot;occurred_at&quot;: &quot;2016-03-15T23:58:15+01:00&quot;&#125;&#125;]&#125;</span><br><span class="line">&#123;&quot;cursor&quot;:&#123;&quot;partition&quot;:&quot;0&quot;,&quot;offset&quot;:&quot;6&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;cursor&quot;:&#123;&quot;partition&quot;:&quot;0&quot;,&quot;offset&quot;:&quot;6&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;cursor&quot;:&#123;&quot;partition&quot;:&quot;0&quot;,&quot;offset&quot;:&quot;6&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;cursor&quot;:&#123;&quot;partition&quot;:&quot;0&quot;,&quot;offset&quot;:&quot;6&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：该示例为 Low-level API 已被否决，并将从未来的 Nakadi 版本中删除。 请考虑使用高级别的 API。</p>
+</blockquote>
+<h3 id="Timelines"><a href="#Timelines" class="headerlink" title="Timelines"></a>Timelines</h3><p>时间线的创建是使用 Zookeeper 通过一系列的锁（Locks）和屏障（Barriers）来协调的。 </p>
+<ol>
+<li>初始状态</li>
+</ol>
+<p>每次启动 Nakadi 应用程序时，它都会尝试创建以下 ZK 结构。为了不覆盖初始结构，由于并发性，每个实例在执行之前都需要获取锁 <code>/nakadi/timelines/lock</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span>                    <span class="string">lock</span> <span class="string">for</span> <span class="string">timeline</span> <span class="string">versions</span> <span class="string">synchronization</span></span><br><span class="line">  <span class="attr">version:</span> &#123;<span class="string">version</span>&#125;      <span class="string">monotonically</span> <span class="string">incremented</span> <span class="string">long</span> <span class="string">value</span> <span class="string">(version</span> <span class="string">of</span> <span class="string">timelines</span> <span class="string">configuration)</span></span><br><span class="line">  <span class="attr">locked_et:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">nodes:</span>                    <span class="string">nakadi</span> <span class="string">nodes</span></span><br><span class="line">    <span class="attr">node1:</span> &#123;<span class="string">version</span>&#125;    <span class="string">Each</span> <span class="string">nakadi</span> <span class="string">node</span> <span class="string">exposes</span> <span class="string">the</span> <span class="string">version</span> <span class="string">used</span> <span class="string">on</span> <span class="string">this</span> <span class="string">node</span></span><br><span class="line">    <span class="attr">node2:</span> &#123;<span class="string">version</span>&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>为 <code>et_1</code> 创建时间线</li>
+</ol>
+<p>当创建一个新的时间线时，第一步是通过在 <code>/timelines/locked_et/et_1</code> 上创建一个临时节点来获得更新时间线的锁。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">0</span></span><br><span class="line">  <span class="attr">locked_et:</span></span><br><span class="line">    <span class="attr">et_1:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">nodes:</span></span><br><span class="line">    <span class="attr">node1:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">node2:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>通知所有 Nakadi 节点相关更改：版本屏障</li>
+</ol>
+<p>协调创建时间线的实例修改版本节点，所有 Nakadi 实例都在监听变化，因此当发生变化时，它们会得到通知。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">1</span>       <span class="comment"># this is incremented by 1</span></span><br><span class="line">  <span class="attr">locked_et:</span></span><br><span class="line">    <span class="attr">et_1:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">nodes:</span></span><br><span class="line">    <span class="attr">node1:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">node2:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>等待所有节点对新版本作出反应</li>
+</ol>
+<p>每个 Nakadi 实例监视 <code>/nakadi/timelines/version/</code> 的值。 当它发生更改时，每个实例检查所有锁定的事件类型，并通过在本地释放或阻塞发布者来做出相应的反应。一旦每个实例更新了它本地的锁定事件类型列表，它就会添加自己的版本，让时间线创建者发起者知道它可以处理。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">1</span> </span><br><span class="line">  <span class="attr">locked_et:</span></span><br><span class="line">     <span class="attr">et_1:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">nodes:</span></span><br><span class="line">    <span class="attr">node1:</span> <span class="number">1</span>       <span class="comment"># each instance updates its own version</span></span><br><span class="line">    <span class="attr">node2:</span> <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>更改数据库</li>
+</ol>
+<p>一旦所有实例都作出反应，创建过程继续进行，发起者在 <code>timeline</code> 表中插入必要的数据库条目，并对现有存储进行快照显示可用的最新偏移量。 它还在新存储中创建一个主题。 请注意，如果从未使用过时间线分区，则存储的偏移量为 -1。 如果只有一个事件，则偏移量为 0，依此类推。</p>
+<ol start="6">
+<li>移除锁并再次通知所有实例</li>
+</ol>
+<p>按照初始状态创建时间线的相同逻辑，锁将被删除，版本将被修改。 所有 Nakadi 实例的处理是移除本地锁并在必要时切换时间线。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span> </span><br><span class="line">  <span class="attr">locked_et:</span>     </span><br><span class="line">  <span class="attr">nodes:</span></span><br><span class="line">    <span class="attr">node1:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">node2:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>在每个实例处理之后，它看起来应该像：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timelines:</span></span><br><span class="line">  <span class="attr">lock:</span> <span class="bullet">-</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span> </span><br><span class="line">  <span class="attr">locked_et:</span></span><br><span class="line">  <span class="attr">nodes:</span></span><br><span class="line">    <span class="attr">node1:</span> <span class="number">2</span>       <span class="comment"># each instance updates its own version</span></span><br><span class="line">    <span class="attr">node2:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>至此，一个新的时间线创建成功。</li>
+</ul>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;zalando&#x2F;nakadi.git</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd nakadi</span><br><span class="line">docker-compose up </span><br></pre></td></tr></table></figure>
+
+
+<p>启动成功后，各服务端口：</p>
+<ul>
+<li><code>8080</code> - API Server</li>
+<li><code>5432</code> - PostgreSQL</li>
+<li><code>9092</code>, <code>29092</code> - Kafka</li>
+<li><code>2181</code> - Zookeeper</li>
+</ul>
+<h2 id="API-示例"><a href="#API-示例" class="headerlink" title="API 示例"></a>API 示例</h2><ul>
+<li><p>创建事件类型</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST \</span><br><span class="line">  http://172.16.18.143:8080/event-types \</span><br><span class="line">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">  -d &#x27;&#123;</span><br><span class="line">  &quot;name&quot;: &quot;order.ORDER_RECEIVED&quot;,</span><br><span class="line">  &quot;owning_application&quot;: &quot;order-service&quot;,</span><br><span class="line">  &quot;category&quot;: &quot;undefined&quot;,</span><br><span class="line">  &quot;schema&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;json_schema&quot;,</span><br><span class="line">    &quot;schema&quot;: &quot;&#123; \&quot;additionalProperties\&quot;: true &#125;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://nakadi.io/manual.html#/event-types_post">API 用法</a></p>
+</li>
+<li><p>添加订阅</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST \</span><br><span class="line">  http://172.16.18.143:8080/subscriptions \</span><br><span class="line">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">  -d &#x27;&#123;</span><br><span class="line">	&quot;owning_application&quot;: &quot;abc&quot;,</span><br><span class="line">	&quot;event_types&quot;: [&quot;order.ORDER_RECEIVED&quot;]</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://nakadi.io/manual.html#/subscriptions_post">API 用法</a></p>
+</li>
+</ul>
+<ul>
+<li><p>发布消息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST \</span><br><span class="line">  http://172.16.18.143:8080/event-types/order.ORDER_RECEIVED/events \</span><br><span class="line">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">  -d &#x27;[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;order_number&quot;: &quot;24873243241&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;order_number&quot;: &quot;24873243242&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]&#x27;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://nakadi.io/manual.html#/event-types/name/events_post">API 用法</a></p>
+</li>
+<li><p>订阅消费</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET http://172.16.18.143:8080/subscriptions/&#123;subscription_id&#125;/events</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://nakadi.io/manual.html#/subscriptions/subscription_id/events_get">API 用法</a></p>
+</li>
+</ul>
+<h2 id="部署-UI（可选）"><a href="#部署-UI（可选）" class="headerlink" title="部署 UI（可选）"></a>部署 UI（可选）</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/zalando-nakadi/nakadi-ui">https://github.com/zalando-nakadi/nakadi-ui</a></p>
+</blockquote>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -d -p 3000:3000 -e NAKADI_API_URL=http://172.16.18.1:8080 -e BASE_URL=http://172.16.18.143:3000 nakadi/nakadi-ui:latest</span><br></pre></td></tr></table></figure>
+
+
+<p>（待续）</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Message-Queue/" rel="tag"># Message Queue</a>
+              <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+              <a href="/tags/Event-Broker/" rel="tag"># Event Broker</a>
+              <a href="/tags/Nakadi/" rel="tag"># Nakadi</a>
+              <a href="/tags/HttpStream/" rel="tag"># HttpStream</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/" rel="prev" title="Ubuntu 1604 TLS Server 安装 Docker Compose">
+      <i class="fa fa-chevron-left"></i> Ubuntu 1604 TLS Server 安装 Docker Compose
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/19/event-broker-hermes-notes/" rel="next" title="Event Broker Hermes Notes">
+      Event Broker Hermes Notes <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream"><span class="nav-number">2.1.</span> <span class="nav-text">Stream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schema"><span class="nav-number">2.2.</span> <span class="nav-text">Schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Security"><span class="nav-number">2.3.</span> <span class="nav-text">Security</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Operations"><span class="nav-number">2.4.</span> <span class="nav-text">Operations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BA%94%E7%94%A8%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">事件应用分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursors-Offsets-Partitiions%EF%BC%88%E6%B8%B8%E6%A0%87-%E5%81%8F%E7%A7%BB%E9%87%8F-%E5%88%86%E5%8C%BA%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">Cursors, Offsets, Partitiions（游标, 偏移量, 分区）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Stream-Keepalives-%E4%BA%8B%E4%BB%B6%E6%B5%81%E4%BF%9D%E6%B4%BB"><span class="nav-number">3.3.</span> <span class="nav-text">Event Stream Keepalives 事件流保活</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Timelines"><span class="nav-number">3.4.</span> <span class="nav-text">Timelines</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">4.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text">下载源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Compose"><span class="nav-number">4.2.</span> <span class="nav-text">Docker Compose</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">API 示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-UI%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">部署 UI（可选）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">6.1.</span> <span class="nav-text">Docker</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">134k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
