@@ -119,17 +119,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">53</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">114</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">120</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">17</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -183,6 +183,930 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/09/iot-thethingsnetwork-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/09/iot-thethingsnetwork-notes/" class="post-title-link" itemprop="url">The Things Network 笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-09 20:00:00" itemprop="dateCreated datePublished" datetime="2021-06-09T20:00:00+08:00">2021-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-10 14:15:02" itemprop="dateModified" datetime="2021-06-10T14:15:02+08:00">2021-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IoT/" itemprop="url" rel="index"><span itemprop="name">IoT</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><blockquote>
+<p>Community</p>
+</blockquote>
+<h3 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;TheThingsNetwork&#x2F;lorawan-stack.git</span><br><span class="line"></span><br><span class="line">## install</span><br><span class="line">https:&#x2F;&#x2F;www.thethingsindustries.com&#x2F;docs&#x2F;getting-started&#x2F;installation&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="Certificates"><a href="#Certificates" class="headerlink" title="Certificates"></a>Certificates</h3><h4 id="ca-json"><a href="#ca-json" class="headerlink" title="ca.json"></a>ca.json</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;names&quot;</span>: [</span><br><span class="line">    &#123;<span class="attr">&quot;C&quot;</span>: <span class="string">&quot;NL&quot;</span>, <span class="attr">&quot;ST&quot;</span>: <span class="string">&quot;Noord-Holland&quot;</span>, <span class="attr">&quot;L&quot;</span>: <span class="string">&quot;Amsterdam&quot;</span>, <span class="attr">&quot;O&quot;</span>: <span class="string">&quot;The Things Demo&quot;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Generate:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfssl genkey -initca ca.json | cfssljson -bare ca</span><br></pre></td></tr></table></figure>
+<h4 id="cert-json"><a href="#cert-json" class="headerlink" title="cert.json"></a>cert.json</h4><blockquote>
+<p>change host</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hosts&quot;</span>: [<span class="string">&quot;thethings.example.com&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;names&quot;</span>: [</span><br><span class="line">    &#123;<span class="attr">&quot;C&quot;</span>: <span class="string">&quot;NL&quot;</span>, <span class="attr">&quot;ST&quot;</span>: <span class="string">&quot;Noord-Holland&quot;</span>, <span class="attr">&quot;L&quot;</span>: <span class="string">&quot;Amsterdam&quot;</span>, <span class="attr">&quot;O&quot;</span>: <span class="string">&quot;The Things Demo&quot;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Generate:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfssl gencert -ca ca.pem -ca-key ca-key.pem cert.json | cfssljson -bare cert</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Configuration-Cert"><a href="#Configuration-Cert" class="headerlink" title="Configuration Cert"></a>Configuration Cert</h4><ul>
+<li>docker-compose.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    # If using custom certificates:</span><br><span class="line">    secrets:</span><br><span class="line">      - ca.pem</span><br><span class="line">      - cert.pem</span><br><span class="line">      - key.pem</span><br><span class="line"></span><br><span class="line"># If using custom certificates:</span><br><span class="line">secrets:</span><br><span class="line">  ca.pem:</span><br><span class="line">    file: .&#x2F;ca.pem</span><br><span class="line">  cert.pem:</span><br><span class="line">    file: .&#x2F;cert.pem</span><br><span class="line">  key.pem:</span><br><span class="line">    file: .&#x2F;key.pem</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ttn-lw-stack-docker.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># If using custom certificates:</span><br><span class="line">tls:</span><br><span class="line">  source: file</span><br><span class="line">  root-ca: &#x2F;run&#x2F;secrets&#x2F;ca.pem</span><br><span class="line">  certificate: &#x2F;run&#x2F;secrets&#x2F;cert.pem</span><br><span class="line">  key: &#x2F;run&#x2F;secrets&#x2F;key.pem</span><br><span class="line"></span><br><span class="line"># Let&#39;s encrypt for &quot;thethings.example.com&quot;</span><br><span class="line"># tls:</span><br><span class="line">#   source: &#39;acme&#39;</span><br><span class="line">#   acme:</span><br><span class="line">#     dir: &#39;&#x2F;var&#x2F;lib&#x2F;acme&#39;</span><br><span class="line">#     email: &#39;you@thethings.example.com&#39;</span><br><span class="line">#     hosts: [&#39;thethings.example.com&#39;]</span><br><span class="line">#     default-host: &#39;thethings.example.com&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Up"><a href="#Up" class="headerlink" title="Up"></a>Up</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">docker-compose pull</span><br><span class="line">docker-compose run --rm stack is-db init</span><br><span class="line">docker-compose run --rm stack is-db create-admin-user --id admin --email your@email.com</span><br><span class="line"></span><br><span class="line">docker-compose run --rm stack is-db create-oauth-client \</span><br><span class="line">  --id cli \</span><br><span class="line">  --name &quot;Command Line Interface&quot; \</span><br><span class="line">  --owner admin \</span><br><span class="line">  --no-secret \</span><br><span class="line">  --redirect-uri &quot;local-callback&quot; \</span><br><span class="line">  --redirect-uri &quot;code&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># see config&#x2F;stack&#x2F;ttn-lw-stack-docker.yml</span><br><span class="line">CONSOLE_SECRET&#x3D;&quot;console&quot;</span><br><span class="line">SERVER_ADDRESS&#x3D;&quot;dev:1885&quot;</span><br><span class="line"></span><br><span class="line">docker-compose run --rm stack is-db create-oauth-client \</span><br><span class="line">  --id console \</span><br><span class="line">  --name &quot;Console&quot; \</span><br><span class="line">  --owner admin \</span><br><span class="line">  --secret &quot;$&#123;CONSOLE_SECRET&#125;&quot; \</span><br><span class="line">  --redirect-uri &quot;$&#123;SERVER_ADDRESS&#125;&#x2F;console&#x2F;oauth&#x2F;callback&quot; \</span><br><span class="line">  --redirect-uri &quot;&#x2F;console&#x2F;oauth&#x2F;callback&quot; \</span><br><span class="line">  --logout-redirect-uri &quot;$&#123;SERVER_ADDRESS&#125;&#x2F;console&quot; \</span><br><span class="line">  --logout-redirect-uri &quot;&#x2F;console&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Override"><a href="#Override" class="headerlink" title="Override"></a>Override</h2><p>Things Stack 是一个实现 LoRaWAN 协议的网络服务器。</p>
+<h3 id="什么是-Things-Stack"><a href="#什么是-Things-Stack" class="headerlink" title="什么是 Things Stack?"></a>什么是 Things Stack?</h3><p>The Things Stack是企业级的 LoRaWAN 网络服务器，建立在<a target="_blank" rel="noopener" href="https://github.com/TheThingsNetwork/lorawan-stack">开源核心</a>之上。Things Stack允许您在自己的硬件或云上构建和管理 LoRaWAN 网络。</p>
+<ul>
+<li><p>TTS 是 The Things Stack, LoRaWAN Network Server Stack。Things Stack 目前是网络服务器实现的版本3，因此也被非正式地称为V3。</p>
+</li>
+<li><p>TTN 是 “物联网”(The Things Network)，它是一个全球协同物联网生态系统，使用 LoRaWAN 创建网络、设备和解决方案。The Things Network 运行着 The Things Stack Community Edition，这是一个众包、开放和去中心化的 LoRaWAN 网络。这个网络是一个很好的开始测试设备、应用程序和集成，并熟悉 LoRaWAN 的方法。</p>
+</li>
+<li><p>TTI 是 The Things Industries:该公司主要负责The Things Stack 的开发和文档编写。Things Industries 还提供具有额外企业功能的云托管和本地私有 LoRaWAN 网络，以及针对企业客户的高级支持计划。</p>
+</li>
+</ul>
+<h2 id="Command-Line-Interface"><a href="#Command-Line-Interface" class="headerlink" title="Command-Line Interface"></a>Command-Line Interface</h2><p>…</p>
+<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><p>控制台是 LoRaWAN 的 Things Stack 的管理应用程序。它是一个 Web 应用程序，可以用来注册应用程序，终端设备或网关，监控网络流量，或配置网络相关选项等。</p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="Gateway-Server-MQTT"><a href="#Gateway-Server-MQTT" class="headerlink" title="Gateway Server MQTT"></a>Gateway Server MQTT</h3><p>MQTT 协议可用于开发自定义包转发器或网关桥接器，用于在网关和 The Things Stack 之间交换流量，或用于测试目的，方便地模拟网关流量。它是一个替代 Basic Station 和 Semtech UDP协议。</p>
+<p>MQTT 是用于交换消息的服务器-客户机协议。客户端可以连接到服务器并发布特定主题下的消息(数据)。它们还可以订阅一个主题，从而接收在该主题下发布的所有消息(由其他客户机或MQTT服务器本身发布)。</p>
+<p>网关服务器是 MQTT 服务器，网关作为 MQTT 客户端连接到网关服务器。连接的网关由用于身份验证的用户名标识。</p>
+<h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><p>为了与 MQTT 协议通信，网关服务器和网关正在交换 Protocol Buffers。<a target="_blank" rel="noopener" href="https://github.com/TheThingsNetwork/lorawan-stack/blob/v3.13/api/lorawan.proto">https://github.com/TheThingsNetwork/lorawan-stack/blob/v3.13/api/lorawan.proto</a></p>
+<h4 id="Connecting-to-the-Gateway-Server"><a href="#Connecting-to-the-Gateway-Server" class="headerlink" title="Connecting to the Gateway Server"></a>Connecting to the Gateway Server</h4><p>通过身份验证的客户端可以只写访问以下主题：</p>
+<ul>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/up:用于向网关服务器发送上行流量。</li>
+<li>v3/<gateway-id>@<tenant-id>/status:向网关服务器发送网关状态消息。</li>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/down/ack:用于向网关服务器发送TxAck消息。</li>
+</ul>
+<p>客户端也获得只读访问，并应该订阅以下主题:</p>
+<ul>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/down:网关服务器发布网关应该发送的下行消息。</li>
+</ul>
+<h4 id="Uplink-Messages"><a href="#Uplink-Messages" class="headerlink" title="Uplink Messages"></a>Uplink Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;up&quot; -f test-uplink-message</span><br></pre></td></tr></table></figure>
+<h4 id="Downlink-Messages"><a href="#Downlink-Messages" class="headerlink" title="Downlink Messages"></a>Downlink Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_sub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;down&quot; -v</span><br></pre></td></tr></table></figure>
+<h4 id="Gateway-Status-Messages"><a href="#Gateway-Status-Messages" class="headerlink" title="Gateway Status Messages"></a>Gateway Status Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;status&quot; -f test-gateway-status</span><br></pre></td></tr></table></figure>
+<h4 id="TxAck-Messages"><a href="#TxAck-Messages" class="headerlink" title="TxAck Messages"></a>TxAck Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;down&#x2F;ack&quot; -f example-tx-ack</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Working-with-Events"><a href="#Working-with-Events" class="headerlink" title="Working with Events"></a>Working with Events</h2><p>Things Stack 生成大量的事件，让你能够洞察正在发生的事情。可以订阅应用程序、网关、终端设备事件，以及用户、组织和 OAuth 客户端事件。</p>
+<h3 id="CLI"><a href="#CLI" class="headerlink" title="CLI"></a>CLI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttn-lw-cli events subscribe --gateway-id gtw1 --application-id app1</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># create api key token</span><br><span class="line">ttn-lw-cli users api-key create \</span><br><span class="line">  --user-id admin \</span><br><span class="line">  --right-application-all \</span><br><span class="line">  --right-gateway-all</span><br><span class="line"></span><br><span class="line"># subscribe stream</span><br><span class="line">curl https:&#x2F;&#x2F;thethings.example.com&#x2F;api&#x2F;v3&#x2F;events \</span><br><span class="line">  -X POST \</span><br><span class="line">  -H &quot;Authorization: Bearer NNSXS.BR55PTYILPPVXY..&quot; \</span><br><span class="line">  -H &quot;Accept: text&#x2F;event-stream&quot; \</span><br><span class="line">  --data &#39;&#123;&quot;identifiers&quot;:[&#123;&quot;application_ids&quot;:&#123;&quot;application_id&quot;:&quot;app1&quot;&#125;&#125;,&#123;&quot;gateway_ids&quot;:&#123;&quot;gateway_id&quot;:&quot;gtw1&quot;&#125;&#125;]&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><h3 id="Application-Server"><a href="#Application-Server" class="headerlink" title="Application Server"></a>Application Server</h3><p>Application Server 处理 LoRaWAN 应用层，包括上行数据的解密和解码、下行队列和下行数据的编码和加密。</p>
+<p>它托管一个用于流媒体应用程序数据的MQTT服务器，支持HTTP webhook以及发布/订阅集成。</p>
+<p>应用程序可以通过多种协议和机制连接到 Application Server。</p>
+<ul>
+<li>MQTT Protocol</li>
+</ul>
+<p>应用程序可以通过 MQTT 交换 JSON 消息来连接到应用服务器。MQTT 在 TLS 上可用，为应用程序和应用服务器之间交换的消息提供机密性。</p>
+<p>上行消息不仅包含数据上行消息，而且还包含不同主题的 join-accept 和 downlink 事件。</p>
+<ul>
+<li>HTTP Webhooks</li>
+</ul>
+<p>应用程序可以通过 HTTP webhook 获取流 JSON 消息，并通过向应用服务器发出 HTTP 请求来调度下行消息。</p>
+<p>与 MQTT 一样，可以配置所有上游消息，包括上行消息、加入接收事件和下行事件，每个都用于分隔 URL 路径。</p>
+<ul>
+<li>Pub/Sub Integrations</li>
+</ul>
+<p>应用程序还可以使用发布/订阅集成来处理流数据。这包括连接到外部 MQTT 服务器和 NATS 服务器。</p>
+<ul>
+<li>Message Processing</li>
+</ul>
+<p>Application Server 可以解码和编码由终端设备发送和接收的二进制有效负载。这允许使用结构化流数据，例如使用 MQTT 和 HTTP Webhook 的JSON对象，同时使用通过无线电传输的压缩二进制数据。</p>
+<p>消息处理器可以是众所周知的格式或自定义脚本，可以在设备级别或针对整个应用程序进行设置。</p>
+<h3 id="Network-Server"><a href="#Network-Server" class="headerlink" title="Network Server"></a>Network Server</h3><p>Network Server 负责处理 LoRaWAN 网络层，包括 MAC命令、区域参数和自适应数据速率(ADR)。</p>
+<h4 id="Device-Management"><a href="#Device-Management" class="headerlink" title="Device Management"></a>Device Management</h4><p> 网络服务器为终端设备(End-Device)管理公开了 NsEndDeviceRegistry 服务。该服务的典型客户端有 Console 和 CLI。</p>
+<p>网络服务器存储设备 MAC 配置、MAC状态 和网络会话密钥。</p>
+<p>设备MAC配置变化可能会触发下行报文。</p>
+<h4 id="Application-Downlink-Queue-Management-and-Linking"><a href="#Application-Downlink-Queue-Management-and-Linking" class="headerlink" title="Application Downlink Queue Management and Linking"></a>Application Downlink Queue Management and Linking</h4><p>网络服务器允许应用服务器推送、替换和列出应用下行链路，以及通过 gRPC API 链接应用。</p>
+<p>改变应用程序下行队列可能会触发下行消息。</p>
+<p>一旦链接建立，Network Server 将通过该链接向客户端发送特定于应用程序的上行消息。每个应用程序最多只能有一个活动链接。</p>
+<p>如果链接不是活动的，但是 Network Server 有特定于应用程序的上行消息要发送，这些消息将在链接建立后排队并发送。</p>
+<h4 id="Downlink-Scheduling"><a href="#Downlink-Scheduling" class="headerlink" title="Downlink Scheduling"></a>Downlink Scheduling</h4><p>网络服务器维护内部下行任务队列。每个下行任务都有一个与之相关的执行时间，这些任务按升序排列。每当下行任务准备执行时，它就会尽快执行。</p>
+<h5 id="Join-accept"><a href="#Join-accept" class="headerlink" title="Join-accept"></a>Join-accept</h5><p>如果存在一个挂起的会话，并且为该设备排队加入join-accept，它将被调度。</p>
+<h5 id="Data-downlink"><a href="#Data-downlink" class="headerlink" title="Data downlink"></a>Data downlink</h5><p>如果一个挂起的会话不存在或已经发送了 Join-accept, Network Server 将尝试在活动会话中生成并调度数据下行。</p>
+<h4 id="Uplink-Handing"><a href="#Uplink-Handing" class="headerlink" title="Uplink Handing"></a>Uplink Handing</h4><p>网络服务器通过 gRPC 从网关服务器接收上行链路。</p>
+<p>网络服务器对接收到的上行链路进行处理。第一步是将上行链路与设备匹配。如果上行链路不能与网络服务器中存储的设备匹配，则丢弃上行链路。</p>
+<h5 id="Join-Request"><a href="#Join-Request" class="headerlink" title="Join-Request"></a>Join-Request</h5><p>如果收到 Join-request:</p>
+<ol>
+<li>设备使用连接请求中出现的 DevEUI和 JoinEUI 对进行匹配，这是唯一标识设备的。</li>
+<li>新的 <code>DevAddr</code> 被分配给设备，新的 MAC 状态被派生出来。</li>
+<li>如果集群中存在 Join Server, Network Server 将向集群本地 Join Server 发送一个Join请求消息。</li>
+<li>如果集群中不存在 Join Server，或者设备没有在集群本地 Join Server 中提供，网络服务器将向通过互操作性配置发现的 Join Server 发送一个 Join 请求消息。</li>
+<li>如果一个 Join Server 接受了Join-request，设备可能会排队接收 Join-accept 消息，并向链接的 Application Server 发送特定于应用程序的上行消息，这些上行消息携带有关Join-accept 的信息。</li>
+</ol>
+<h5 id="Data-Uplink"><a href="#Data-Uplink" class="headerlink" title="Data Uplink"></a>Data Uplink</h5><p>如果收到数据上行：</p>
+<ol>
+<li>使用数据上行链路中存在的 DevAddr 匹配设备。通过比较会话上下文和 MAC 状态进行匹配，并进行 MIC 检查。由于多个设备可能具有相同的 DevAddr，网络服务器在匹配设备之前可能需要通过多个存储设备。</li>
+<li>网络服务器处理 MAC 命令，如果这样的命令存在于帧中，并相应地更新 MAC 状态。</li>
+<li>如果数据上行配置了ADR 位，Network Server 运行 ADR 算法，更新 MAC 状态。</li>
+<li>如果数据上行链路处理成功，下行链路可能会为设备排队，一个或多个特定于应用程序的上行消息携带有关 Join-accept 的相关信息被发送到链接的应用服务器。</li>
+</ol>
+<h3 id="Identity-Server"><a href="#Identity-Server" class="headerlink" title="Identity Server"></a>Identity Server</h3><p>身份服务器提供了存储实体(如应用程序及其终端设备、网关、用户、组织、OAuth客户端和身份验证提供者)的注册中心。它还通过成员关系和API键管理访问控制。</p>
+<h4 id="Entity-Registries"><a href="#Entity-Registries" class="headerlink" title="Entity Registries"></a>Entity Registries</h4><p>实体注册中心存储关于 Things Stack 中所有主要实体的公共信息。这包括名称、描述和属性(用户定义的键值对)。</p>
+<h5 id="Users"><a href="#Users" class="headerlink" title="Users"></a>Users</h5><p>在 Identity Server 中注册的第一个实体通常是管理用户。用户可以通过提供电子邮件地址并选择用户ID和密码进行注册。这些信息以后可以用于登录。</p>
+<p>用户ID是用户的唯一标识符。用户 ID 与组织 ID 在同一个命名空间中。这意味着不可能创建与现有组织具有相同ID的用户。出于安全原因，也不可能重用已删除用户或组织的ID。</p>
+<p>用户可以是“admin”，这给了他们更高的权限。正常的注册过程不允许用户注册为 admin，这就是为什么入门指南使用不同的命令创建admin用户。</p>
+<p>用户可以处于多个状态之一：请求、批准、拒绝、挂起等。用户的状态决定了用户是否能够执行操作，以及哪些操作。正常情况下，用户处于“批准”状态。如果 The Things Stack 被配置为需要新用户的管理批准，那么用户最初处于“请求”状态，管理用户可以将其更新为“批准”或“拒绝”状态。如果用户行为不当，也可能被管理员挂起。</p>
+<h5 id="Gateways"><a href="#Gateways" class="headerlink" title="Gateways"></a>Gateways</h5><p>网关可以通过选择一个ID和可选地注册网关的EUI来注册。注册后，可以创建一个API密钥；网关可以使用它的ID(或EUI)和API密钥一起使用 The Things Stack 进行身份验证。</p>
+<p>为了保证网关的正常运行，需要设置频率规划ID，并设置网关是否需要满足占空比。</p>
+<p>如果网关能够与网关配置服务器通信，则可以在网关注册表中设置网关服务器地址和固件更新设置。</p>
+<p>网关注册表还存储有关网关天线的信息，如位置和增益。</p>
+<h5 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h5><p>应用程序用于在一个地方组织多个终端设备的注册和流量。应用程序通常对应于处于相同部署或相同类型的终端设备集合。</p>
+<h5 id="End-Devices"><a href="#End-Devices" class="headerlink" title="End Devices"></a>End Devices</h5><p>Identity Server 中的终端设备注册表只存储终端设备的元数据，允许  Console 和 CLI 等客户端在应用程序中列出终端设备。它通常存储有关终端设备的品牌、模型、硬件、固件和位置的元数据。它还存储了 Network Server、Application Server 和Join Server的地址，以便 Console 和 CLI 等客户机知道存储终端设备的其他属性的位置。</p>
+<h5 id="Organizations"><a href="#Organizations" class="headerlink" title="Organizations"></a>Organizations</h5><p>组织用于创建多个用户组，并方便地为整个用户组分配权限。</p>
+<p>组织ID是组织的唯一标识符。组织id与用户id在相同的命名空间中。这意味着不可能创建具有与现有用户相同ID的组织。出于安全原因，也不可能重用已删除用户或组织的ID。</p>
+<h5 id="OAuth-Clients"><a href="#OAuth-Clients" class="headerlink" title="OAuth Clients"></a>OAuth Clients</h5><p>可以在 OAuth 注册表中注册外部 OAuth 客户端。OAuth 客户端使用客户端ID和秘密进行注册。</p>
+<p>与用户一样，OAuth客户机可以处于多种状态中的一种。非admin用户创建的OAuth客户端需要admin用户审批。</p>
+<p>官方的OAuth客户端可以被标记为“背书”，或者可以为所有用户预先授权。</p>
+<h5 id="Authentication-Providers"><a href="#Authentication-Providers" class="headerlink" title="Authentication Providers"></a>Authentication Providers</h5><p>联邦身份验证提供者可以在身份验证提供者注册中心中注册。身份验证提供者使用ID、名称和提供者配置注册。</p>
+<p>身份验证提供者用于允许 Identity Server 从外部身份提供者(如OpenID Connect提供者)获得用户的身份。</p>
+<h4 id="Entity-Access"><a href="#Entity-Access" class="headerlink" title="Entity Access"></a>Entity Access</h4><p>标识服务器负责对实体的访问控制。</p>
+<h5 id="Memberships"><a href="#Memberships" class="headerlink" title="Memberships"></a>Memberships</h5><p>成员资格定义了用户或组织对另一个实体拥有的权利。最简单的成员关系是用户是应用程序或网关的直接成员(或合作者)。成员资格的权限表明允许用户对应用程序或网关做什么。</p>
+<p>间接成员关系是指用户是某个组织的成员，而该组织是某个应用程序或网关的成员。在这种情况下，用户-组织成员关系的权限与组织-应用或组织-网关成员关系的权限相交，计算出该用户的有效权限。</p>
+<h5 id="API-Keys"><a href="#API-Keys" class="headerlink" title="API Keys"></a>API Keys</h5><p>对于大多数实体，都可以创建API Keys。这些 API Keys 允许您代表实体调用 API。API 密钥不会过期，但是可以撤销 API 密钥。</p>
+<p>API键具有相关联的权限。这意味着可以创建一个应用程序API密钥，该密钥可以用来读取有关终端设备的信息，但不能看到根密钥，也不能进行更改。</p>
+<p>可以合并成员资格和API密钥，例如，您可以创建一个组织API密钥，该密钥具有列出组织成员所在的应用程序的权利，以及读取这些应用程序中终端设备信息的权利。</p>
+<h4 id="OAuth"><a href="#OAuth" class="headerlink" title="OAuth"></a>OAuth</h4><p>Identity Server 是 OAuth 2.0 服务器。用户可以授权 OAuth 客户机访问他们的数据、管理授权，甚至管理单个访问令牌。</p>
+<h3 id="Join-Server"><a href="#Join-Server" class="headerlink" title="Join Server"></a>Join Server</h3><p>连接服务器处理 LoRaWAN 连接流，包括网络和应用服务器身份验证和会话密钥生成。</p>
+<h4 id="Join-Procedure"><a href="#Join-Procedure" class="headerlink" title="Join Procedure"></a>Join Procedure</h4><p>连接服务器通过 gRPC 接收来自网络服务器的加入请求，如果加入请求验证通过，则为注册设备发出加入接收。</p>
+<p>如果接受了一个连接请求，Join Server将派生会话安全上下文，该上下文包含会话密钥，并由会话密钥 ID 标识。使用分别在网络服务器和应用服务器之间共享的密钥加密密钥(KEKs)， Join Servers 加密派生的网络和应用程序会话密钥，并将会话密钥以加密的形式包含在 Join-accept 中。</p>
+<h4 id="Device-Management-1"><a href="#Device-Management-1" class="headerlink" title="Device Management"></a>Device Management</h4><p>Join Servers 公开JsEndDeviceRegistry 服务用于终端设备管理。该服务的典型客户端有 Console 和 CLI。</p>
+<p>Join Servers 存储设备根和会话密钥。</p>
+<h4 id="Session-Key-Retrieval"><a href="#Session-Key-Retrieval" class="headerlink" title="Session Key Retrieval"></a>Session Key Retrieval</h4><p>Join Servers 公开 rpc 以检索给定会话密钥ID的会话密钥。</p>
+<h4 id="Interoperability"><a href="#Interoperability" class="headerlink" title="Interoperability"></a>Interoperability</h4><p>Join Servers 公开了LoRaWAN后端接口 1.0 规范中定义的 AS-JS、vNS-JS 和 hNS-JS 服务。</p>
+<h3 id="Gateway-Server"><a href="#Gateway-Server" class="headerlink" title="Gateway Server"></a>Gateway Server</h3><p>网关服务器维护与支持基站、UDP、MQTT 和 gRPC 协议的网关的连接。上行流量直接或间接转发给网络服务器，下行流量由网关调度。</p>
+<h4 id="Connective"><a href="#Connective" class="headerlink" title="Connective"></a>Connective</h4><p>网关可以通过多种协议连接到网关服务器。</p>
+<ul>
+<li>Basic Station Protocol</li>
+</ul>
+<p>网关可以通过基站 LNS 协议与网关服务器连接。建议使用此协议连接网关。</p>
+<ul>
+<li>UDP Protocol</li>
+</ul>
+<p>网关可以通过 UDP 协议连接到网关服务器。与每条消息一起发送的 EUI 用于标识网关。</p>
+<p>如果在标识服务器中找到具有此 EUI 的网关，则消息与此网关相关。否则，根据网络配置，上行链路可能被路由或丢弃。但是，由于无法识别其区域参数，网络将不会向此网关发送下行链路。</p>
+<p>旧版本的数据包转发器实现 UDP 协议没有实现任何排队系统下行链路，导致数据包丢失，因为 SX130x 集中器不缓冲多个下行链路。因此，对于 UDP 协议，Things Stack 实现了向下发送到网关的延迟，这意味着它们将由集中器发出。您可以每个网关单独禁用此功能，例如，如果网关和网关服务器之间的RTT过高。</p>
+<ul>
+<li>MQTT Protocol</li>
+</ul>
+<p>网关可以通过 MQTT 交换 Protocol Buffer 连接到网关服务器。MQTT 可在TLS上使用，提供网关和网络之间交换的消息的机密性。与使用 JSON 编码的 UDP 协议相比，使用 Protocol Buffer 的编码减少了带宽的使用。技术细节请参见网关服务器MQTT协议。</p>
+<p>实现 MQTT 协议的包转发器(Packet forwarders)特定于Things Stack。</p>
+<h4 id="Gateway-Information"><a href="#Gateway-Information" class="headerlink" title="Gateway Information"></a>Gateway Information</h4><p>当连接网关时，网关服务器会统计与网关交换的消息以及网关发送的状态消息。这些统计数据可以通过网关服务器的gRPC和HTTP api来检索。看到Gs服务。</p>
+<h4 id="Communication-with-Network-Server"><a href="#Communication-with-Network-Server" class="headerlink" title="Communication with Network Server"></a>Communication with Network Server</h4><p>网关服务器的主要功能是维护与网关的连接，并作为网关和网络服务器之间的中继。</p>
+<h5 id="Uplink-Messages-1"><a href="#Uplink-Messages-1" class="headerlink" title="Uplink Messages"></a>Uplink Messages</h5><p>当网关服务器接收数据上行消息时，根据设备的 DevAddr 和配置的转发表决定发送到哪个 Network Server。连接请求被路由到所有已配置的端点。端点可以是集群的 gRPC 网络服务器，或者是中间流量路由机制。</p>
+<h5 id="Downlink-Messages-1"><a href="#Downlink-Messages-1" class="headerlink" title="Downlink Messages"></a>Downlink Messages</h5><p>网络服务器可以请求下行消息的传输。网关服务器尝试基于所选网关、发送消息的时间和 LoRaWAN 设置(下行链路类、RX1延迟和RX1/RX2数据速率和频率)来调度消息。</p>
+<p>网关服务器跟踪所有发送的和连接到它的网关将要发送的下行链路，包括基于消息大小和数据速率的准确广播时间。这使得 The Things Stack 能够进行智能调度。除了定时和 LoRaWAN 设置，网关服务器考虑到适用的限制，包括：</p>
+<ul>
+<li>调度冲突：如果一个下行链路的发送与另一个下行链路的发送重叠，则下行链路将被拒绝。</li>
+<li>停飞时间：一些频带和频率计划有停飞时间限制，这意味着网关在发送下行链路后的一段时间内不能发射。</li>
+<li>频宽比：一些国家，如欧洲国家，有频宽比限制，禁止一个设备在一定范围内排放超过一定百分比的时间。</li>
+<li>停留时间：一些国家，如美国，受停留时间的规定，即传输的持续时间不能超过一定的限制。</li>
+</ul>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><h3 id="Port-Allocations"><a href="#Port-Allocations" class="headerlink" title="Port Allocations"></a>Port Allocations</h3><p>The following table lists the default ports used.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Purpose</strong></th>
+<th><strong>Protocol</strong></th>
+<th><strong>Authentication</strong></th>
+<th><strong>Port</strong></th>
+<th><strong>Port (TLS)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gateway data</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/Lora-net/packet_forwarder/blob/master/PROTOCOL.TXT">Semtech Packet Forwarder</a></td>
+<td>None</td>
+<td>1700 (UDP)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Gateway data</td>
+<td>MQTT (V2)</td>
+<td>API key, token</td>
+<td>1881</td>
+<td>8881</td>
+</tr>
+<tr>
+<td>Gateway data</td>
+<td>MQTT</td>
+<td>API key, token</td>
+<td>1882</td>
+<td>8882</td>
+</tr>
+<tr>
+<td>Application data, events</td>
+<td>MQTT</td>
+<td>API key, token</td>
+<td>1883</td>
+<td>8883</td>
+</tr>
+<tr>
+<td>Management, data, events</td>
+<td>gRPC</td>
+<td>API key, token</td>
+<td>1884</td>
+<td>8884</td>
+</tr>
+<tr>
+<td>Management</td>
+<td>HTTP</td>
+<td>API key, token</td>
+<td>1885</td>
+<td>8885</td>
+</tr>
+<tr>
+<td>Backend Interfaces</td>
+<td>HTTP</td>
+<td>Custom</td>
+<td>N/A</td>
+<td>8886</td>
+</tr>
+<tr>
+<td>LNS</td>
+<td>Web Sockets</td>
+<td>Auth Token, Custom</td>
+<td>1887</td>
+<td>8887</td>
+</tr>
+<tr>
+<td>Tabs Hubs LNS</td>
+<td>Web Sockets</td>
+<td>Auth Token, Custom</td>
+<td>1888</td>
+<td>8888</td>
+</tr>
+</tbody></table>
+<h3 id="Service-Discovery"><a href="#Service-Discovery" class="headerlink" title="Service Discovery"></a>Service Discovery</h3><p>The Things Stack supports discovering services using DNS SRV records. This is useful when dialing a cluster only by host name; the supported services and target host name and port are discovered using DNS.</p>
+<p>To support service discovery for your The Things Stack cluster, configure DNS SRV records with the following services and protocols:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>SRV Service</strong></th>
+<th><strong>SRV Protocol</strong></th>
+<th><strong>SRV Target</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gRPC</td>
+<td><code>ttn-v3-is-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Identity Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-gs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>Semtech Packet Forwarder</td>
+<td><code>ttn-v3-gs-udp</code></td>
+<td><code>udp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>MQTT (V2)</td>
+<td><code>ttn-v3-gs-mqttv2</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td><code>ttn-v3-gs-mqtt</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>Basic Station LNS</td>
+<td><code>ttn-v3-gs-basicstationlns</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-ns-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Network Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-as-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Application Server</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td><code>ttn-v3-as-mqtt</code></td>
+<td><code>tcp</code></td>
+<td>Application Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-js-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Join Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-dtc-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Device Template Converter</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-dcs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Device Claiming Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-gcs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Configuration Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-qrg-grpc</code></td>
+<td><code>tcp</code></td>
+<td>QR Code Generator</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/25/iot-chirpstack-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/25/iot-chirpstack-notes/" class="post-title-link" itemprop="url">ChirpStack 笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-25 20:00:00" itemprop="dateCreated datePublished" datetime="2021-05-25T20:00:00+08:00">2021-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-10 14:33:21" itemprop="dateModified" datetime="2021-06-10T14:33:21+08:00">2021-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IoT/" itemprop="url" rel="index"><span itemprop="name">IoT</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a target="_blank" rel="noopener" href="https://www.chirpstack.io/">https://www.chirpstack.io/</a></p>
+<p>LoRaWAN®是一种低功耗、广域(LPWA)网络协议，设计用于在区域、国家或全球网络中将电池操作的“事物”无线连接到互联网，并针对物联网的关键需求，如双向通信、端到端安全性、移动性和本地化服务。</p>
+<p>ChirpStack 为 LoRaWAN 网络提供开源组件。它们一起形成了一个现成的解决方案，包括用于设备管理的用户友好的 WEB 界面和用于集成的 API。模块化的体系结构使得在现有的基础设施中集成成为可能。所有组件都在MIT许可下许可，并可用于商业目的。提供了以下组件:</p>
+<ul>
+<li>ChirpStack网关桥：处理与 LoRaWAN 网关的通信。</li>
+<li>ChirpStack网络服务器：一个 LoRaWAN 网络服务器的实现。</li>
+<li>ChirpStack应用服务器：一个 LoRaWAN 应用服务器的实现。</li>
+<li>ChirpStack Gateway OS：在基于树莓派(<em>Raspberry Pi</em>)的 LoRa 网关上运行(完整) ChirpStack栈的 Linux 操作系统。</li>
+</ul>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://www.chirpstack.io/static/img/graphs/architecture.dot.png" alt="architecture"></p>
+<h3 id="LoRaWAN-设备"><a href="#LoRaWAN-设备" class="headerlink" title="LoRaWAN 设备"></a>LoRaWAN 设备</h3><p>LoRaWAN设备(上图中未显示)是通过一个或多个 LoRa 网关向 ChirpStack 网络服务器发送数据的设备。例如，这些设备可以是测量空气质量、温度、湿度、位置的传感器…</p>
+<h3 id="LoRa®网关"><a href="#LoRa®网关" class="headerlink" title="LoRa®网关"></a>LoRa®网关</h3><p>一个 LoRa 网关(通常)同时侦听 8 个或更多的通道，并将接收到的数据(从设备)转发到一个 LoRaWAN 网络服务器(在本例中是 ChirpStack 网络服务器)。运行在 LoRa 网关上负责接收和发送的软件称为包转发器(Packet Forwarder)。常见的实现是 <a target="_blank" rel="noopener" href="https://github.com/Lora-net/packet_forwarder/">Semtech UDP Packet Forwarder</a> 和 <a target="_blank" rel="noopener" href="https://doc.sm.tc/station/">Semtech Basic Station Packet Forwarder</a>.。</p>
+<h3 id="ChirpStack-网关桥"><a href="#ChirpStack-网关桥" class="headerlink" title="ChirpStack 网关桥"></a>ChirpStack 网关桥</h3><p>ChirpStack 网关桥接器位于数据包转发器和 MQTT 代理之间。它将数据包转发器格式(如Semtech UDP数据包转发器协议)转换为数据格式，由 ChirpStack 组件使用。它还提供与各种云平台的集成，如 GCP 云物联网核心和 Azure 物联网枢纽。</p>
+<h3 id="ChirpStack-网络服务器"><a href="#ChirpStack-网络服务器" class="headerlink" title="ChirpStack 网络服务器"></a>ChirpStack 网络服务器</h3><p>ChirpStack 网络服务器是一个 LoRaWAN 网络服务器，负责管理网络状态。它具有网络上设备激活的知识，并能够在设备想要加入网络时处理连接请求。</p>
+<p>当数据被多个网关接收时，ChirpStack 网络服务器将删除这些重复数据，并将其作为一个有效负载转发到 ChirpStack 应用服务器。</p>
+<p>当应用服务器需要将数据发送回设备时，ChirpStack 网络服务器将把这些项目保存在队列中，直到它能够发送到其中一个网关。</p>
+<h3 id="ChirpStack应用服务器"><a href="#ChirpStack应用服务器" class="headerlink" title="ChirpStack应用服务器"></a>ChirpStack应用服务器</h3><p>ChirpStack 应用服务器是 LoRaWAN 应用服务器，与 ChirpStack 网络服务器兼容。它提供了一个 WEB 界面和 API，用于管理用户、组织、应用、网关和设备。</p>
+<p>接收到的上行数据被转发到一个或多个已配置的集成。</p>
+<h3 id="终端应用"><a href="#终端应用" class="headerlink" title="终端应用"></a>终端应用</h3><p>终端应用程序通过一个已配置的集成接收设备数据。它可以使用 ChirpStack 应用服务器 API 来调度设备的下行有效负载。终端应用程序的目的可能是分析、警报、数据可视化、触发操作……</p>
+<h2 id="ChirpStack-Application-Server"><a href="#ChirpStack-Application-Server" class="headerlink" title="ChirpStack Application Server"></a>ChirpStack Application Server</h2><p>ChirpStack Application Server是一个开源的LoRaWAN®应用服务器，是 ChirpStack 开源 LoRaWAN 网络服务器堆栈的一部分。它负责 LoRaWAN 基础设施的设备“库存”部分，处理连接请求和应用程序有效负载的处理和加密。 </p>
+<p>它提供了一个可以管理用户、组织、应用程序和设备的网络界面。为了与外部服务集成，它提供了 gRPC 和 RESTful API。</p>
+<p>发送 和/或 接收的设备数据可以通过 MQTT、HTTP 或直接写入到 InfluxDB。</p>
+<h3 id="有效载荷加密-解密"><a href="#有效载荷加密-解密" class="headerlink" title="有效载荷加密/解密"></a>有效载荷加密/解密</h3><p>ChirpStack Application Server 处理应用程序有效负载的加密和解密。它还保存每个设备的应用程序键，并在 OTAA 激活时处理 join-accept。这意味着有效载荷将被解密发送到集成，但在有效载荷被发送到 ChirpStack 网络服务器之前，网络服务器无法访问这些有效载荷。</p>
+<h3 id="Web-界面"><a href="#Web-界面" class="headerlink" title="Web 界面"></a>Web 界面</h3><p>ChirpStack Application Server 提供了一个 Web 界面 (构建在提供的 RESTful API 之上)。这个 Web 界面可以用来管理用户、组织、应用程序和设备。</p>
+<h3 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h3><p>使用 ChirpStack Application Server，可以授予用户全局的管理员权限，使他们成为组织的管理员，或者为他们分配组织内的仅查看权限。这使得在多租户环境中运行 ChirpStack Application Server 成为可能，在这种环境中，每个组织或团队只能访问他们自己的应用程序和设备。</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>为了与外部服务集成，ChirpStack Application Server 提供了gRPC 和 RESTFul API，公开了与 Web 界面相同的功能。</p>
+<h3 id="有效载荷和设备事件"><a href="#有效载荷和设备事件" class="headerlink" title="有效载荷和设备事件"></a>有效载荷和设备事件</h3><p>ChirpStack Application Server 提供了不同的方式发送和接收设备负载(例如MQTT, HTTP, InfluxDB，…)。</p>
+<p>注意:下行负载也可以通过API进行调度。</p>
+<h3 id="网关发现"><a href="#网关发现" class="headerlink" title="网关发现"></a>网关发现</h3><p>对于包含多个网关的网络，ChirpStack Application Server 提供了一个特性来测试网关的网络覆盖。通过向每个网关定期发送 “ping”，ChirpStack 应用服务器能够发现这些 ping 被同一网络中的其他网关接收的情况。采集到的数据以地图的形式显示在 Web 界面上。可以为每个 Network Server 启用和配置此功能。</p>
+<h3 id="活动的帧日志-frame-logging"><a href="#活动的帧日志-frame-logging" class="headerlink" title="活动的帧日志(frame-logging)"></a>活动的帧日志(frame-logging)</h3><p>使用 ChirpStack Application Server，可以检查每个网关或设备的所有原始和加密的 LoRaWAN 帧。当打开网关或设备详细信息页面上的 LoRaWAN 帧标签时，将看到实时的所有帧。这也将允许您检查每个 LoRaWAN 帧的(加密)内容。</p>
+<h3 id="活动的事件日志-event-logging"><a href="#活动的事件日志-event-logging" class="headerlink" title="活动的事件日志(event-logging)"></a>活动的事件日志(event-logging)</h3><p>使用 ChirpStack Application Server，可以从 Web 界面检查所有事件，而不需要使用 MQTT 客户端或构建集成。当打开实时事件日志标签上的设备详情，将看到所有实时 uplink，ack，join 和 error 事件。</p>
+<h2 id="Startup"><a href="#Startup" class="headerlink" title="Startup"></a>Startup</h2><h3 id="certs-optional"><a href="#certs-optional" class="headerlink" title="certs (optional)"></a>certs (optional)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rm -rf certs&#x2F;ca</span><br><span class="line">mkdir -p certs&#x2F;ca</span><br><span class="line">cfssl gencert -initca config&#x2F;ca-csr.json | cfssljson -bare certs&#x2F;ca&#x2F;ca</span><br><span class="line"></span><br><span class="line">mkdir -p certs&#x2F;mqtt&#x2F;server</span><br><span class="line">cfssl gencert -ca certs&#x2F;ca&#x2F;ca.pem -ca-key certs&#x2F;ca&#x2F;ca-key.pem -config config&#x2F;ca-config.json -profile server config&#x2F;mqtt&#x2F;server&#x2F;certificate.json | cfssljson -bare certs&#x2F;mqtt&#x2F;server&#x2F;mqtt-server</span><br><span class="line"></span><br><span class="line">cp certs&#x2F;ca&#x2F;* ~&#x2F;codebase&#x2F;oss&#x2F;chirpstack&#x2F;mqtt&#x2F;specs&#x2F;</span><br><span class="line">cp certs&#x2F;mqtt&#x2F;server&#x2F;* ~&#x2F;codebase&#x2F;oss&#x2F;chirpstack&#x2F;mqtt&#x2F;specs&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="mosquitto"><a href="#mosquitto" class="headerlink" title="mosquitto"></a>mosquitto</h3><p><a target="_blank" rel="noopener" href="https://mosquitto.org/">https://mosquitto.org/</a></p>
+<blockquote>
+<p>mosquitto mqtt-broker</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -p 11883:1883 -p 19001:9001 -v ./oss/chirpstack/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf -v ./oss/chirpstack/mqtt/specs:/usr/local/certs --name mqtt-broker eclipse-mosquitto</span><br><span class="line"></span><br><span class="line">docker exec -it mqtt-broker sh</span><br><span class="line"></span><br><span class="line">mosquitto_sub -d -v -h mqtt-broker -p 11883 -t test --cafile /usr/local/certs/ca.pem</span><br><span class="line">mosquitto_pub -d -h mqtt-broker -p 11883 -t test -m hellomqtt --cafile /usr/local/certs/ca.pem</span><br></pre></td></tr></table></figure>
+<h3 id="chirpstack-docker"><a href="#chirpstack-docker" class="headerlink" title="chirpstack-docker"></a>chirpstack-docker</h3><p><a target="_blank" rel="noopener" href="https://github.com/brocaar/chirpstack-docker">https://github.com/brocaar/chirpstack-docker</a></p>
+<blockquote>
+<p>docker-compose.yml</p>
+<p>chirpstack-application-server.toml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd chirpstack-docker</span><br><span class="line"></span><br><span class="line">docker-compose up</span><br><span class="line">docker-compose rm</span><br></pre></td></tr></table></figure>
+<h3 id="chirpstack-simulator"><a href="#chirpstack-simulator" class="headerlink" title="chirpstack-simulator"></a>chirpstack-simulator</h3><h4 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;brocaar&#x2F;chirpstack-simulator</span><br></pre></td></tr></table></figure>
+<h4 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h4><p>解决 proxy.golang.org 无法访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env -w GOPROXY&#x3D;https:&#x2F;&#x2F;goproxy.cn</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build -a -installsuffix cgo -ldflags &quot;-s -w -X main.version&#x3D;37a7e02&quot; -o build&#x2F;chirpstack-simulator cmd&#x2F;chirpstack-simulator&#x2F;main.go</span><br></pre></td></tr></table></figure>
+<h4 id="Startup-1"><a href="#Startup-1" class="headerlink" title="Startup"></a>Startup</h4><p><code>chirpstack-simulator.toml</code> (修改配置文件，用于自动创建设备及模拟设备感知数据)</p>
+<ul>
+<li>jwt_token (Application Server API Keys)</li>
+<li>service_profile_id (Application Server Service Profile)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;build&#x2F;chirpstack-simulator -c chirpstack-simulator.toml</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/19/pmp-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/19/pmp-notes/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-19 10:14:02" itemprop="dateCreated datePublished" datetime="2021-05-19T10:14:02+08:00">2021-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-23 15:49:54" itemprop="dateModified" datetime="2021-05-23T15:49:54+08:00">2021-05-23</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SPEMF</p>
+<ul>
+<li>START</li>
+<li>PLAN</li>
+<li>EXECUTE</li>
+<li>MONITOR</li>
+<li>FINISH</li>
+</ul>
+<h2 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h2><h3 id="S制定项目章程"><a href="#S制定项目章程" class="headerlink" title="S制定项目章程"></a>S制定项目章程</h3><h3 id="P制定项目管理计划"><a href="#P制定项目管理计划" class="headerlink" title="P制定项目管理计划"></a>P制定项目管理计划</h3><ul>
+<li>子计划：9+1(需求)</li>
+<li>基准: 范围、进度、成本</li>
+<li>其他：变更管理、配置管理、绩效测量、生命周期、开发方法、管理审查</li>
+</ul>
+<p>![image-20210519101409876](/Users/shankai/Library/Application Support/typora-user-images/image-20210519101409876.png)</p>
+<h3 id="E指导与管理项目工作"><a href="#E指导与管理项目工作" class="headerlink" title="E指导与管理项目工作"></a>E指导与管理项目工作</h3><h3 id="E管理项目知识"><a href="#E管理项目知识" class="headerlink" title="E管理项目知识"></a>E管理项目知识</h3><h2 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h2><p>范围基准</p>
+<ul>
+<li><p>项目范围说明书</p>
+</li>
+<li><p>WBS</p>
+</li>
+<li><p>WBS 词典</p>
+</li>
+<li><p>工作包</p>
+</li>
+<li><p>规划包</p>
+</li>
+</ul>
+<p>收集需求</p>
+<ul>
+<li>需求文件</li>
+<li>需求跟踪矩阵</li>
+</ul>
+<blockquote>
+<p>需求跟踪矩阵</p>
+</blockquote>
+<p>需求跟踪矩阵提供了在整个项目生命周期中跟踪需求的一种方法，有助于确保需求文件中被批准的每项需求在项目结束的时候都能交付。应在需求跟踪矩阵中记录每个需求的相关属性，这些属性有助于明确每个需求的关键信息。为确保相关方满意，可能需要增加一些补充属性，如稳定性、复杂性和验收标准。</p>
+<h2 id="进度"><a href="#进度" class="headerlink" title="进度"></a>进度</h2><p>进度压缩</p>
+<ul>
+<li>快速跟进（返工风险）</li>
+<li>赶工（增加成本，改变关键路径）</li>
+</ul>
+<p>==<strong>进度基准？</strong>==</p>
+<blockquote>
+<p>RAM责任分配矩阵(Responsibility Assignment Matrix) </p>
+</blockquote>
+<p><strong>责任分配矩阵</strong>是用来对<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/%E9%A1%B9%E7%9B%AE%E5%9B%A2%E9%98%9F">项目团队</a>成员进行分工，明确其角色与职责的有效工具，通过这样的关系矩阵，项目团队每个成员的角色，也就是谁做什么，以及他们的职责，也就是谁决定什么，得到了直观地反映。项目的每个具体任务都能落实到参与项目的团队成员身上，确保了项目的事有人做，人有事干。</p>
+<blockquote>
+<p>RACI </p>
+</blockquote>
+<p>RAM显示每个工作包分配了哪些资源;</p>
+<p>RACI 可以直接查某个资源承担了哪些工作(活动)，RACI更具体和清晰，便于团队成员可以了解自己承担的工作职责。</p>
+<h3 id="排列活动顺序"><a href="#排列活动顺序" class="headerlink" title="排列活动顺序"></a>排列活动顺序</h3><p>确定和整合依赖关系</p>
+<ul>
+<li>强制性：法律或合同要求的</li>
+<li>选择性：基于应用领域的最佳实践或某些特性</li>
+<li>外部的：项目活动与非项目活动之间的依赖，这些依赖不在项目控制范围内</li>
+<li>内部的：项目活动之间的紧前关系</li>
+</ul>
+<blockquote>
+<p>资源平衡</p>
+</blockquote>
+<p>为了在资源需求与资源供给之间取得平衡，根据资源制约因素对开始日期和完成日期进行调整的一种技术。如果共享资源或关键资源只在特定时间可用，数量有限，或被过度分配，或为保持资源使用量处于均衡水平，就需要进行资源平衡。</p>
+<h2 id="采购"><a href="#采购" class="headerlink" title="采购"></a>采购</h2><h3 id="合同类型"><a href="#合同类型" class="headerlink" title="合同类型"></a>合同类型</h3><ul>
+<li>固定总价（FP）（明确定义需求，且不会出现重大范围变更的情况下使用）<ul>
+<li>固定总价（FFP）（利好买方，风险在卖方）签订周期较长（核实范围），实施周期较短</li>
+<li>总价+激励费用（FPIF）（完成目标给与奖励，有天花板，高于后由卖方承担）</li>
+<li>总价+经济价格调整（FPEPA）（卖方履约时间紧，或受汇率影响较大的情况）</li>
+</ul>
+</li>
+<li>工料（T&amp;M）：在无法快速编制出准确的工作说明书下扩充人员、聘请专家或寻求外部支持时。工料合同与固定单价合同相似。</li>
+<li>成本补偿（CR）（工作范围预计会在合同执行期间发生重大变更，或项目存在较高风险时使用）<ul>
+<li>固定费用（CPFF）为卖方履行合同发生的一切可列支成本，并向卖方支付一笔固定费用。</li>
+<li>激励费用（CPIF）为卖方履行合同发生的一切可列支成本，并在卖方达到合同规定绩效时，支付预先确定的激励费用（无天花板）。买卖双方按预先商定的分摊比例分享利润或分担超支。</li>
+<li>奖励费用（CPAF）为卖方报销一切合法成本，仅在卖方满足买方主观绩效标准下，支付大部分费用。不允许申诉。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>预期货币值(EMV) </p>
+</blockquote>
+<p>预期货币值，又称风险暴露值、风险期望值，是定量风险分析的一种技术，英文名为：ExpectedMonetaryValue，因此在计算使用中，通常用EMV来表示。机会的EMV通常表示为正值，而威胁的EMV则表示为负值。EMV是建立在风险中立的假设之上的，既不避险，也不冒险。因此，在审核一个项目时，经常会计算项目的EMV。</p>
+<p>预期货币常和决策树一起使用，它是将特定情况下可能的风险造成的货币后果和发生概率相乘，此项目包含了风险和现金的考虑。正值表示机会，负值表示风险。每个可能结果的数值与发生机率相乘后相加，就可以计算出项目的EMV。</p>
+<blockquote>
+<p>质量成本（cost of quality）包括在产品生命周期中为预防不符合要求，为评估产品或服务是否符合要求，以及因未达到要求（返工），而发生的所有成本。</p>
+</blockquote>
+<p>一致性成本（cost of conformance），该成本是预防性的，在缺陷发生之前付出的，用于质量与要求或规范一致而付出的成本。</p>
+<ul>
+<li>预防成本</li>
+<li>评估成本</li>
+</ul>
+<p>非一致性成本：<br>非一致性成本（cost of non-conformance），是由于质量与要求或者规范不一致而造成的成本。</p>
+<ul>
+<li>内部失败成本</li>
+<li>外部失败成本</li>
+</ul>
+<blockquote>
+<p>净现值(Net Present Value, NPV)</p>
+</blockquote>
+<p>净现值指未来资金(现金)流入(收入)现值与未来资金(现金)流出(支出)现值的差额。项目评估中净现值法的基本指标。未来的资金流入与资金流出均按预计折现率各个时期的现值系数换算为现值后，再确定其净现值。这种预计折现率是按企业的最低的投资收益率来确定的.是企业投资可以接受的最低界限。</p>
+<blockquote>
+<p>PERT （估算）？</p>
+</blockquote>
+<blockquote>
+<p>投资回报率(ROI) 模二 162</p>
+</blockquote>
+<p>投资回报率（ROI）是指通过投资而应返回的价值，即企业从一项投资活动中得到的经济回报。它涵盖了企业的获利目标。利润和投入经营所必备的财产相关，因为管理人员必须通过投资和现有财产获得利润。投资可分为实业投资和金融投资两大类，人们平常所说的金融投资主要是指证券投资。</p>
+<h2 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h2><h3 id="定性"><a href="#定性" class="headerlink" title="定性"></a>定性</h3><ul>
+<li>概率和影响矩阵：威胁/机会、概率、影响值等。</li>
+<li>风险数据质量评估：评估风险数据的质量、可靠性，是否有必要收集更好的数据。</li>
+<li>风险分类：借助风险分解结构来构建风险分类。</li>
+<li>风险登记册更新：包括概率、影响评估、优先级、风险分值、风险责任人、紧迫性、类别以及低优先级风险的观察清单或需要进一步分析的风险。</li>
+</ul>
+<h3 id="定量"><a href="#定量" class="headerlink" title="定量"></a>定量</h3><ul>
+<li><p>敏感性分析</p>
+</li>
+<li><p>不确定性表现方式</p>
+</li>
+<li><p>决策树分析</p>
+</li>
+<li><p>成本风险模型</p>
+</li>
+</ul>
+<blockquote>
+<p>龙卷风图</p>
+</blockquote>
+<p>龙卷风图：是项目管理中用于在风险识别和定性分析之后，进行定量风险分析的技术—-敏感性分析技术中最常用的一种图表技术。</p>
+<p>敏感性分析：敏感性分析有助于确定哪些风险对项目具有最大的潜在影响。它把所有其他不确定因素保持在基准值的条件下，考察项目的每项要素的不确定性对目标产生多大程度的影响。</p>
+<h3 id="风险（威胁）应对策略"><a href="#风险（威胁）应对策略" class="headerlink" title="风险（威胁）应对策略"></a>风险（威胁）应对策略</h3><ul>
+<li><p>上报：威胁超出项目范围，或提议的应对措施超出项目经理权限，应进行上报。</p>
+</li>
+<li><p>减轻：采取措施降低威胁发生的概率/影响。降低概率如：多次测试、原型法、可靠的卖方等；降低影响如：冗余部件、备胎等。</p>
+</li>
+<li><p>回避（规避）：适用于发生概率较高，且具有严重负面影响的高优先级威胁。改变计划或目标，彻底消除威胁，将它的发生概率降低到零。</p>
+</li>
+<li><p>转移：将应对威胁的责任转移给第三方，让第三方管理风险并承担威胁发生的影响。向承担威胁的一方支付风险转移费用。（例如：保险、履约保函、担保书、保证书、合同等）</p>
+</li>
+<li><p>接受：主动和被动。主动接受是建立应急储备，包括预留时间、资金或资源；被动接受只是定期对威胁进行审查，确保未发生重大改变。</p>
+</li>
+</ul>
+<h3 id="机会应对策略"><a href="#机会应对策略" class="headerlink" title="机会应对策略"></a>机会应对策略</h3><ul>
+<li>上报：机会不在项目范围内，或提议的应对措施超出了项目经理权限，应进行上报。</li>
+<li>开拓：将特定机会出现的概率提高到 100%，确保肯定出现。</li>
+<li>分享：将应对机会的责任转移给第三方，使其享有机会所带来的部分收益。（合伙、合作团队、合资企业等）</li>
+<li>提高：可以提高机会出现的概率或决定潜在因素提高发生的影响。</li>
+<li>接受：承认机会存在，但不主动采取措施。主动策略是建立应急储备，以便在机会出现时加以利用；被动策略只是定期对机会进行审查，确保未发生重大改变。</li>
+</ul>
+<h3 id="应对"><a href="#应对" class="headerlink" title="应对"></a>应对</h3><blockquote>
+<p>权变措施</p>
+</blockquote>
+<p>权变措施是未经计划的应对措施，不利的风险发生时来不及进行计划分析工作，只能根据当时的情况马上采取措施。用于应对先前未识别出的新风险，或者被动接受的风险，在风险发生之前不采取任何措施。 变更请求包括：纠正措施、预防措施、缺陷补救 纠正措施：推荐的纠正措施包括应急计划和权变措施。是整体变更控制过程的依据之一。应急计划：接受项目风险的一种做法，事先计划好当接受的风险发生时，应该采取的具体步骤，例如制定备用的活动顺序。需要建立一定的应急储备，用于应对已知风险和已知—未知型风险，应急计划中同时规定风险触发因素，即出现何种征兆时执行应急计划。</p>
+<p>风险审查会</p>
+<ul>
+<li>识别新的单个风险</li>
+<li>重新评估当前风险</li>
+<li>关闭已过时的风险</li>
+</ul>
+<p>风险审计是针对过程(HOW)的，审查是针对具体的风险(WHAT)。</p>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><blockquote>
+<p>团队建设阶段？</p>
+</blockquote>
+<ul>
+<li>形成</li>
+<li>震荡</li>
+<li>规范 </li>
+<li>成熟</li>
+<li>解散</li>
+</ul>
+<h2 id="相关方"><a href="#相关方" class="headerlink" title="相关方"></a>相关方</h2><p>权利利益方格</p>
+<p>相关方参与计划 ？</p>
+<h2 id="沟通"><a href="#沟通" class="headerlink" title="沟通"></a>沟通</h2><h3 id="冲突管理"><a href="#冲突管理" class="headerlink" title="冲突管理"></a>冲突管理</h3><ul>
+<li><p>撤退/回避：从实际或潜在冲突中退出，将问题推迟到准备充分的时候，或者将问题推给其他人员解决。</p>
+</li>
+<li><p>缓和/包容：强调一致而非差异；为维持和谐与关系而退让一步，考虑其他方的需要。 </p>
+<p>（缓和(包容)是指强调冲突双方的共同点，同时回避冲突双方的差异点。例如，对于某个岛屿的主权归属争议，采用“搁置争议、共同开发”的方法。例如，项目经理要求两位团队成员为共同完成任务而不在意双方之间的私人矛盾。缓和(包容)是双赢的方法，双方都能得到一定的利益。但是，缓和(包容)只是部分地解决了冲突，被回避掉的差异仍然是客观存在的。）</p>
+</li>
+<li><p>妥协/调解：为了暂时或部分解决冲突，寻找能让各方都在一定程度上满意的方案，但这种方法有时会导致”双输“的局面。</p>
+<p>（妥协(调解)是指一方主动让步，或双方主动各让一步，来达成永久或暂时解决冲突的协议。仅从双方都各让一步这一点来讲，妥协(调解)是一种双输的方法。注意：双输的方法不一定就是不好的方法。妥协(调解)其实是仅次于合作(解决问题)的、有效的冲突解决方法。对于陷入冲突的人来讲，妥协其实是一种能力。在非原则问题上，该妥协时就一定要妥协。妥协并非弱者的表现，而是强者的表现。只有强者才善于、敢于做出必要的妥协。妥协中的“让步”是主动让步，而不是被迫让步。）</p>
+</li>
+<li><p>强迫/命令：以牺牲其他方为代价，推行某一方的观点；只提供赢-输方案。通常是利用权力来强行解决紧急问题，这种方法通常会导致”赢输“局面。</p>
+</li>
+<li><p>合作/解决问题：综合考虑不同的观点和意见，采用合作的态度和开放式对话引导各方达成共识和承诺，这种方法可以带来双赢局面。</p>
+</li>
+</ul>
+<p>问题</p>
+<p>模 6-118</p>
+<p>124</p>
+<p>130</p>
+<p>180</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/30/golang-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/30/golang-notes/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-30 16:51:12 / 修改时间：16:57:43" itemprop="dateCreated datePublished" datetime="2021-04-30T16:51:12+08:00">2021-04-30</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>153</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
+
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build</span><br></pre></td></tr></table></figure>
+<p>如果我们要生成不同平台架构的可执行程序，只要改变这两个环境变量就可以了，比如要生成Linux 64位的程序，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED&#x3D;0 GOOS&#x3D;linux GOARCH&#x3D;amd64 go build -o fence-benchmark</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/22/redisgears-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -214,7 +1138,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-27 10:45:48" itemprop="dateModified" datetime="2021-04-27T10:45:48+08:00">2021-04-27</time>
+                <time title="修改时间：2021-04-30 15:06:40" itemprop="dateModified" datetime="2021-04-30T15:06:40+08:00">2021-04-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -786,7 +1710,7 @@
 <h5 id="ACK"><a href="#ACK" class="headerlink" title="ACK"></a>ACK</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># </span><br><span class="line">hset person:007 first_name James last_name Bond age 43 # &#x3D;6ce0c902-30c2-4ac9-8342-2f04fb359a944412</span><br><span class="line"># XREAD BLOCK &lt;timeout&gt; STREAMS &#123;&lt;hash key&gt;&#125;&lt;uuid&gt; 0-0</span><br><span class="line">XREAD BLOCK 2000 STREAMS &#123;person:007&#125;6ce0c902-30c2-4ac9-8342-2f04fb359a944412 0-0</span><br></pre></td></tr></table></figure>
 
 
-<h4 id="WriteThrough"><a href="#WriteThrough" class="headerlink" title="WriteThrough"></a>WriteThrough</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HSET __&#123;person:100&#125; first_name foo last_name bar age 20 # &#x3D;123456</span><br><span class="line"></span><br><span class="line">XREAD BLOCK 2000 STREAMS &#123;person:104&#125;123456 0-0</span><br></pre></td></tr></table></figure>
+<h4 id="WriteThrough"><a href="#WriteThrough" class="headerlink" title="WriteThrough"></a>WriteThrough</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HSET __&#123;person:1&#125; first_name foo last_name bar age 20 # &#x3D;123456</span><br><span class="line"></span><br><span class="line">XREAD BLOCK 2000 STREAMS &#123;person:104&#125;123456 0-0</span><br></pre></td></tr></table></figure>
 <p>(完)</p>
 
       
@@ -1537,689 +2461,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/23/kafka-connect-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/23/kafka-connect-notes/" class="post-title-link" itemprop="url">Kafka Connect 笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-23 22:20:00" itemprop="dateCreated datePublished" datetime="2021-02-23T22:20:00+08:00">2021-02-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-24 10:37:19" itemprop="dateModified" datetime="2021-02-24T10:37:19+08:00">2021-02-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>Kafka Connect 是一个可伸缩、可靠地在 Apache Kafka 和其他系统之间传输数据的工具框架。</p>
-<p>Kafka Connect 功能特性：</p>
-<ul>
-<li><strong>通用框架</strong> Kafka Connect 为其他系统与 Kafka 集成提供了标准化，简化了 Connector 开发、部署和管理。</li>
-<li><strong>分布式和独立模式</strong> Kafka Connect 扩展到支持整个组织的大型集中管理服务，或者缩减到开发、测试和小型生产部署。</li>
-<li><strong>REST 接口</strong> 通过一个易于使用的 REST API 向 Kafka Connect 集群提交和管理连接器。</li>
-<li><strong>自动偏移量管理</strong> 只需要从连接器获得一点点信息，Kafka Connect 就可以自动管理偏移提交过程，因此连接器开发人员不必担心连接器开发中容易出错的部分。</li>
-<li><strong>默认分布式可伸缩</strong> Kafka Connect 基于现有的组管理协议，可以添加更多的 Worker 来扩展 Kafka Connect 集群。</li>
-<li><strong>流/批处理集成</strong> Kafka Connect 是连接流式和批处理数据系统的理想解决方案。</li>
-</ul>
-<h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><ul>
-<li>Connectors  通过管理任务来协调数据流的高级抽象</li>
-<li>Tasks 实现从 Kafka 读取数据或将数据写入 Kafka</li>
-<li>Workers 用于执行 Connectors 与 Tasks 的服务进程</li>
-<li>Converters 用于实现在 Kafka 与目标/源系统之间的数据转换程序</li>
-<li>Transforms 用于转换通过 Connect 的每条数据的简单逻辑实现</li>
-<li>Dead Letter Queue 死信队列，用于处理连接器错误</li>
-</ul>
-<h3 id="Connectors"><a href="#Connectors" class="headerlink" title="Connectors"></a>Connectors</h3><p>Kafka Connect 中的 Connector 定义数据应该从哪里复制或复制到哪里去。Connector 实例是一个逻辑工作，负责管理 Kafka 和另一个系统之间的数据复制。</p>
-<p>连接器模型</p>
-<p><img src="/images/kafka/connector-model-simple.png" alt="connector-model-simple"></p>
-<h4 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h4><p>Connector Configuration 配置是简单的键值映射。</p>
-<p>对于独立（Standalone）模式，它们在属性文件中定义，并在命令行上传递给 Connect 进程。</p>
-<p>在分布式（Distributed）模式，它们将包含在创建(或修改) Connector 的 REST 请求的 JSON 有效负载中。</p>
-<p>通用的配置：</p>
-<ul>
-<li><code>name</code> Connector 的唯一名称。再次尝试注册相同名称将会失败。</li>
-<li><code>connector.class</code> Connector 的 Java 类，<br>（多种格式，如org.apache.kafka.connect.file.FileStreamSinkConnector、FileStreamSink、FileStreamSinkConnector）</li>
-<li><code>tasks.max</code> 为此 Connector 应创建的最大任务数。如果 Connector 无法实现此级别的并行性，则可以创建较少的任务。</li>
-<li><code>key.converter</code> - (可选) 覆盖由 Worker 设置的默认键转换器。</li>
-<li><code>value.converter</code> - (可选) 覆盖由 Worker 设置的默认值转换器。</li>
-</ul>
-<p>Sink Connector 还需要设置下列其中一个配置项：</p>
-<ul>
-<li><code>topics</code> 用逗号分隔的主题列表，用作此 Connector 的输入。</li>
-<li><code>topics.regex</code> 用 Java 正则表达式匹配到的主题，用作此 Connector 的输入。</li>
-</ul>
-<p>更多的配置项，将由具体的 Connector 提供文档说明。</p>
-<h3 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h3><p>Task 是用于连接的数据模型中的主要参与者。每个 Connector 实例协调一组实际复制数据的 Task。通过允许 Connector 将单个工作分解成多个 Task，Kafka Connect 对并行和可伸缩的数据复制提供了很好的支持，且只需要很少的配置。这些 Task 中没有存储状态。Task 状态存储在 Kafka 的特殊主题 config.storage 和 status.storage，并由关联连接器管理。因此，可以在任何时候启动、停止或重新启动 Task，以提供一个弹性的、可伸缩的数据管道。</p>
-<p><img src="/images/kafka/data-model-simple.png" alt="data-model-simple" title="Data Model"></p>
-<h4 id="Task-Rebalancing"><a href="#Task-Rebalancing" class="headerlink" title="Task Rebalancing"></a>Task Rebalancing</h4><p>当 Connector 首次提交给集群时，Worker 将重新平衡集群中的全部 Connectors 集及其 Tasks，以便每个 Worker 的工作量大致相同。</p>
-<p>当 Connector 增加或减少它们所需的 Task 数量时，或者当 Connector 的配置更改时，也使用同样的重新平衡过程。</p>
-<p>当一个 Worker 失败时，Task 会在活跃的 Worker 之间重新平衡。</p>
-<p>当 Task 失败时，不会触发 Task 失败的再平衡，因为 Task 失败被认为是一个特例。因此，失败的 Task 不会由框架自动重新启动，应该通过 REST API 重新启动。</p>
-<p>下图为 Worker 失败时 Task 故障转移示例</p>
-<p><img src="/images/kafka/task-failover.png" alt="task-failover" title="Task 故障转移"></p>
-<h3 id="Workers"><a href="#Workers" class="headerlink" title="Workers"></a>Workers</h3><p>Connectors 和 Tasks 是必须在进程中执行的逻辑工作单元，Kafka Connect 称这些进程为 Worker。</p>
-<p>有两种类型的 Worker: <code>Standalone</code> 和 <code>Distributed</code>。</p>
-<h4 id="Standalone"><a href="#Standalone" class="headerlink" title="Standalone"></a>Standalone</h4><p>Standalone 模式是最简单的模式，其中单个进程负责执行所有连接器和任务。因为它是一个单一的进程，所以只需要最少的配置。在开发过程中，以及在某些只有一个进程有意义的情况下，如从主机收集日志时，Standalone 模式非常方便。但是，由于只有一个进程，它的功能也更有限：可伸缩性仅限于单个进程，除了添加到单个进程的任何监视之外，没有容错能力。</p>
-<h4 id="Distributed"><a href="#Distributed" class="headerlink" title="Distributed"></a>Distributed</h4><p>Distributed 模式为 Kafka Connect 提供了可伸缩性和自动容错能力。在 Distributed 模式下，使用相同的 <code>group.id</code> 启动许多辅助进程，它们自动协调来调度所有可用辅助 Workers 之间的Connectors 和 Tasks 的执行。如果添加了一个 Worker，关闭了一个 Worker，或者一个 Worker 意外地失败了，其余的 Worker 会检测到这一点，并自动协调在更新的可用 Workers 集中重新分配 Connectors 和 Tasks。请注意它们与 Consumer Group 再平衡的相似之处，在掩护之下，Worker 正在利用 Consumer Group 来协调和平衡。</p>
-<p><img src="/images/kafka/worker-model-basics.png" alt="worker-model-basics" title="Worker 模型"></p>
-<h3 id="Converters"><a href="#Converters" class="headerlink" title="Converters"></a>Converters</h3><p>当写入或从 Kafka 读取数据时，必须有一个 Kafka Connect 部署支持特定的数据格式。任务使用转换器将数据格式从字节转换为 Connect 内部数据格式，反之亦然。</p>
-<ul>
-<li><strong>AvroConverter</strong> <code>io.confluent.connect.avro.AvroConverter</code> 使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
-<li><strong>ProtobufConverter</strong> <code>io.confluent.connect.protobuf.ProtobufConverter</code> 使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
-<li><strong>JsonSchemaConverter</strong> <code>io.confluent.connect.json.JsonSchemaConverter</code>  使用 <a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/schema-registry/connect.html#schemaregistry-kafka-connect">Schema Registry</a></li>
-<li><strong>JsonConverter</strong> <code>org.apache.kafka.connect.json.JsonConverter</code> (没有模式注册表):与结构化数据一起使用</li>
-<li><strong>StringConverter</strong> <code>org.apache.kafka.connect.storage.StringConverter</code>简单的字符串格式</li>
-<li><strong>ByteArrayConverter</strong> <code>org.apache.kafka.connect.converters.ByteArrayConverter</code>提供不进行转换的“直通”选项</li>
-</ul>
-<h4 id="Converter-Graphic"><a href="#Converter-Graphic" class="headerlink" title="Converter Graphic"></a>Converter Graphic</h4><p><img src="/images/kafka/converter-basics.png" alt="converter-basics" title="SourceConnector &amp; SinkConnector"></p>
-<h3 id="Transforms"><a href="#Transforms" class="headerlink" title="Transforms"></a>Transforms</h3><p>单个消息转换（Single Message Transformations，下列简称SMT）应用于通过 Connect 的消息。</p>
-<p>SMT 在源连接器（Source Connector）生成入站消息之后进行转换，但在它们被写入Kafka之前进行转换。<br>SMT 在出站消息发送到接收器连接器（Sink Connecors）之前对其进行转换。</p>
-<p>可以在连接器配置中指定转换链。</p>
-<ul>
-<li><code>transforms</code> 转换别名列表，指定应用转换的顺序。</li>
-<li><code>transforms.$alias.type</code> 转换的完全限定类名。</li>
-<li><code>transforms.$alias.$transformationSpecificConfig</code> 转换的配置属性。</li>
-</ul>
-<p>示例：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># connector common config</span></span><br><span class="line"><span class="attr">name</span>=<span class="string">local-file-source</span></span><br><span class="line"><span class="meta">connector.class</span>=<span class="string">FileStreamSource</span></span><br><span class="line"><span class="meta">tasks.max</span>=<span class="string">1</span></span><br><span class="line"><span class="attr">file</span>=<span class="string">test.txt</span></span><br><span class="line"><span class="attr">topic</span>=<span class="string">connect-test</span></span><br><span class="line"><span class="comment"># transforms chain: MakeMap--InsertSource</span></span><br><span class="line"><span class="attr">transforms</span>=<span class="string">MakeMap, InsertSource</span></span><br><span class="line"><span class="comment"># config for MakeMap transform</span></span><br><span class="line"><span class="meta">transforms.MakeMap.type</span>=<span class="string">org.apache.kafka.connect.transforms.HoistField$Value</span></span><br><span class="line"><span class="meta">transforms.MakeMap.field</span>=<span class="string">line</span></span><br><span class="line"><span class="comment"># config for InsertSource transform</span></span><br><span class="line"><span class="meta">transforms.InsertSource.type</span>=<span class="string">org.apache.kafka.connect.transforms.InsertField$Value</span></span><br><span class="line"><span class="meta">transforms.InsertSource.static.field</span>=<span class="string">data_source</span></span><br><span class="line"><span class="meta">transforms.InsertSource.static.value</span>=<span class="string">test-file-source</span></span><br></pre></td></tr></table></figure>
-<p>Kafka Connect 包含了一些广泛适用的数据和路由转换：</p>
-<ul>
-<li><code>InsertField</code> 使用静态数据或记录元数据添加字段</li>
-<li><code>ReplaceField</code> 过滤或重命名字段</li>
-<li><code>MaskField</code>将字段替换为类型的有效null值(如 0，false 及空字符串等等)</li>
-<li><code>ValueToKey</code> 将记录键替换为由记录值中的字段子集形成的新键</li>
-<li><code>HoistField</code> 将整个事件作为单个字段包装在结构或映射中</li>
-<li><code>ExtractField</code>从 Struct 和 Map 中提取一个特定的字段，并在结果中只包含这个字段</li>
-<li><code>SetSchemaMetadata</code> 修改模式名称或版本</li>
-<li><code>TimestampRouter</code>基于原始主题和时间戳修改记录的主题。当使用接收器时，需要根据时间戳写入不同的表或索引</li>
-<li><code>RegexRouter</code> 基于原始主题、替换字符串和正则表达式修改记录的主题</li>
-</ul>
-<h3 id="Dead-Letter-Queue"><a href="#Dead-Letter-Queue" class="headerlink" title="Dead Letter Queue"></a>Dead Letter Queue</h3><p>出现无效记录的原因有很多。一个例子是，当一条记录以 JSON 格式序列化到达 Sink Connector 时，但 Sink Connector 配置要求为 Avro 格式。当 Sink Connector 无法处理无效记录时，将根据 Connector 配置属性 <code>errors.tolerance</code> （错误容忍）处理错误。<strong>Dead Letter Queue 仅适用于 Sink Connector。</strong></p>
-<p>此配置属性有两个有效值: <code>none</code> (默认值)或 <code>all</code>。</p>
-<p>当 <code>errors.tolerance</code> 设置为 <code>none</code> 时，错误或无效记录将导致 Connector Task 立即失败，并且 Connector 进入失败状态。要解决此问题，需要查看 Kafka Connect Worker 日志以找出导致故障的原因，进行纠正，然后重新启动 Connector。</p>
-<p>当 <code>errors.tolerance</code> 设置为 <code>all</code> 时，将忽略所有错误或无效记录，并继续处理。Connect Worker 日志中没有写入错误。为了确定记录是否失败，必须使用内部度量或计算源处的记录数量，并将其与所处理的记录数量进行比较。</p>
-<p>有一个错误处理特性，它将把所有无效的记录路由到一个特殊的主题并报告错误。该主题包含 Sink Connector 无法处理的记录的 <strong>Dead Letter Queue</strong>。</p>
-<p>SinkConnector 配置：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">errors.tolerance</span> = <span class="string">all</span></span><br><span class="line"><span class="meta">errors.deadletterqueue.topic.name</span> = <span class="string">&lt;dead-letter-topic-name&gt;</span></span><br></pre></td></tr></table></figure>
-<p>即使 <strong>Dead Letter Queue</strong> 包含失败的记录，它也没有显示原因。可以添加以下附加配置属性以包含失败的记录头信息。</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">errors.deadletterqueue.context.headers.enable</span> = <span class="string">true</span></span><br></pre></td></tr></table></figure>
-
-
-<p>当该参数设置为 <code>true</code> (默认为<code>false</code>)时，记录头被添加到死信队列中。然后可以查看记录头，并确定记录失败的原因。错误也被发送到 <a target="_blank" rel="noopener" href="https://docs.confluent.io/home/connect/userguide.html#userguide-connect-reporter">Connect Reporter</a>。为了避免与原始记录头冲突，<strong>Dead Letter Queue</strong> 上下文头键以 <code>_connect.errors</code> 开头。</p>
-<h2 id="Deployment-Configuration"><a href="#Deployment-Configuration" class="headerlink" title="Deployment Configuration"></a>Deployment Configuration</h2><p>Common（Standalone &amp; Distributed）</p>
-<ul>
-<li><code>bootstrap.servers</code> Kafka 服务器列表。</li>
-<li><code>key.converter</code> 用于在 Kafka 连接格式和写入 Kafka 的序列化格式之间转换的转换器类。它控制了写入或从 Kafka 读取的消息中的<strong>键</strong>的格式，并且由于它独立于连接器，它允许任何连接器使用任何序列化格式。常见的格式包括JSON和Avro。</li>
-<li><code>value.converter</code> 用于在 Kafka 连接格式和写入 Kafka 的序列化格式之间转换的转换器类。它控制了写入或从 Kafka 读取的消息中的<strong>值</strong>的格式，并且由于它独立于连接器，它允许任何连接器使用任何序列化格式。常见的格式包括JSON和Avro。</li>
-</ul>
-<p>Standalone</p>
-<ul>
-<li><code>offset.storage.file.filename</code> 文件中存储偏移量数据</li>
-</ul>
-<p>Distributed</p>
-<ul>
-<li><code>group.id</code> (默认为 connect-cluster`) 集群的唯一名称，用于形成Connect集群组；<strong>注意，这一定不能与消费组id冲突</strong></li>
-<li><code>config.storage.topic</code> (默认为<code>connect-configs</code>) 用于存储 Connector 和 Task 配置的主题；注意，这应该是一个单独的分区，高度复制，压缩主题（您可能需要手动创建主题，以确保正确的配置，因为自动创建的主题可能有多个分区，或者自动配置为删除而不是压缩）</li>
-<li><code>offset.storage.topic</code> (默认为 <code>connect-offsets</code>) 用于存储偏移量的主题；这个主题应该有许多分区，可以复制，并配置为压缩</li>
-<li><code>status.storage.topic</code> (默认为 <code>connect-status</code>) 用于存储状态的主题；这个主题可以有多个分区，应该进行复制和配置以进行压缩</li>
-</ul>
-<h2 id="Connect-Plugins"><a href="#Connect-Plugins" class="headerlink" title="Connect Plugins"></a>Connect Plugins</h2><p>Kafka Connect 被设计为可扩展的，因此开发人员可以创建自定义连接器(Connectors)，变形器(Transforms)或转换器(Converters)，用户可以安装和运行它们。</p>
-<p>Kafka Connect 插件是一组 JAR 文件，其中包含一个或多个 Connectors、Transforms 或 Converters 的实现。Connect 将每个插件彼此隔离，这样一个插件中的库就不会受到任何其他插件中的库的影响。这在混合和匹配来自多个供应商的连接器时非常重要。</p>
-<p>一个 Kafka Connect 插件可以是：</p>
-<ul>
-<li><p>文件系统上的一个目录，包含所有需要的 JAR 文件和插件的第三方依赖项。<strong>这是最常见和首选的。</strong></p>
-</li>
-<li><p>一个包含插件及其第三方依赖项的所有类文件的 uber JAR。</p>
-<p>(<code>Über</code> is the German word for <code>above</code> or <code>over</code> (it’s actually cognate with the English <code>over</code>).  <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11947037/what-is-an-uber-jar">https://stackoverflow.com/questions/11947037/what-is-an-uber-jar</a>)</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>一个插件不应该包含 Kafka Connect 运行时提供的任何库。</strong></p>
-</blockquote>
-<p>Kafka Connect 在 Worker Configuration 的  <code>plugin.path</code> 属性中使用一个以逗号分隔的目录路径列表定义的插件路径查找插件。</p>
-<p>当启动 Connect Worker 时，每个 Worker 都会在插件路径的目录中发现所有 Connectors、Transforms 和 Converters 插件。当使用 Connectors、Transforms 和 Converters 时，Connect Worker 首先从各自的插件加载类，然后是 Kafka Connect 运行时和 Java 库。</p>
-<h2 id="Connect-API"><a href="#Connect-API" class="headerlink" title="Connect API"></a>Connect API</h2><h3 id="Java-API"><a href="#Java-API" class="headerlink" title="Java API"></a>Java API</h3><blockquote>
-<p>本节列举了一般需要重写的方法，更详尽的 Java API 请参见</p>
-<p><a target="_blank" rel="noopener" href="http://kafka.apache.org/24/javadoc/index.html?org/apache/kafka/connect">http://kafka.apache.org/24/javadoc/index.html?org/apache/kafka/connect</a></p>
-</blockquote>
-<h4 id="SinkConnector"><a href="#SinkConnector" class="headerlink" title="SinkConnector"></a>SinkConnector</h4><ul>
-<li><code>public abstract void start(Map&lt;String,String&gt; props)</code><br>启动这个连接器。这个方法只会在一个干净的连接器上被调用，也就是说，它要么刚刚被实例化和初始化，要么已经调用了stop()。</li>
-<li><code>public abstract void stop()</code><br>停止这个连接器。</li>
-<li><code>public abstract Class&lt;? extends Task&gt; taskClass()</code><br>返回此连接器的任务实现。</li>
-<li><code>public abstract ConfigDef config()</code><br>定义连接器的配置。</li>
-<li><code>public abstract List&lt;Map&lt;String,String&gt;&gt; taskConfigs(int maxTasks)</code><br>根据当前配置返回任务的一组配置。</li>
-<li><code>String version()</code><br>获取该连接器的版本。</li>
-</ul>
-<h4 id="SinkTask"><a href="#SinkTask" class="headerlink" title="SinkTask"></a>SinkTask</h4><ul>
-<li><code>public abstract void start(Map&lt;String,String&gt; props)</code><br>启动任务。这应该可以处理任何配置解析和任务的一次性设置。</li>
-<li><code>public abstract void put(Collection&lt;SinkRecord&gt; records)</code><br>将事件记录数据传递到此任务。</li>
-<li><code>public abstract void stop()</code><br>执行清理操作以停止此任务。</li>
-<li><code>String version()</code><br>获取此任务的版本。通常这应该与对应的连接器类的版本相同。</li>
-</ul>
-<h3 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h3><blockquote>
-<p>Default Port: <code>8083</code></p>
-</blockquote>
-<ul>
-<li><code>GET /connectors</code> 返回连接器的列表。</li>
-<li><code>POST /connectors</code> 创建一个新的连接器。请求主体应该是一个JSON对象，其中包含一个字符串 <code>name</code> 字段和一个带有连接器 <code>config</code> 参数的对象配置字段。</li>
-<li><code>GET /connectors/&#123;name&#125;</code>获取指定连接器的信息。</li>
-<li><code>GET /connectors/&#123;name&#125;/config</code> 获取指定连接器的配置参数。</li>
-<li><code>PUT /connectors/&#123;name&#125;/config</code> 更新指定连接器的配置参数。</li>
-<li><code>GET /connectors/&#123;name&#125;/status</code> 获取连接器的当前状态，包括它是否正在运行、失败、暂停等、它被分配给哪个工作器、失败时的错误信息以及它所有任务的状态。<ul>
-<li><code>UNASSIGNED</code>: Connector/Task 暂未分配到 Worker。</li>
-<li><code>RUNNING</code>: Connector/Task 正在运行。</li>
-<li><code>PAUSED</code>: Connector/Task 在管理上已暂停。</li>
-<li><code>FAILED</code>: Connector/Task 运行失败，通常是发生了异常。</li>
-<li><code>DESTROYED</code>: Connector/Task 在管理上已被删除，将被移除集群。</li>
-</ul>
-</li>
-<li><code>GET /connectors/&#123;name&#125;/tasks</code> 获取连接器当前正在运行的任务列表。</li>
-<li><code>GET /connectors/&#123;name&#125;/tasks/&#123;taskid&#125;/status</code> 获取任务的当前状态，包括它是否正在运行、失败、暂停等，它被分配给哪个 Worker，以及失败时的错误信息。</li>
-<li><code>PUT /connectors/&#123;name&#125;/pause</code> 暂停连接器及其任务，这将停止消息处理，直到连接器恢复。</li>
-<li><code>PUT /connectors/&#123;name&#125;/resume</code> 恢复暂停的连接器(如果连接器没有暂停，则不做任何操作)。</li>
-<li><code>POST /connectors/&#123;name&#125;/restart</code> 重新启动连接器(通常是因为它失败了)。</li>
-<li><code>POST /connectors/&#123;name&#125;/tasks/&#123;taskId&#125;/restart</code> 重新启动单个任务(通常是因为它失败了)。</li>
-<li><code>DELETE /connectors/&#123;name&#125;</code> 删除连接器，停止所有任务并删除其配置。</li>
-<li><code>GET /connector-plugins</code> 返回一个Kafka Connect集群中安装的连接器插件列表。</li>
-<li><code>PUT /connector-plugins/&#123;connector-type&#125;/config/validate</code> 根据配置定义验证提供的配置值。这个API执行每个配置验证，并在验证过程中返回建议值和错误消息。</li>
-</ul>
-<h3 id="Ops"><a href="#Ops" class="headerlink" title="Ops"></a>Ops</h3><h4 id="Kafka-Connect-Logging"><a href="#Kafka-Connect-Logging" class="headerlink" title="Kafka Connect Logging"></a>Kafka Connect Logging</h4><blockquote>
-<p><a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/connect/logging.html#">https://docs.confluent.io/platform/current/connect/logging.html#</a></p>
-</blockquote>
-<ul>
-<li><p>Check log levels</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Ss http:&#x2F;&#x2F;localhost:8083&#x2F;admin&#x2F;loggers | jq</span><br></pre></td></tr></table></figure></li>
-<li><p>Change the log level for a specific logger</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s -X PUT -H &quot;Content-Type:application&#x2F;json&quot; \</span><br><span class="line">http:&#x2F;&#x2F;localhost:8083&#x2F;admin&#x2F;loggers&#x2F;city.icos.icmsevent.connect \</span><br><span class="line">-d &#39;&#123;&quot;level&quot;: &quot;DEBUG&quot;&#125;&#39; | jq &#39;.&#39;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<h2 id="Lenses-io"><a href="#Lenses-io" class="headerlink" title="Lenses.io"></a>Lenses.io</h2><h3 id="Kakfa-Connect-UI"><a href="#Kakfa-Connect-UI" class="headerlink" title="Kakfa Connect UI"></a>Kakfa Connect UI</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/lensesio/kafka-connect-ui">https://github.com/lensesio/kafka-connect-ui</a></p>
-</blockquote>
-<h3 id="Kafka-Connect-CLI"><a href="#Kafka-Connect-CLI" class="headerlink" title="Kafka Connect CLI"></a>Kafka Connect CLI</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/lensesio/kafka-connect-tools">https://github.com/lensesio/kafka-connect-tools</a></p>
-</blockquote>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">connect-cli 1.0.8</span><br><span class="line">Usage: connect-cli [ps|get|rm|create|run|diff|status|plugins|describe|validate|restart|pause|resume] [options] [<span class="xml"><span class="tag">&lt;<span class="name">connector-name</span>&gt;</span></span>]</span><br><span class="line"></span><br><span class="line">  --help</span><br><span class="line"><span class="code">        prints this usage text</span></span><br><span class="line"><span class="code">  -e &lt;value&gt; | --endpoint &lt;value&gt;</span></span><br><span class="line"><span class="code">        Kafka Connect REST URL, default is http://localhost:8083/</span></span><br><span class="line"><span class="code">  -f &lt;value&gt; | --format &lt;value&gt;</span></span><br><span class="line"><span class="code">        Format of the config, default is PROPERTIES. Valid options are &#x27;properties&#x27; and &#x27;json&#x27;.</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">  Command: ps</span></span><br><span class="line"><span class="code">  list active connectors names.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: get</span></span><br><span class="line"><span class="code">  get the configuration of the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: rm</span></span><br><span class="line"><span class="code">  remove the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: create</span></span><br><span class="line"><span class="code">  create the specified connector with the config from stdin; the connector cannot already exist.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: run</span></span><br><span class="line"><span class="code">  create or update the specified connector with the config from stdin.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: diff</span></span><br><span class="line"><span class="code">  diff the specified connector with the config from stdin.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: status</span></span><br><span class="line"><span class="code">  get connector and it&#x27;s task(s) state(s).</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: plugins</span></span><br><span class="line"><span class="code">  list the available connector class plugins on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: describe</span></span><br><span class="line"><span class="code">  list the configurations for a connector class plugin on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: pause</span></span><br><span class="line"><span class="code">  pause the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: restart</span></span><br><span class="line"><span class="code">  restart the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: resume</span></span><br><span class="line"><span class="code">  resume the specified connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: validate</span></span><br><span class="line"><span class="code">  validate the connector config from stdin against a connector class plugin on the classpath.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_ps</span></span><br><span class="line"><span class="code">  list the tasks belonging to a connector.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_status</span></span><br><span class="line"><span class="code">  get the status of a connector task.</span></span><br><span class="line"><span class="code">  </span></span><br><span class="line"><span class="code">  Command: task_restart</span></span><br><span class="line"><span class="code">  restart the specified connector task.</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://kafka.apache.org/24/documentation.html#connect">http://kafka.apache.org/24/documentation.html#connect</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.confluent.io/5.5.0/connect/index.html">https://docs.confluent.io/5.5.0/connect/index.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/hexo-github-actions-deploy-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/hexo-github-actions-deploy-notes/" class="post-title-link" itemprop="url">Hexo Deploy By Github Actions</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 13:10:00" itemprop="dateCreated datePublished" datetime="2021-02-16T13:10:00+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 17:15:07" itemprop="dateModified" datetime="2021-02-17T17:15:07+08:00">2021-02-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>作为个人的技术笔记，将 Hexo Blog 以 Github Pages 的方式对外发布。Hexo Cli 提供了较好的发布方式（<code>hexo deploy</code>），足以满足低频发布操作。</p>
-<p>今天的实践是：<strong>通过 Github Actions 来“持续集成”发布 Hexo Blog Site 到 Github Pages</strong>。</p>
-<blockquote>
-<p>实践的过程中遇到各种问题，对环境做更新：<br>Nodejs:<code>v12.19.0</code>-&gt;<code>v14.15.4</code><br>Hexo: <code>3.9.0</code>-&gt; <code>5.3.0</code></p>
-</blockquote>
-<h2 id="Github-Actions"><a href="#Github-Actions" class="headerlink" title="Github Actions"></a>Github Actions</h2><blockquote>
-<p>GitHub Actions让你很容易自动化所有的软件工作流程，现在拥有世界级的CI/CD。从GitHub上构建、测试和部署你的代码。让代码评审、分支管理和问题分类按照您想要的方式工作。</p>
-</blockquote>
-<p>Github Actions 特性：<a target="_blank" rel="noopener" href="https://github.com/features/actions">https://github.com/features/actions</a></p>
-<p>Github Actions 文档：<a target="_blank" rel="noopener" href="https://docs.github.com/cn/actions">https://docs.github.com/cn/actions</a></p>
-<p>Github Actions 市场：<a target="_blank" rel="noopener" href="https://github.com/marketplace?type=actions">https://github.com/marketplace?type=actions</a></p>
-<h2 id="Hexo-Action"><a href="#Hexo-Action" class="headerlink" title="Hexo Action"></a>Hexo Action</h2><p>Github Actions 市场已经有了相关的 Action：Hexo Action。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">https://github.com/marketplace/actions/hexo-action</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/sma11black/hexo-action">https://github.com/sma11black/hexo-action</a></p>
-<h2 id="Operation"><a href="#Operation" class="headerlink" title="Operation"></a>Operation</h2><p>参考 Hexo Action 使用手册，</p>
-<ol>
-<li>创建密钥对（Github Pages Deploy Keys 使用公钥，Github Source Repos Secrets <code>DEPLOY_KEY</code>使用私钥）；</li>
-<li>在 Github Source Repos 添加流程文件，如在 <code>.github/workflows</code> 下创建 <code>deploy.yml</code></li>
-</ol>
-<p><code>deploy.yml</code> 示例</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the action will run. </span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">A</span> <span class="string">job</span> <span class="string">to</span> <span class="string">deploy</span> <span class="string">blog.</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else).</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">      <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">      <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Deploy hexo blog website.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Hexo</span> <span class="string">Action</span></span><br><span class="line">      <span class="attr">id:</span> <span class="string">deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">sma11black/hexo-action@v1.0.4</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">deploy_key:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DEPLOY_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">user_name:</span> <span class="string">shankai</span></span><br><span class="line">        <span class="attr">user_email:</span> <span class="string">shankai.kvn@gmail.com</span></span><br><span class="line">        <span class="attr">commit_msg:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.head_commit.message</span> <span class="string">&#125;&#125;</span>  <span class="comment"># (or delete this input setting to use hexo default settings)</span></span><br><span class="line">    <span class="comment"># Use the output from the `deploy` step(use for test action)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">the</span> <span class="string">output</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">        <span class="string">echo</span> <span class="string">&quot;$<span class="template-variable">&#123;&#123; steps.deploy.outputs.notify &#125;&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li><code>name</code> Actions 的名称</li>
-<li><code>on</code> 触发 Actions 的事件</li>
-<li><code>jobs</code> 执行的一系列任务，每个任务是单独的运行环境，<code>runs-on</code>指定运行环境</li>
-<li><code>steps</code>任务包含一系列操作步骤，每个步骤是一个 Action，如 Hexo Deploy 本例中使用 <code>uses: sma11black/hexo-action@v1.0.4</code></li>
-</ul>
-<p>编辑完成 <code>deploy.yml</code> 后提交变更，push 到 Hexo Source Repo。</p>
-<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
-<li><p>将主题 next 作为 git module（Github Actions: hexo-action 用法） </p>
-<p>因为 hexo 站点与 next 主题是完全独立的，此处在构建时 next 做为资源依赖参与构建。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf themes&#x2F;next</span><br><span class="line">git rm -r themes&#x2F;next</span><br><span class="line">rm -rf .git&#x2F;modules&#x2F;themes&#x2F;next</span><br><span class="line">git submodule add https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><p>远程仓库使用 SSH 方式访问而非 Https</p>
-<p>出现的错误：</p>
-</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fatal: could not read Username <span class="keyword">for</span> <span class="string">&#x27;https://github.com&#x27;</span>: No such device or address</span><br><span class="line">FATAL Something<span class="string">&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Error: Spawn failed</span></span><br><span class="line"><span class="string">    at ChildProcess.&lt;anonymous&gt; (/github/workspace/node_modules/hexo-deployer-git/node_modules/hexo-util/lib/spawn.js:51:21)</span></span><br><span class="line"><span class="string">    at ChildProcess.emit (events.js:314:20)</span></span><br><span class="line"><span class="string">    at Process.ChildProcess._handle.onexit (internal/child_process.js:276:12)</span></span><br></pre></td></tr></table></figure>
-<p>修改 hexo/_config.yml 部署相关配置，使用 SSH 方式访问 Github Pages Repo（<a target="_blank" rel="noopener" href="https://github.com/sma11black/hexo-action/issues/5%EF%BC%89">https://github.com/sma11black/hexo-action/issues/5）</a></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-
-<p>（完）</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/26/kafka-connect-redis-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/26/kafka-connect-redis-notes/" class="post-title-link" itemprop="url">Kafka Connect Redis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-26 18:20:00" itemprop="dateCreated datePublished" datetime="2021-01-26T18:20:00+08:00">2021-01-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-16 18:35:12" itemprop="dateModified" datetime="2021-02-16T18:35:12+08:00">2021-02-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>9.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Kafka-Connect"><a href="#Kafka-Connect" class="headerlink" title="Kafka Connect"></a>Kafka Connect</h2><p>Worker.java (ENABLE_AUTO_COMMIT_CONFIG:false, AUTO_OFFSET_RESET_CONFIG:earliest)</p>
-<p>WorkerSinkTask.java</p>
-<p><code>offset.flush.interval.ms</code><br>Interval at which to try committing offsets for tasks.<br>Default:    60000 (1 minute)</p>
-<p>Confluent Kafka Connect Tutorial</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;installation&#x2F;docker&#x2F;docs&#x2F;installation&#x2F;connect-avro-jdbc.html</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;connect&#x2F;concepts.html#connect-converters</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Kafka Connect REST API</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connector-plugins</span><br><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connectors</span><br></pre></td></tr></table></figure>
-
-
-<p>Lenses</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;4.1&#x2F;integrations&#x2F;connectors&#x2F;stream-reactor&#x2F;sinks&#x2F;redissinkconnector&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;2.1&#x2F;lenses-sql&#x2F;kcql.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-<p>测试环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># all(zk,kafka,schema-registry,kafka-connect,ui,connectors)</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;fast-data-dev</span><br><span class="line"></span><br><span class="line"># ui &amp; kafka-connect</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line">https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;confluentinc&#x2F;cp-kafka-connect</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># clone from fork repository </span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;shankai&#x2F;stream-reactor.git</span><br><span class="line">cd stream-reactor&#x2F;kafka-connect-redis</span><br><span class="line">gradle clean build collectFatJar -x test</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><h3 id="All"><a href="#All" class="headerlink" title="All"></a>All</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># redis pubsub mode has bug</span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br><span class="line"></span><br><span class="line"># redis pubsub fix </span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;build&#x2F;libs&#x2F;kafka-connect-redis-2.1.3.jar:&#x2F;opt&#x2F;landoop&#x2F;connectors&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;kafka-connect-redis-2.1.3.jar \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="Kafka-Connect-amp-UI"><a href="#Kafka-Connect-amp-UI" class="headerlink" title="Kafka Connect &amp; UI"></a>Kafka Connect &amp; UI</h3><p>docker pull confluentinc/cp-zookeeper<br>docker pull confluentinc/cp-kafka</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>docker pull confluentinc/cp-schema-registry</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br></pre></td></tr></table></figure>
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br><span class="line"></span><br><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>docker pull confluentinc/cp-kafka-connect</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kafka-connect-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;fork&#x2F;jars&#x2F;:&#x2F;etc&#x2F;kafka-connect&#x2F;jars&#x2F; \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">  confluentinc&#x2F;cp-kafka-connect:latest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kc-redis-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">kc-redis:latest</span><br></pre></td></tr></table></figure>
-<p>docker pull landoop/kafka-connect-ui</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line"></span><br><span class="line">docker run -d --name kafka-connect-ui -it -p 8000:8000 -e &quot;CONNECT_URL&#x3D;http:&#x2F;&#x2F;dev:8083&quot; landoop&#x2F;kafka-connect-ui</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Connector"><a href="#Connector" class="headerlink" title="Connector"></a>Connector</h2><h3 id="connector-configuration-override"><a href="#connector-configuration-override" class="headerlink" title="connector configuration override"></a>connector configuration override</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value.converter.schema.registry.url&#x3D;http:&#x2F;&#x2F;dev:8081</span><br><span class="line">value.converter&#x3D;io.confluent.connect.protobuf.ProtobufConverter</span><br></pre></td></tr></table></figure>
-
-
-<p>worker.properties: <code>connector.client.config.override.policy=All</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;consumer.override.max.poll.records&quot;: &quot;1&quot;,</span><br><span class="line">&quot;consumer.override.fetch.max.wait.ms&quot;: &quot;0&quot;</span><br></pre></td></tr></table></figure>
-
-
-<p>LOG_DIR=/app</p>
-<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><h4 id="RedisSinkConnector-PubSub"><a href="#RedisSinkConnector-PubSub" class="headerlink" title="RedisSinkConnector PubSub"></a>RedisSinkConnector PubSub</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;select * from sea_vessel_position_reports STOREAS PubSub(channel&#x3D;Timestamp)</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-pub</span><br></pre></td></tr></table></figure>
-<h4 id="RedisSinkConnector-Cache"><a href="#RedisSinkConnector-Cache" class="headerlink" title="RedisSinkConnector Cache"></a>RedisSinkConnector Cache</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;INSERT INTO PK- select * from sea_vessel_position_reports PK Timestamp</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-cache</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="Rest"><a href="#Rest" class="headerlink" title="Rest"></a>Rest</h3><h4 id="Redis-Cache"><a href="#Redis-Cache" class="headerlink" title="Redis Cache"></a>Redis Cache</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;INSERT INTO FX- select location from sea_vessel_position_reports PK Timestamp&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
-<h4 id="Redis-PubSub"><a href="#Redis-PubSub" class="headerlink" title="Redis PubSub"></a>Redis PubSub</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;select * from sea_vessel_position_reports STOREAS PubSub(channel=Timestamp)&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
-<h2 id="Redis-Benchmark"><a href="#Redis-Benchmark" class="headerlink" title="Redis Benchmark"></a>Redis Benchmark</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-benchmark -h redis-ps-redis-perf-paas.paas -c 1 -d 1024  script load &quot;redis.call(&#39;publish&#39;, &#39;abc&#39;)&quot; </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/18/grpc-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/18/grpc-notes/" class="post-title-link" itemprop="url">gRPC 笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-18 18:20:00" itemprop="dateCreated datePublished" datetime="2021-01-18T18:20:00+08:00">2021-01-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-21 15:08:19" itemprop="dateModified" datetime="2021-01-21T15:08:19+08:00">2021-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RPC/" itemprop="url" rel="index"><span itemprop="name">RPC</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><blockquote>
-<p>A high performance, open source universal RPC framework</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.grpc.io/">https://www.grpc.io/</a></p>
-<p>gRPC is a modern open source high performance RPC framework that can run in any environment. It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication. It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services.</p>
-<ul>
-<li>Simple service definition <code>Define your service using Protocol Buffers, a powerful binary serialization toolset and language</code></li>
-<li>Start quickly and scale <code>Install runtime and dev environments with a single line and also scale to millions of RPCs per second with the framework</code></li>
-<li>Works across languages and platforms <code>Automatically generate idiomatic client and server stubs for your service in a variety of languages and platforms</code></li>
-<li>Bi-directional streaming and integrated auth <code>Bi-directional streaming and fully integrated pluggable authentication with HTTP/2-based transport</code></li>
-</ul>
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p><img src="/images/grpc/landing-2.svg" alt="landing-2"></p>
-<h2 id="Protocol-Compiler"><a href="#Protocol-Compiler" class="headerlink" title="Protocol Compiler"></a>Protocol Compiler</h2><p>Download: <a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases">https://github.com/protocolbuffers/protobuf/releases</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> https://github.com/protocolbuffers/protobuf/releases/download/v3.14.0/protoc-3.14.0-osx-x86_64.zip</span></span><br><span class="line"></span><br><span class="line">cp /Users/shankai/Downloads/protoc-3.14.0-osx-x86_64/bin/protoc /usr/local/bin/protoc</span><br><span class="line"></span><br><span class="line">protoc -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> /path/xx.proto</span></span><br><span class="line"></span><br><span class="line">protoc --java_out=../java/ vehicle-service.proto</span><br></pre></td></tr></table></figure>
-
-<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><blockquote>
-<p>java &amp; nodejs</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/shankai/artifacts/tree/master/grpc-example">https://github.com/shankai/artifacts/tree/master/grpc-example</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><p><a target="_blank" rel="noopener" href="https://www.grpc.io/docs/languages/java/quickstart/">https://www.grpc.io/docs/languages/java/quickstart/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.grpc.io/docs/languages/java/basics/">https://www.grpc.io/docs/languages/java/basics/</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/grpc/grpc-java/blob/master/README.md">https://github.com/grpc/grpc-java/blob/master/README.md</a></p>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p><a target="_blank" rel="noopener" href="https://www.grpc.io/docs/languages/node/quickstart/">https://www.grpc.io/docs/languages/node/quickstart/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2291,20 +2532,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-count">120</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2352,12 +2593,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">156k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:02</span>
+    <span title="站点阅读时长">2:21</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

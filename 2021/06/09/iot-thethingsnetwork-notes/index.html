@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Install Community  Download12345## git clone https:&#x2F;&#x2F;github.com&#x2F;TheThingsNetwork&#x2F;lorawan-stack.git## installhttps:&#x2F;&#x2F;www.thethingsindustries.com&#x2F;docs&#x2F;getting-sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Things Network 笔记">
+<meta property="og:url" content="http://example.com/2021/06/09/iot-thethingsnetwork-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="Install Community  Download12345## git clone https:&#x2F;&#x2F;github.com&#x2F;TheThingsNetwork&#x2F;lorawan-stack.git## installhttps:&#x2F;&#x2F;www.thethingsindustries.com&#x2F;docs&#x2F;getting-sta">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-09T12:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-10T06:15:02.306Z">
+<meta property="article:author" content="shankai">
+<meta property="article:tag" content="MQTT">
+<meta property="article:tag" content="LoRa">
+<meta property="article:tag" content="LoRaWAN">
+<meta property="article:tag" content="Iot">
+<meta property="article:tag" content="Network Server">
+<meta property="article:tag" content="Application Server">
+<meta property="article:tag" content="UDP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/06/09/iot-thethingsnetwork-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>The Things Network 笔记 | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">57</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">120</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">17</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/09/iot-thethingsnetwork-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Things Network 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-09 20:00:00" itemprop="dateCreated datePublished" datetime="2021-06-09T20:00:00+08:00">2021-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-10 14:15:02" itemprop="dateModified" datetime="2021-06-10T14:15:02+08:00">2021-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IoT/" itemprop="url" rel="index"><span itemprop="name">IoT</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><blockquote>
+<p>Community</p>
+</blockquote>
+<h3 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;TheThingsNetwork&#x2F;lorawan-stack.git</span><br><span class="line"></span><br><span class="line">## install</span><br><span class="line">https:&#x2F;&#x2F;www.thethingsindustries.com&#x2F;docs&#x2F;getting-started&#x2F;installation&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="Certificates"><a href="#Certificates" class="headerlink" title="Certificates"></a>Certificates</h3><h4 id="ca-json"><a href="#ca-json" class="headerlink" title="ca.json"></a>ca.json</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;names&quot;</span>: [</span><br><span class="line">    &#123;<span class="attr">&quot;C&quot;</span>: <span class="string">&quot;NL&quot;</span>, <span class="attr">&quot;ST&quot;</span>: <span class="string">&quot;Noord-Holland&quot;</span>, <span class="attr">&quot;L&quot;</span>: <span class="string">&quot;Amsterdam&quot;</span>, <span class="attr">&quot;O&quot;</span>: <span class="string">&quot;The Things Demo&quot;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Generate:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfssl genkey -initca ca.json | cfssljson -bare ca</span><br></pre></td></tr></table></figure>
+<h4 id="cert-json"><a href="#cert-json" class="headerlink" title="cert.json"></a>cert.json</h4><blockquote>
+<p>change host</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hosts&quot;</span>: [<span class="string">&quot;thethings.example.com&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;names&quot;</span>: [</span><br><span class="line">    &#123;<span class="attr">&quot;C&quot;</span>: <span class="string">&quot;NL&quot;</span>, <span class="attr">&quot;ST&quot;</span>: <span class="string">&quot;Noord-Holland&quot;</span>, <span class="attr">&quot;L&quot;</span>: <span class="string">&quot;Amsterdam&quot;</span>, <span class="attr">&quot;O&quot;</span>: <span class="string">&quot;The Things Demo&quot;</span>&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Generate:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfssl gencert -ca ca.pem -ca-key ca-key.pem cert.json | cfssljson -bare cert</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Configuration-Cert"><a href="#Configuration-Cert" class="headerlink" title="Configuration Cert"></a>Configuration Cert</h4><ul>
+<li>docker-compose.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    # If using custom certificates:</span><br><span class="line">    secrets:</span><br><span class="line">      - ca.pem</span><br><span class="line">      - cert.pem</span><br><span class="line">      - key.pem</span><br><span class="line"></span><br><span class="line"># If using custom certificates:</span><br><span class="line">secrets:</span><br><span class="line">  ca.pem:</span><br><span class="line">    file: .&#x2F;ca.pem</span><br><span class="line">  cert.pem:</span><br><span class="line">    file: .&#x2F;cert.pem</span><br><span class="line">  key.pem:</span><br><span class="line">    file: .&#x2F;key.pem</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ttn-lw-stack-docker.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># If using custom certificates:</span><br><span class="line">tls:</span><br><span class="line">  source: file</span><br><span class="line">  root-ca: &#x2F;run&#x2F;secrets&#x2F;ca.pem</span><br><span class="line">  certificate: &#x2F;run&#x2F;secrets&#x2F;cert.pem</span><br><span class="line">  key: &#x2F;run&#x2F;secrets&#x2F;key.pem</span><br><span class="line"></span><br><span class="line"># Let&#39;s encrypt for &quot;thethings.example.com&quot;</span><br><span class="line"># tls:</span><br><span class="line">#   source: &#39;acme&#39;</span><br><span class="line">#   acme:</span><br><span class="line">#     dir: &#39;&#x2F;var&#x2F;lib&#x2F;acme&#39;</span><br><span class="line">#     email: &#39;you@thethings.example.com&#39;</span><br><span class="line">#     hosts: [&#39;thethings.example.com&#39;]</span><br><span class="line">#     default-host: &#39;thethings.example.com&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Up"><a href="#Up" class="headerlink" title="Up"></a>Up</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">docker-compose pull</span><br><span class="line">docker-compose run --rm stack is-db init</span><br><span class="line">docker-compose run --rm stack is-db create-admin-user --id admin --email your@email.com</span><br><span class="line"></span><br><span class="line">docker-compose run --rm stack is-db create-oauth-client \</span><br><span class="line">  --id cli \</span><br><span class="line">  --name &quot;Command Line Interface&quot; \</span><br><span class="line">  --owner admin \</span><br><span class="line">  --no-secret \</span><br><span class="line">  --redirect-uri &quot;local-callback&quot; \</span><br><span class="line">  --redirect-uri &quot;code&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># see config&#x2F;stack&#x2F;ttn-lw-stack-docker.yml</span><br><span class="line">CONSOLE_SECRET&#x3D;&quot;console&quot;</span><br><span class="line">SERVER_ADDRESS&#x3D;&quot;dev:1885&quot;</span><br><span class="line"></span><br><span class="line">docker-compose run --rm stack is-db create-oauth-client \</span><br><span class="line">  --id console \</span><br><span class="line">  --name &quot;Console&quot; \</span><br><span class="line">  --owner admin \</span><br><span class="line">  --secret &quot;$&#123;CONSOLE_SECRET&#125;&quot; \</span><br><span class="line">  --redirect-uri &quot;$&#123;SERVER_ADDRESS&#125;&#x2F;console&#x2F;oauth&#x2F;callback&quot; \</span><br><span class="line">  --redirect-uri &quot;&#x2F;console&#x2F;oauth&#x2F;callback&quot; \</span><br><span class="line">  --logout-redirect-uri &quot;$&#123;SERVER_ADDRESS&#125;&#x2F;console&quot; \</span><br><span class="line">  --logout-redirect-uri &quot;&#x2F;console&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Override"><a href="#Override" class="headerlink" title="Override"></a>Override</h2><p>Things Stack 是一个实现 LoRaWAN 协议的网络服务器。</p>
+<h3 id="什么是-Things-Stack"><a href="#什么是-Things-Stack" class="headerlink" title="什么是 Things Stack?"></a>什么是 Things Stack?</h3><p>The Things Stack是企业级的 LoRaWAN 网络服务器，建立在<a target="_blank" rel="noopener" href="https://github.com/TheThingsNetwork/lorawan-stack">开源核心</a>之上。Things Stack允许您在自己的硬件或云上构建和管理 LoRaWAN 网络。</p>
+<ul>
+<li><p>TTS 是 The Things Stack, LoRaWAN Network Server Stack。Things Stack 目前是网络服务器实现的版本3，因此也被非正式地称为V3。</p>
+</li>
+<li><p>TTN 是 “物联网”(The Things Network)，它是一个全球协同物联网生态系统，使用 LoRaWAN 创建网络、设备和解决方案。The Things Network 运行着 The Things Stack Community Edition，这是一个众包、开放和去中心化的 LoRaWAN 网络。这个网络是一个很好的开始测试设备、应用程序和集成，并熟悉 LoRaWAN 的方法。</p>
+</li>
+<li><p>TTI 是 The Things Industries:该公司主要负责The Things Stack 的开发和文档编写。Things Industries 还提供具有额外企业功能的云托管和本地私有 LoRaWAN 网络，以及针对企业客户的高级支持计划。</p>
+</li>
+</ul>
+<h2 id="Command-Line-Interface"><a href="#Command-Line-Interface" class="headerlink" title="Command-Line Interface"></a>Command-Line Interface</h2><p>…</p>
+<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><p>控制台是 LoRaWAN 的 Things Stack 的管理应用程序。它是一个 Web 应用程序，可以用来注册应用程序，终端设备或网关，监控网络流量，或配置网络相关选项等。</p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="Gateway-Server-MQTT"><a href="#Gateway-Server-MQTT" class="headerlink" title="Gateway Server MQTT"></a>Gateway Server MQTT</h3><p>MQTT 协议可用于开发自定义包转发器或网关桥接器，用于在网关和 The Things Stack 之间交换流量，或用于测试目的，方便地模拟网关流量。它是一个替代 Basic Station 和 Semtech UDP协议。</p>
+<p>MQTT 是用于交换消息的服务器-客户机协议。客户端可以连接到服务器并发布特定主题下的消息(数据)。它们还可以订阅一个主题，从而接收在该主题下发布的所有消息(由其他客户机或MQTT服务器本身发布)。</p>
+<p>网关服务器是 MQTT 服务器，网关作为 MQTT 客户端连接到网关服务器。连接的网关由用于身份验证的用户名标识。</p>
+<h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><p>为了与 MQTT 协议通信，网关服务器和网关正在交换 Protocol Buffers。<a target="_blank" rel="noopener" href="https://github.com/TheThingsNetwork/lorawan-stack/blob/v3.13/api/lorawan.proto">https://github.com/TheThingsNetwork/lorawan-stack/blob/v3.13/api/lorawan.proto</a></p>
+<h4 id="Connecting-to-the-Gateway-Server"><a href="#Connecting-to-the-Gateway-Server" class="headerlink" title="Connecting to the Gateway Server"></a>Connecting to the Gateway Server</h4><p>通过身份验证的客户端可以只写访问以下主题：</p>
+<ul>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/up:用于向网关服务器发送上行流量。</li>
+<li>v3/<gateway-id>@<tenant-id>/status:向网关服务器发送网关状态消息。</li>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/down/ack:用于向网关服务器发送TxAck消息。</li>
+</ul>
+<p>客户端也获得只读访问，并应该订阅以下主题:</p>
+<ul>
+<li>v3/&lt; Gateway -id&gt;@<tenant-id>/down:网关服务器发布网关应该发送的下行消息。</li>
+</ul>
+<h4 id="Uplink-Messages"><a href="#Uplink-Messages" class="headerlink" title="Uplink Messages"></a>Uplink Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;up&quot; -f test-uplink-message</span><br></pre></td></tr></table></figure>
+<h4 id="Downlink-Messages"><a href="#Downlink-Messages" class="headerlink" title="Downlink Messages"></a>Downlink Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_sub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;down&quot; -v</span><br></pre></td></tr></table></figure>
+<h4 id="Gateway-Status-Messages"><a href="#Gateway-Status-Messages" class="headerlink" title="Gateway Status Messages"></a>Gateway Status Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;status&quot; -f test-gateway-status</span><br></pre></td></tr></table></figure>
+<h4 id="TxAck-Messages"><a href="#TxAck-Messages" class="headerlink" title="TxAck Messages"></a>TxAck Messages</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ export GATEWAY_ID&#x3D;&quot;test-gtw@my-tenant&quot;</span><br><span class="line">$ export GATEWAY_API_KEY&#x3D;&quot;NNSXS.VEEBURF3KR77ZR...&quot; # API key with RIGHT_GATEWAY_LINK rights</span><br><span class="line">$ mosquitto_pub \</span><br><span class="line">    -h &quot;thethings.example.com&quot; -p 1882 \</span><br><span class="line">    -u &quot;$GATEWAY_ID&quot; -P &quot;$GATEWAY_API_KEY&quot; \</span><br><span class="line">    -t &quot;v3&#x2F;$GATEWAY_ID&#x2F;down&#x2F;ack&quot; -f example-tx-ack</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Working-with-Events"><a href="#Working-with-Events" class="headerlink" title="Working with Events"></a>Working with Events</h2><p>Things Stack 生成大量的事件，让你能够洞察正在发生的事情。可以订阅应用程序、网关、终端设备事件，以及用户、组织和 OAuth 客户端事件。</p>
+<h3 id="CLI"><a href="#CLI" class="headerlink" title="CLI"></a>CLI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttn-lw-cli events subscribe --gateway-id gtw1 --application-id app1</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># create api key token</span><br><span class="line">ttn-lw-cli users api-key create \</span><br><span class="line">  --user-id admin \</span><br><span class="line">  --right-application-all \</span><br><span class="line">  --right-gateway-all</span><br><span class="line"></span><br><span class="line"># subscribe stream</span><br><span class="line">curl https:&#x2F;&#x2F;thethings.example.com&#x2F;api&#x2F;v3&#x2F;events \</span><br><span class="line">  -X POST \</span><br><span class="line">  -H &quot;Authorization: Bearer NNSXS.BR55PTYILPPVXY..&quot; \</span><br><span class="line">  -H &quot;Accept: text&#x2F;event-stream&quot; \</span><br><span class="line">  --data &#39;&#123;&quot;identifiers&quot;:[&#123;&quot;application_ids&quot;:&#123;&quot;application_id&quot;:&quot;app1&quot;&#125;&#125;,&#123;&quot;gateway_ids&quot;:&#123;&quot;gateway_id&quot;:&quot;gtw1&quot;&#125;&#125;]&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><h3 id="Application-Server"><a href="#Application-Server" class="headerlink" title="Application Server"></a>Application Server</h3><p>Application Server 处理 LoRaWAN 应用层，包括上行数据的解密和解码、下行队列和下行数据的编码和加密。</p>
+<p>它托管一个用于流媒体应用程序数据的MQTT服务器，支持HTTP webhook以及发布/订阅集成。</p>
+<p>应用程序可以通过多种协议和机制连接到 Application Server。</p>
+<ul>
+<li>MQTT Protocol</li>
+</ul>
+<p>应用程序可以通过 MQTT 交换 JSON 消息来连接到应用服务器。MQTT 在 TLS 上可用，为应用程序和应用服务器之间交换的消息提供机密性。</p>
+<p>上行消息不仅包含数据上行消息，而且还包含不同主题的 join-accept 和 downlink 事件。</p>
+<ul>
+<li>HTTP Webhooks</li>
+</ul>
+<p>应用程序可以通过 HTTP webhook 获取流 JSON 消息，并通过向应用服务器发出 HTTP 请求来调度下行消息。</p>
+<p>与 MQTT 一样，可以配置所有上游消息，包括上行消息、加入接收事件和下行事件，每个都用于分隔 URL 路径。</p>
+<ul>
+<li>Pub/Sub Integrations</li>
+</ul>
+<p>应用程序还可以使用发布/订阅集成来处理流数据。这包括连接到外部 MQTT 服务器和 NATS 服务器。</p>
+<ul>
+<li>Message Processing</li>
+</ul>
+<p>Application Server 可以解码和编码由终端设备发送和接收的二进制有效负载。这允许使用结构化流数据，例如使用 MQTT 和 HTTP Webhook 的JSON对象，同时使用通过无线电传输的压缩二进制数据。</p>
+<p>消息处理器可以是众所周知的格式或自定义脚本，可以在设备级别或针对整个应用程序进行设置。</p>
+<h3 id="Network-Server"><a href="#Network-Server" class="headerlink" title="Network Server"></a>Network Server</h3><p>Network Server 负责处理 LoRaWAN 网络层，包括 MAC命令、区域参数和自适应数据速率(ADR)。</p>
+<h4 id="Device-Management"><a href="#Device-Management" class="headerlink" title="Device Management"></a>Device Management</h4><p> 网络服务器为终端设备(End-Device)管理公开了 NsEndDeviceRegistry 服务。该服务的典型客户端有 Console 和 CLI。</p>
+<p>网络服务器存储设备 MAC 配置、MAC状态 和网络会话密钥。</p>
+<p>设备MAC配置变化可能会触发下行报文。</p>
+<h4 id="Application-Downlink-Queue-Management-and-Linking"><a href="#Application-Downlink-Queue-Management-and-Linking" class="headerlink" title="Application Downlink Queue Management and Linking"></a>Application Downlink Queue Management and Linking</h4><p>网络服务器允许应用服务器推送、替换和列出应用下行链路，以及通过 gRPC API 链接应用。</p>
+<p>改变应用程序下行队列可能会触发下行消息。</p>
+<p>一旦链接建立，Network Server 将通过该链接向客户端发送特定于应用程序的上行消息。每个应用程序最多只能有一个活动链接。</p>
+<p>如果链接不是活动的，但是 Network Server 有特定于应用程序的上行消息要发送，这些消息将在链接建立后排队并发送。</p>
+<h4 id="Downlink-Scheduling"><a href="#Downlink-Scheduling" class="headerlink" title="Downlink Scheduling"></a>Downlink Scheduling</h4><p>网络服务器维护内部下行任务队列。每个下行任务都有一个与之相关的执行时间，这些任务按升序排列。每当下行任务准备执行时，它就会尽快执行。</p>
+<h5 id="Join-accept"><a href="#Join-accept" class="headerlink" title="Join-accept"></a>Join-accept</h5><p>如果存在一个挂起的会话，并且为该设备排队加入join-accept，它将被调度。</p>
+<h5 id="Data-downlink"><a href="#Data-downlink" class="headerlink" title="Data downlink"></a>Data downlink</h5><p>如果一个挂起的会话不存在或已经发送了 Join-accept, Network Server 将尝试在活动会话中生成并调度数据下行。</p>
+<h4 id="Uplink-Handing"><a href="#Uplink-Handing" class="headerlink" title="Uplink Handing"></a>Uplink Handing</h4><p>网络服务器通过 gRPC 从网关服务器接收上行链路。</p>
+<p>网络服务器对接收到的上行链路进行处理。第一步是将上行链路与设备匹配。如果上行链路不能与网络服务器中存储的设备匹配，则丢弃上行链路。</p>
+<h5 id="Join-Request"><a href="#Join-Request" class="headerlink" title="Join-Request"></a>Join-Request</h5><p>如果收到 Join-request:</p>
+<ol>
+<li>设备使用连接请求中出现的 DevEUI和 JoinEUI 对进行匹配，这是唯一标识设备的。</li>
+<li>新的 <code>DevAddr</code> 被分配给设备，新的 MAC 状态被派生出来。</li>
+<li>如果集群中存在 Join Server, Network Server 将向集群本地 Join Server 发送一个Join请求消息。</li>
+<li>如果集群中不存在 Join Server，或者设备没有在集群本地 Join Server 中提供，网络服务器将向通过互操作性配置发现的 Join Server 发送一个 Join 请求消息。</li>
+<li>如果一个 Join Server 接受了Join-request，设备可能会排队接收 Join-accept 消息，并向链接的 Application Server 发送特定于应用程序的上行消息，这些上行消息携带有关Join-accept 的信息。</li>
+</ol>
+<h5 id="Data-Uplink"><a href="#Data-Uplink" class="headerlink" title="Data Uplink"></a>Data Uplink</h5><p>如果收到数据上行：</p>
+<ol>
+<li>使用数据上行链路中存在的 DevAddr 匹配设备。通过比较会话上下文和 MAC 状态进行匹配，并进行 MIC 检查。由于多个设备可能具有相同的 DevAddr，网络服务器在匹配设备之前可能需要通过多个存储设备。</li>
+<li>网络服务器处理 MAC 命令，如果这样的命令存在于帧中，并相应地更新 MAC 状态。</li>
+<li>如果数据上行配置了ADR 位，Network Server 运行 ADR 算法，更新 MAC 状态。</li>
+<li>如果数据上行链路处理成功，下行链路可能会为设备排队，一个或多个特定于应用程序的上行消息携带有关 Join-accept 的相关信息被发送到链接的应用服务器。</li>
+</ol>
+<h3 id="Identity-Server"><a href="#Identity-Server" class="headerlink" title="Identity Server"></a>Identity Server</h3><p>身份服务器提供了存储实体(如应用程序及其终端设备、网关、用户、组织、OAuth客户端和身份验证提供者)的注册中心。它还通过成员关系和API键管理访问控制。</p>
+<h4 id="Entity-Registries"><a href="#Entity-Registries" class="headerlink" title="Entity Registries"></a>Entity Registries</h4><p>实体注册中心存储关于 Things Stack 中所有主要实体的公共信息。这包括名称、描述和属性(用户定义的键值对)。</p>
+<h5 id="Users"><a href="#Users" class="headerlink" title="Users"></a>Users</h5><p>在 Identity Server 中注册的第一个实体通常是管理用户。用户可以通过提供电子邮件地址并选择用户ID和密码进行注册。这些信息以后可以用于登录。</p>
+<p>用户ID是用户的唯一标识符。用户 ID 与组织 ID 在同一个命名空间中。这意味着不可能创建与现有组织具有相同ID的用户。出于安全原因，也不可能重用已删除用户或组织的ID。</p>
+<p>用户可以是“admin”，这给了他们更高的权限。正常的注册过程不允许用户注册为 admin，这就是为什么入门指南使用不同的命令创建admin用户。</p>
+<p>用户可以处于多个状态之一：请求、批准、拒绝、挂起等。用户的状态决定了用户是否能够执行操作，以及哪些操作。正常情况下，用户处于“批准”状态。如果 The Things Stack 被配置为需要新用户的管理批准，那么用户最初处于“请求”状态，管理用户可以将其更新为“批准”或“拒绝”状态。如果用户行为不当，也可能被管理员挂起。</p>
+<h5 id="Gateways"><a href="#Gateways" class="headerlink" title="Gateways"></a>Gateways</h5><p>网关可以通过选择一个ID和可选地注册网关的EUI来注册。注册后，可以创建一个API密钥；网关可以使用它的ID(或EUI)和API密钥一起使用 The Things Stack 进行身份验证。</p>
+<p>为了保证网关的正常运行，需要设置频率规划ID，并设置网关是否需要满足占空比。</p>
+<p>如果网关能够与网关配置服务器通信，则可以在网关注册表中设置网关服务器地址和固件更新设置。</p>
+<p>网关注册表还存储有关网关天线的信息，如位置和增益。</p>
+<h5 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h5><p>应用程序用于在一个地方组织多个终端设备的注册和流量。应用程序通常对应于处于相同部署或相同类型的终端设备集合。</p>
+<h5 id="End-Devices"><a href="#End-Devices" class="headerlink" title="End Devices"></a>End Devices</h5><p>Identity Server 中的终端设备注册表只存储终端设备的元数据，允许  Console 和 CLI 等客户端在应用程序中列出终端设备。它通常存储有关终端设备的品牌、模型、硬件、固件和位置的元数据。它还存储了 Network Server、Application Server 和Join Server的地址，以便 Console 和 CLI 等客户机知道存储终端设备的其他属性的位置。</p>
+<h5 id="Organizations"><a href="#Organizations" class="headerlink" title="Organizations"></a>Organizations</h5><p>组织用于创建多个用户组，并方便地为整个用户组分配权限。</p>
+<p>组织ID是组织的唯一标识符。组织id与用户id在相同的命名空间中。这意味着不可能创建具有与现有用户相同ID的组织。出于安全原因，也不可能重用已删除用户或组织的ID。</p>
+<h5 id="OAuth-Clients"><a href="#OAuth-Clients" class="headerlink" title="OAuth Clients"></a>OAuth Clients</h5><p>可以在 OAuth 注册表中注册外部 OAuth 客户端。OAuth 客户端使用客户端ID和秘密进行注册。</p>
+<p>与用户一样，OAuth客户机可以处于多种状态中的一种。非admin用户创建的OAuth客户端需要admin用户审批。</p>
+<p>官方的OAuth客户端可以被标记为“背书”，或者可以为所有用户预先授权。</p>
+<h5 id="Authentication-Providers"><a href="#Authentication-Providers" class="headerlink" title="Authentication Providers"></a>Authentication Providers</h5><p>联邦身份验证提供者可以在身份验证提供者注册中心中注册。身份验证提供者使用ID、名称和提供者配置注册。</p>
+<p>身份验证提供者用于允许 Identity Server 从外部身份提供者(如OpenID Connect提供者)获得用户的身份。</p>
+<h4 id="Entity-Access"><a href="#Entity-Access" class="headerlink" title="Entity Access"></a>Entity Access</h4><p>标识服务器负责对实体的访问控制。</p>
+<h5 id="Memberships"><a href="#Memberships" class="headerlink" title="Memberships"></a>Memberships</h5><p>成员资格定义了用户或组织对另一个实体拥有的权利。最简单的成员关系是用户是应用程序或网关的直接成员(或合作者)。成员资格的权限表明允许用户对应用程序或网关做什么。</p>
+<p>间接成员关系是指用户是某个组织的成员，而该组织是某个应用程序或网关的成员。在这种情况下，用户-组织成员关系的权限与组织-应用或组织-网关成员关系的权限相交，计算出该用户的有效权限。</p>
+<h5 id="API-Keys"><a href="#API-Keys" class="headerlink" title="API Keys"></a>API Keys</h5><p>对于大多数实体，都可以创建API Keys。这些 API Keys 允许您代表实体调用 API。API 密钥不会过期，但是可以撤销 API 密钥。</p>
+<p>API键具有相关联的权限。这意味着可以创建一个应用程序API密钥，该密钥可以用来读取有关终端设备的信息，但不能看到根密钥，也不能进行更改。</p>
+<p>可以合并成员资格和API密钥，例如，您可以创建一个组织API密钥，该密钥具有列出组织成员所在的应用程序的权利，以及读取这些应用程序中终端设备信息的权利。</p>
+<h4 id="OAuth"><a href="#OAuth" class="headerlink" title="OAuth"></a>OAuth</h4><p>Identity Server 是 OAuth 2.0 服务器。用户可以授权 OAuth 客户机访问他们的数据、管理授权，甚至管理单个访问令牌。</p>
+<h3 id="Join-Server"><a href="#Join-Server" class="headerlink" title="Join Server"></a>Join Server</h3><p>连接服务器处理 LoRaWAN 连接流，包括网络和应用服务器身份验证和会话密钥生成。</p>
+<h4 id="Join-Procedure"><a href="#Join-Procedure" class="headerlink" title="Join Procedure"></a>Join Procedure</h4><p>连接服务器通过 gRPC 接收来自网络服务器的加入请求，如果加入请求验证通过，则为注册设备发出加入接收。</p>
+<p>如果接受了一个连接请求，Join Server将派生会话安全上下文，该上下文包含会话密钥，并由会话密钥 ID 标识。使用分别在网络服务器和应用服务器之间共享的密钥加密密钥(KEKs)， Join Servers 加密派生的网络和应用程序会话密钥，并将会话密钥以加密的形式包含在 Join-accept 中。</p>
+<h4 id="Device-Management-1"><a href="#Device-Management-1" class="headerlink" title="Device Management"></a>Device Management</h4><p>Join Servers 公开JsEndDeviceRegistry 服务用于终端设备管理。该服务的典型客户端有 Console 和 CLI。</p>
+<p>Join Servers 存储设备根和会话密钥。</p>
+<h4 id="Session-Key-Retrieval"><a href="#Session-Key-Retrieval" class="headerlink" title="Session Key Retrieval"></a>Session Key Retrieval</h4><p>Join Servers 公开 rpc 以检索给定会话密钥ID的会话密钥。</p>
+<h4 id="Interoperability"><a href="#Interoperability" class="headerlink" title="Interoperability"></a>Interoperability</h4><p>Join Servers 公开了LoRaWAN后端接口 1.0 规范中定义的 AS-JS、vNS-JS 和 hNS-JS 服务。</p>
+<h3 id="Gateway-Server"><a href="#Gateway-Server" class="headerlink" title="Gateway Server"></a>Gateway Server</h3><p>网关服务器维护与支持基站、UDP、MQTT 和 gRPC 协议的网关的连接。上行流量直接或间接转发给网络服务器，下行流量由网关调度。</p>
+<h4 id="Connective"><a href="#Connective" class="headerlink" title="Connective"></a>Connective</h4><p>网关可以通过多种协议连接到网关服务器。</p>
+<ul>
+<li>Basic Station Protocol</li>
+</ul>
+<p>网关可以通过基站 LNS 协议与网关服务器连接。建议使用此协议连接网关。</p>
+<ul>
+<li>UDP Protocol</li>
+</ul>
+<p>网关可以通过 UDP 协议连接到网关服务器。与每条消息一起发送的 EUI 用于标识网关。</p>
+<p>如果在标识服务器中找到具有此 EUI 的网关，则消息与此网关相关。否则，根据网络配置，上行链路可能被路由或丢弃。但是，由于无法识别其区域参数，网络将不会向此网关发送下行链路。</p>
+<p>旧版本的数据包转发器实现 UDP 协议没有实现任何排队系统下行链路，导致数据包丢失，因为 SX130x 集中器不缓冲多个下行链路。因此，对于 UDP 协议，Things Stack 实现了向下发送到网关的延迟，这意味着它们将由集中器发出。您可以每个网关单独禁用此功能，例如，如果网关和网关服务器之间的RTT过高。</p>
+<ul>
+<li>MQTT Protocol</li>
+</ul>
+<p>网关可以通过 MQTT 交换 Protocol Buffer 连接到网关服务器。MQTT 可在TLS上使用，提供网关和网络之间交换的消息的机密性。与使用 JSON 编码的 UDP 协议相比，使用 Protocol Buffer 的编码减少了带宽的使用。技术细节请参见网关服务器MQTT协议。</p>
+<p>实现 MQTT 协议的包转发器(Packet forwarders)特定于Things Stack。</p>
+<h4 id="Gateway-Information"><a href="#Gateway-Information" class="headerlink" title="Gateway Information"></a>Gateway Information</h4><p>当连接网关时，网关服务器会统计与网关交换的消息以及网关发送的状态消息。这些统计数据可以通过网关服务器的gRPC和HTTP api来检索。看到Gs服务。</p>
+<h4 id="Communication-with-Network-Server"><a href="#Communication-with-Network-Server" class="headerlink" title="Communication with Network Server"></a>Communication with Network Server</h4><p>网关服务器的主要功能是维护与网关的连接，并作为网关和网络服务器之间的中继。</p>
+<h5 id="Uplink-Messages-1"><a href="#Uplink-Messages-1" class="headerlink" title="Uplink Messages"></a>Uplink Messages</h5><p>当网关服务器接收数据上行消息时，根据设备的 DevAddr 和配置的转发表决定发送到哪个 Network Server。连接请求被路由到所有已配置的端点。端点可以是集群的 gRPC 网络服务器，或者是中间流量路由机制。</p>
+<h5 id="Downlink-Messages-1"><a href="#Downlink-Messages-1" class="headerlink" title="Downlink Messages"></a>Downlink Messages</h5><p>网络服务器可以请求下行消息的传输。网关服务器尝试基于所选网关、发送消息的时间和 LoRaWAN 设置(下行链路类、RX1延迟和RX1/RX2数据速率和频率)来调度消息。</p>
+<p>网关服务器跟踪所有发送的和连接到它的网关将要发送的下行链路，包括基于消息大小和数据速率的准确广播时间。这使得 The Things Stack 能够进行智能调度。除了定时和 LoRaWAN 设置，网关服务器考虑到适用的限制，包括：</p>
+<ul>
+<li>调度冲突：如果一个下行链路的发送与另一个下行链路的发送重叠，则下行链路将被拒绝。</li>
+<li>停飞时间：一些频带和频率计划有停飞时间限制，这意味着网关在发送下行链路后的一段时间内不能发射。</li>
+<li>频宽比：一些国家，如欧洲国家，有频宽比限制，禁止一个设备在一定范围内排放超过一定百分比的时间。</li>
+<li>停留时间：一些国家，如美国，受停留时间的规定，即传输的持续时间不能超过一定的限制。</li>
+</ul>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><h3 id="Port-Allocations"><a href="#Port-Allocations" class="headerlink" title="Port Allocations"></a>Port Allocations</h3><p>The following table lists the default ports used.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Purpose</strong></th>
+<th><strong>Protocol</strong></th>
+<th><strong>Authentication</strong></th>
+<th><strong>Port</strong></th>
+<th><strong>Port (TLS)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gateway data</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/Lora-net/packet_forwarder/blob/master/PROTOCOL.TXT">Semtech Packet Forwarder</a></td>
+<td>None</td>
+<td>1700 (UDP)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Gateway data</td>
+<td>MQTT (V2)</td>
+<td>API key, token</td>
+<td>1881</td>
+<td>8881</td>
+</tr>
+<tr>
+<td>Gateway data</td>
+<td>MQTT</td>
+<td>API key, token</td>
+<td>1882</td>
+<td>8882</td>
+</tr>
+<tr>
+<td>Application data, events</td>
+<td>MQTT</td>
+<td>API key, token</td>
+<td>1883</td>
+<td>8883</td>
+</tr>
+<tr>
+<td>Management, data, events</td>
+<td>gRPC</td>
+<td>API key, token</td>
+<td>1884</td>
+<td>8884</td>
+</tr>
+<tr>
+<td>Management</td>
+<td>HTTP</td>
+<td>API key, token</td>
+<td>1885</td>
+<td>8885</td>
+</tr>
+<tr>
+<td>Backend Interfaces</td>
+<td>HTTP</td>
+<td>Custom</td>
+<td>N/A</td>
+<td>8886</td>
+</tr>
+<tr>
+<td>LNS</td>
+<td>Web Sockets</td>
+<td>Auth Token, Custom</td>
+<td>1887</td>
+<td>8887</td>
+</tr>
+<tr>
+<td>Tabs Hubs LNS</td>
+<td>Web Sockets</td>
+<td>Auth Token, Custom</td>
+<td>1888</td>
+<td>8888</td>
+</tr>
+</tbody></table>
+<h3 id="Service-Discovery"><a href="#Service-Discovery" class="headerlink" title="Service Discovery"></a>Service Discovery</h3><p>The Things Stack supports discovering services using DNS SRV records. This is useful when dialing a cluster only by host name; the supported services and target host name and port are discovered using DNS.</p>
+<p>To support service discovery for your The Things Stack cluster, configure DNS SRV records with the following services and protocols:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>SRV Service</strong></th>
+<th><strong>SRV Protocol</strong></th>
+<th><strong>SRV Target</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gRPC</td>
+<td><code>ttn-v3-is-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Identity Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-gs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>Semtech Packet Forwarder</td>
+<td><code>ttn-v3-gs-udp</code></td>
+<td><code>udp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>MQTT (V2)</td>
+<td><code>ttn-v3-gs-mqttv2</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td><code>ttn-v3-gs-mqtt</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>Basic Station LNS</td>
+<td><code>ttn-v3-gs-basicstationlns</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-ns-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Network Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-as-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Application Server</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td><code>ttn-v3-as-mqtt</code></td>
+<td><code>tcp</code></td>
+<td>Application Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-js-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Join Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-dtc-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Device Template Converter</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-dcs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Device Claiming Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-gcs-grpc</code></td>
+<td><code>tcp</code></td>
+<td>Gateway Configuration Server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>ttn-v3-qrg-grpc</code></td>
+<td><code>tcp</code></td>
+<td>QR Code Generator</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+              <a href="/tags/LoRa/" rel="tag"># LoRa</a>
+              <a href="/tags/LoRaWAN/" rel="tag"># LoRaWAN</a>
+              <a href="/tags/Iot/" rel="tag"># Iot</a>
+              <a href="/tags/Network-Server/" rel="tag"># Network Server</a>
+              <a href="/tags/Application-Server/" rel="tag"># Application Server</a>
+              <a href="/tags/UDP/" rel="tag"># UDP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/25/iot-chirpstack-notes/" rel="prev" title="ChirpStack 笔记">
+      <i class="fa fa-chevron-left"></i> ChirpStack 笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">1.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Download"><span class="nav-number">1.1.</span> <span class="nav-text">Download</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Certificates"><span class="nav-number">1.2.</span> <span class="nav-text">Certificates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ca-json"><span class="nav-number">1.2.1.</span> <span class="nav-text">ca.json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cert-json"><span class="nav-number">1.2.2.</span> <span class="nav-text">cert.json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configuration-Cert"><span class="nav-number">1.2.3.</span> <span class="nav-text">Configuration Cert</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Up"><span class="nav-number">1.3.</span> <span class="nav-text">Up</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Override"><span class="nav-number">2.</span> <span class="nav-text">Override</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Things-Stack"><span class="nav-number">2.1.</span> <span class="nav-text">什么是 Things Stack?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Command-Line-Interface"><span class="nav-number">3.</span> <span class="nav-text">Command-Line Interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Console"><span class="nav-number">4.</span> <span class="nav-text">Console</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">5.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gateway-Server-MQTT"><span class="nav-number">5.1.</span> <span class="nav-text">Gateway Server MQTT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Protocol-Buffers"><span class="nav-number">5.1.1.</span> <span class="nav-text">Protocol Buffers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connecting-to-the-Gateway-Server"><span class="nav-number">5.1.2.</span> <span class="nav-text">Connecting to the Gateway Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Uplink-Messages"><span class="nav-number">5.1.3.</span> <span class="nav-text">Uplink Messages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Downlink-Messages"><span class="nav-number">5.1.4.</span> <span class="nav-text">Downlink Messages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gateway-Status-Messages"><span class="nav-number">5.1.5.</span> <span class="nav-text">Gateway Status Messages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TxAck-Messages"><span class="nav-number">5.1.6.</span> <span class="nav-text">TxAck Messages</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Working-with-Events"><span class="nav-number">6.</span> <span class="nav-text">Working with Events</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI"><span class="nav-number">6.1.</span> <span class="nav-text">CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP"><span class="nav-number">6.2.</span> <span class="nav-text">HTTP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Components"><span class="nav-number">7.</span> <span class="nav-text">Components</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-Server"><span class="nav-number">7.1.</span> <span class="nav-text">Application Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Network-Server"><span class="nav-number">7.2.</span> <span class="nav-text">Network Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Device-Management"><span class="nav-number">7.2.1.</span> <span class="nav-text">Device Management</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Application-Downlink-Queue-Management-and-Linking"><span class="nav-number">7.2.2.</span> <span class="nav-text">Application Downlink Queue Management and Linking</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Downlink-Scheduling"><span class="nav-number">7.2.3.</span> <span class="nav-text">Downlink Scheduling</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Join-accept"><span class="nav-number">7.2.3.1.</span> <span class="nav-text">Join-accept</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-downlink"><span class="nav-number">7.2.3.2.</span> <span class="nav-text">Data downlink</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Uplink-Handing"><span class="nav-number">7.2.4.</span> <span class="nav-text">Uplink Handing</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Join-Request"><span class="nav-number">7.2.4.1.</span> <span class="nav-text">Join-Request</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Uplink"><span class="nav-number">7.2.4.2.</span> <span class="nav-text">Data Uplink</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Identity-Server"><span class="nav-number">7.3.</span> <span class="nav-text">Identity Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Entity-Registries"><span class="nav-number">7.3.1.</span> <span class="nav-text">Entity Registries</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Users"><span class="nav-number">7.3.1.1.</span> <span class="nav-text">Users</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Gateways"><span class="nav-number">7.3.1.2.</span> <span class="nav-text">Gateways</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Applications"><span class="nav-number">7.3.1.3.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#End-Devices"><span class="nav-number">7.3.1.4.</span> <span class="nav-text">End Devices</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Organizations"><span class="nav-number">7.3.1.5.</span> <span class="nav-text">Organizations</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#OAuth-Clients"><span class="nav-number">7.3.1.6.</span> <span class="nav-text">OAuth Clients</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Authentication-Providers"><span class="nav-number">7.3.1.7.</span> <span class="nav-text">Authentication Providers</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Entity-Access"><span class="nav-number">7.3.2.</span> <span class="nav-text">Entity Access</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Memberships"><span class="nav-number">7.3.2.1.</span> <span class="nav-text">Memberships</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#API-Keys"><span class="nav-number">7.3.2.2.</span> <span class="nav-text">API Keys</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OAuth"><span class="nav-number">7.3.3.</span> <span class="nav-text">OAuth</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Join-Server"><span class="nav-number">7.4.</span> <span class="nav-text">Join Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Join-Procedure"><span class="nav-number">7.4.1.</span> <span class="nav-text">Join Procedure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Device-Management-1"><span class="nav-number">7.4.2.</span> <span class="nav-text">Device Management</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session-Key-Retrieval"><span class="nav-number">7.4.3.</span> <span class="nav-text">Session Key Retrieval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Interoperability"><span class="nav-number">7.4.4.</span> <span class="nav-text">Interoperability</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gateway-Server"><span class="nav-number">7.5.</span> <span class="nav-text">Gateway Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Connective"><span class="nav-number">7.5.1.</span> <span class="nav-text">Connective</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gateway-Information"><span class="nav-number">7.5.2.</span> <span class="nav-text">Gateway Information</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Communication-with-Network-Server"><span class="nav-number">7.5.3.</span> <span class="nav-text">Communication with Network Server</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Uplink-Messages-1"><span class="nav-number">7.5.3.1.</span> <span class="nav-text">Uplink Messages</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Downlink-Messages-1"><span class="nav-number">7.5.3.2.</span> <span class="nav-text">Downlink Messages</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Networking"><span class="nav-number">8.</span> <span class="nav-text">Networking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Port-Allocations"><span class="nav-number">8.1.</span> <span class="nav-text">Port Allocations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-Discovery"><span class="nav-number">8.2.</span> <span class="nav-text">Service Discovery</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">156k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:21</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

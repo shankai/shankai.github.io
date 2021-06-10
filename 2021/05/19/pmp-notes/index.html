@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SPEMF  START PLAN EXECUTE MONITOR FINISH  整合S制定项目章程P制定项目管理计划 子计划：9+1(需求) 基准: 范围、进度、成本 其他：变更管理、配置管理、绩效测量、生命周期、开发方法、管理审查  ![image-20210519101409876](&#x2F;Users&#x2F;shankai&#x2F;Library&#x2F;Application Support&#x2F;typora-use">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零壹">
+<meta property="og:url" content="http://example.com/2021/05/19/pmp-notes/index.html">
+<meta property="og:site_name" content="零壹">
+<meta property="og:description" content="SPEMF  START PLAN EXECUTE MONITOR FINISH  整合S制定项目章程P制定项目管理计划 子计划：9+1(需求) 基准: 范围、进度、成本 其他：变更管理、配置管理、绩效测量、生命周期、开发方法、管理审查  ![image-20210519101409876](&#x2F;Users&#x2F;shankai&#x2F;Library&#x2F;Application Support&#x2F;typora-use">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-19T02:14:02.147Z">
+<meta property="article:modified_time" content="2021-05-23T07:49:54.001Z">
+<meta property="article:author" content="shankai">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/05/19/pmp-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 零壹</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">零壹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万物虚无</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">57</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">120</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">17</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/19/pmp-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-19 10:14:02" itemprop="dateCreated datePublished" datetime="2021-05-19T10:14:02+08:00">2021-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-23 15:49:54" itemprop="dateModified" datetime="2021-05-23T15:49:54+08:00">2021-05-23</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>SPEMF</p>
+<ul>
+<li>START</li>
+<li>PLAN</li>
+<li>EXECUTE</li>
+<li>MONITOR</li>
+<li>FINISH</li>
+</ul>
+<h2 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h2><h3 id="S制定项目章程"><a href="#S制定项目章程" class="headerlink" title="S制定项目章程"></a>S制定项目章程</h3><h3 id="P制定项目管理计划"><a href="#P制定项目管理计划" class="headerlink" title="P制定项目管理计划"></a>P制定项目管理计划</h3><ul>
+<li>子计划：9+1(需求)</li>
+<li>基准: 范围、进度、成本</li>
+<li>其他：变更管理、配置管理、绩效测量、生命周期、开发方法、管理审查</li>
+</ul>
+<p>![image-20210519101409876](/Users/shankai/Library/Application Support/typora-user-images/image-20210519101409876.png)</p>
+<h3 id="E指导与管理项目工作"><a href="#E指导与管理项目工作" class="headerlink" title="E指导与管理项目工作"></a>E指导与管理项目工作</h3><h3 id="E管理项目知识"><a href="#E管理项目知识" class="headerlink" title="E管理项目知识"></a>E管理项目知识</h3><h2 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h2><p>范围基准</p>
+<ul>
+<li><p>项目范围说明书</p>
+</li>
+<li><p>WBS</p>
+</li>
+<li><p>WBS 词典</p>
+</li>
+<li><p>工作包</p>
+</li>
+<li><p>规划包</p>
+</li>
+</ul>
+<p>收集需求</p>
+<ul>
+<li>需求文件</li>
+<li>需求跟踪矩阵</li>
+</ul>
+<blockquote>
+<p>需求跟踪矩阵</p>
+</blockquote>
+<p>需求跟踪矩阵提供了在整个项目生命周期中跟踪需求的一种方法，有助于确保需求文件中被批准的每项需求在项目结束的时候都能交付。应在需求跟踪矩阵中记录每个需求的相关属性，这些属性有助于明确每个需求的关键信息。为确保相关方满意，可能需要增加一些补充属性，如稳定性、复杂性和验收标准。</p>
+<h2 id="进度"><a href="#进度" class="headerlink" title="进度"></a>进度</h2><p>进度压缩</p>
+<ul>
+<li>快速跟进（返工风险）</li>
+<li>赶工（增加成本，改变关键路径）</li>
+</ul>
+<p>==<strong>进度基准？</strong>==</p>
+<blockquote>
+<p>RAM责任分配矩阵(Responsibility Assignment Matrix) </p>
+</blockquote>
+<p><strong>责任分配矩阵</strong>是用来对<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/%E9%A1%B9%E7%9B%AE%E5%9B%A2%E9%98%9F">项目团队</a>成员进行分工，明确其角色与职责的有效工具，通过这样的关系矩阵，项目团队每个成员的角色，也就是谁做什么，以及他们的职责，也就是谁决定什么，得到了直观地反映。项目的每个具体任务都能落实到参与项目的团队成员身上，确保了项目的事有人做，人有事干。</p>
+<blockquote>
+<p>RACI </p>
+</blockquote>
+<p>RAM显示每个工作包分配了哪些资源;</p>
+<p>RACI 可以直接查某个资源承担了哪些工作(活动)，RACI更具体和清晰，便于团队成员可以了解自己承担的工作职责。</p>
+<h3 id="排列活动顺序"><a href="#排列活动顺序" class="headerlink" title="排列活动顺序"></a>排列活动顺序</h3><p>确定和整合依赖关系</p>
+<ul>
+<li>强制性：法律或合同要求的</li>
+<li>选择性：基于应用领域的最佳实践或某些特性</li>
+<li>外部的：项目活动与非项目活动之间的依赖，这些依赖不在项目控制范围内</li>
+<li>内部的：项目活动之间的紧前关系</li>
+</ul>
+<blockquote>
+<p>资源平衡</p>
+</blockquote>
+<p>为了在资源需求与资源供给之间取得平衡，根据资源制约因素对开始日期和完成日期进行调整的一种技术。如果共享资源或关键资源只在特定时间可用，数量有限，或被过度分配，或为保持资源使用量处于均衡水平，就需要进行资源平衡。</p>
+<h2 id="采购"><a href="#采购" class="headerlink" title="采购"></a>采购</h2><h3 id="合同类型"><a href="#合同类型" class="headerlink" title="合同类型"></a>合同类型</h3><ul>
+<li>固定总价（FP）（明确定义需求，且不会出现重大范围变更的情况下使用）<ul>
+<li>固定总价（FFP）（利好买方，风险在卖方）签订周期较长（核实范围），实施周期较短</li>
+<li>总价+激励费用（FPIF）（完成目标给与奖励，有天花板，高于后由卖方承担）</li>
+<li>总价+经济价格调整（FPEPA）（卖方履约时间紧，或受汇率影响较大的情况）</li>
+</ul>
+</li>
+<li>工料（T&amp;M）：在无法快速编制出准确的工作说明书下扩充人员、聘请专家或寻求外部支持时。工料合同与固定单价合同相似。</li>
+<li>成本补偿（CR）（工作范围预计会在合同执行期间发生重大变更，或项目存在较高风险时使用）<ul>
+<li>固定费用（CPFF）为卖方履行合同发生的一切可列支成本，并向卖方支付一笔固定费用。</li>
+<li>激励费用（CPIF）为卖方履行合同发生的一切可列支成本，并在卖方达到合同规定绩效时，支付预先确定的激励费用（无天花板）。买卖双方按预先商定的分摊比例分享利润或分担超支。</li>
+<li>奖励费用（CPAF）为卖方报销一切合法成本，仅在卖方满足买方主观绩效标准下，支付大部分费用。不允许申诉。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>预期货币值(EMV) </p>
+</blockquote>
+<p>预期货币值，又称风险暴露值、风险期望值，是定量风险分析的一种技术，英文名为：ExpectedMonetaryValue，因此在计算使用中，通常用EMV来表示。机会的EMV通常表示为正值，而威胁的EMV则表示为负值。EMV是建立在风险中立的假设之上的，既不避险，也不冒险。因此，在审核一个项目时，经常会计算项目的EMV。</p>
+<p>预期货币常和决策树一起使用，它是将特定情况下可能的风险造成的货币后果和发生概率相乘，此项目包含了风险和现金的考虑。正值表示机会，负值表示风险。每个可能结果的数值与发生机率相乘后相加，就可以计算出项目的EMV。</p>
+<blockquote>
+<p>质量成本（cost of quality）包括在产品生命周期中为预防不符合要求，为评估产品或服务是否符合要求，以及因未达到要求（返工），而发生的所有成本。</p>
+</blockquote>
+<p>一致性成本（cost of conformance），该成本是预防性的，在缺陷发生之前付出的，用于质量与要求或规范一致而付出的成本。</p>
+<ul>
+<li>预防成本</li>
+<li>评估成本</li>
+</ul>
+<p>非一致性成本：<br>非一致性成本（cost of non-conformance），是由于质量与要求或者规范不一致而造成的成本。</p>
+<ul>
+<li>内部失败成本</li>
+<li>外部失败成本</li>
+</ul>
+<blockquote>
+<p>净现值(Net Present Value, NPV)</p>
+</blockquote>
+<p>净现值指未来资金(现金)流入(收入)现值与未来资金(现金)流出(支出)现值的差额。项目评估中净现值法的基本指标。未来的资金流入与资金流出均按预计折现率各个时期的现值系数换算为现值后，再确定其净现值。这种预计折现率是按企业的最低的投资收益率来确定的.是企业投资可以接受的最低界限。</p>
+<blockquote>
+<p>PERT （估算）？</p>
+</blockquote>
+<blockquote>
+<p>投资回报率(ROI) 模二 162</p>
+</blockquote>
+<p>投资回报率（ROI）是指通过投资而应返回的价值，即企业从一项投资活动中得到的经济回报。它涵盖了企业的获利目标。利润和投入经营所必备的财产相关，因为管理人员必须通过投资和现有财产获得利润。投资可分为实业投资和金融投资两大类，人们平常所说的金融投资主要是指证券投资。</p>
+<h2 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h2><h3 id="定性"><a href="#定性" class="headerlink" title="定性"></a>定性</h3><ul>
+<li>概率和影响矩阵：威胁/机会、概率、影响值等。</li>
+<li>风险数据质量评估：评估风险数据的质量、可靠性，是否有必要收集更好的数据。</li>
+<li>风险分类：借助风险分解结构来构建风险分类。</li>
+<li>风险登记册更新：包括概率、影响评估、优先级、风险分值、风险责任人、紧迫性、类别以及低优先级风险的观察清单或需要进一步分析的风险。</li>
+</ul>
+<h3 id="定量"><a href="#定量" class="headerlink" title="定量"></a>定量</h3><ul>
+<li><p>敏感性分析</p>
+</li>
+<li><p>不确定性表现方式</p>
+</li>
+<li><p>决策树分析</p>
+</li>
+<li><p>成本风险模型</p>
+</li>
+</ul>
+<blockquote>
+<p>龙卷风图</p>
+</blockquote>
+<p>龙卷风图：是项目管理中用于在风险识别和定性分析之后，进行定量风险分析的技术—-敏感性分析技术中最常用的一种图表技术。</p>
+<p>敏感性分析：敏感性分析有助于确定哪些风险对项目具有最大的潜在影响。它把所有其他不确定因素保持在基准值的条件下，考察项目的每项要素的不确定性对目标产生多大程度的影响。</p>
+<h3 id="风险（威胁）应对策略"><a href="#风险（威胁）应对策略" class="headerlink" title="风险（威胁）应对策略"></a>风险（威胁）应对策略</h3><ul>
+<li><p>上报：威胁超出项目范围，或提议的应对措施超出项目经理权限，应进行上报。</p>
+</li>
+<li><p>减轻：采取措施降低威胁发生的概率/影响。降低概率如：多次测试、原型法、可靠的卖方等；降低影响如：冗余部件、备胎等。</p>
+</li>
+<li><p>回避（规避）：适用于发生概率较高，且具有严重负面影响的高优先级威胁。改变计划或目标，彻底消除威胁，将它的发生概率降低到零。</p>
+</li>
+<li><p>转移：将应对威胁的责任转移给第三方，让第三方管理风险并承担威胁发生的影响。向承担威胁的一方支付风险转移费用。（例如：保险、履约保函、担保书、保证书、合同等）</p>
+</li>
+<li><p>接受：主动和被动。主动接受是建立应急储备，包括预留时间、资金或资源；被动接受只是定期对威胁进行审查，确保未发生重大改变。</p>
+</li>
+</ul>
+<h3 id="机会应对策略"><a href="#机会应对策略" class="headerlink" title="机会应对策略"></a>机会应对策略</h3><ul>
+<li>上报：机会不在项目范围内，或提议的应对措施超出了项目经理权限，应进行上报。</li>
+<li>开拓：将特定机会出现的概率提高到 100%，确保肯定出现。</li>
+<li>分享：将应对机会的责任转移给第三方，使其享有机会所带来的部分收益。（合伙、合作团队、合资企业等）</li>
+<li>提高：可以提高机会出现的概率或决定潜在因素提高发生的影响。</li>
+<li>接受：承认机会存在，但不主动采取措施。主动策略是建立应急储备，以便在机会出现时加以利用；被动策略只是定期对机会进行审查，确保未发生重大改变。</li>
+</ul>
+<h3 id="应对"><a href="#应对" class="headerlink" title="应对"></a>应对</h3><blockquote>
+<p>权变措施</p>
+</blockquote>
+<p>权变措施是未经计划的应对措施，不利的风险发生时来不及进行计划分析工作，只能根据当时的情况马上采取措施。用于应对先前未识别出的新风险，或者被动接受的风险，在风险发生之前不采取任何措施。 变更请求包括：纠正措施、预防措施、缺陷补救 纠正措施：推荐的纠正措施包括应急计划和权变措施。是整体变更控制过程的依据之一。应急计划：接受项目风险的一种做法，事先计划好当接受的风险发生时，应该采取的具体步骤，例如制定备用的活动顺序。需要建立一定的应急储备，用于应对已知风险和已知—未知型风险，应急计划中同时规定风险触发因素，即出现何种征兆时执行应急计划。</p>
+<p>风险审查会</p>
+<ul>
+<li>识别新的单个风险</li>
+<li>重新评估当前风险</li>
+<li>关闭已过时的风险</li>
+</ul>
+<p>风险审计是针对过程(HOW)的，审查是针对具体的风险(WHAT)。</p>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><blockquote>
+<p>团队建设阶段？</p>
+</blockquote>
+<ul>
+<li>形成</li>
+<li>震荡</li>
+<li>规范 </li>
+<li>成熟</li>
+<li>解散</li>
+</ul>
+<h2 id="相关方"><a href="#相关方" class="headerlink" title="相关方"></a>相关方</h2><p>权利利益方格</p>
+<p>相关方参与计划 ？</p>
+<h2 id="沟通"><a href="#沟通" class="headerlink" title="沟通"></a>沟通</h2><h3 id="冲突管理"><a href="#冲突管理" class="headerlink" title="冲突管理"></a>冲突管理</h3><ul>
+<li><p>撤退/回避：从实际或潜在冲突中退出，将问题推迟到准备充分的时候，或者将问题推给其他人员解决。</p>
+</li>
+<li><p>缓和/包容：强调一致而非差异；为维持和谐与关系而退让一步，考虑其他方的需要。 </p>
+<p>（缓和(包容)是指强调冲突双方的共同点，同时回避冲突双方的差异点。例如，对于某个岛屿的主权归属争议，采用“搁置争议、共同开发”的方法。例如，项目经理要求两位团队成员为共同完成任务而不在意双方之间的私人矛盾。缓和(包容)是双赢的方法，双方都能得到一定的利益。但是，缓和(包容)只是部分地解决了冲突，被回避掉的差异仍然是客观存在的。）</p>
+</li>
+<li><p>妥协/调解：为了暂时或部分解决冲突，寻找能让各方都在一定程度上满意的方案，但这种方法有时会导致”双输“的局面。</p>
+<p>（妥协(调解)是指一方主动让步，或双方主动各让一步，来达成永久或暂时解决冲突的协议。仅从双方都各让一步这一点来讲，妥协(调解)是一种双输的方法。注意：双输的方法不一定就是不好的方法。妥协(调解)其实是仅次于合作(解决问题)的、有效的冲突解决方法。对于陷入冲突的人来讲，妥协其实是一种能力。在非原则问题上，该妥协时就一定要妥协。妥协并非弱者的表现，而是强者的表现。只有强者才善于、敢于做出必要的妥协。妥协中的“让步”是主动让步，而不是被迫让步。）</p>
+</li>
+<li><p>强迫/命令：以牺牲其他方为代价，推行某一方的观点；只提供赢-输方案。通常是利用权力来强行解决紧急问题，这种方法通常会导致”赢输“局面。</p>
+</li>
+<li><p>合作/解决问题：综合考虑不同的观点和意见，采用合作的态度和开放式对话引导各方达成共识和承诺，这种方法可以带来双赢局面。</p>
+</li>
+</ul>
+<p>问题</p>
+<p>模 6-118</p>
+<p>124</p>
+<p>130</p>
+<p>180</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/30/golang-notes/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/25/iot-chirpstack-notes/" rel="next" title="ChirpStack 笔记">
+      ChirpStack 笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%90%88"><span class="nav-number">1.</span> <span class="nav-text">整合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#S%E5%88%B6%E5%AE%9A%E9%A1%B9%E7%9B%AE%E7%AB%A0%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">S制定项目章程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P%E5%88%B6%E5%AE%9A%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E8%AE%A1%E5%88%92"><span class="nav-number">1.2.</span> <span class="nav-text">P制定项目管理计划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#E%E6%8C%87%E5%AF%BC%E4%B8%8E%E7%AE%A1%E7%90%86%E9%A1%B9%E7%9B%AE%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">E指导与管理项目工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#E%E7%AE%A1%E7%90%86%E9%A1%B9%E7%9B%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.4.</span> <span class="nav-text">E管理项目知识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4"><span class="nav-number">2.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">进度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E6%B4%BB%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">排列活动顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%87%E8%B4%AD"><span class="nav-number">4.</span> <span class="nav-text">采购</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E5%90%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">合同类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A3%8E%E9%99%A9"><span class="nav-number">5.</span> <span class="nav-text">风险</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%80%A7"><span class="nav-number">5.1.</span> <span class="nav-text">定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E9%87%8F"><span class="nav-number">5.2.</span> <span class="nav-text">定量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A3%8E%E9%99%A9%EF%BC%88%E5%A8%81%E8%83%81%EF%BC%89%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5"><span class="nav-number">5.3.</span> <span class="nav-text">风险（威胁）应对策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E4%BC%9A%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5"><span class="nav-number">5.4.</span> <span class="nav-text">机会应对策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E5%AF%B9"><span class="nav-number">5.5.</span> <span class="nav-text">应对</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90"><span class="nav-number">6.</span> <span class="nav-text">资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%96%B9"><span class="nav-number">7.</span> <span class="nav-text">相关方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%9F%E9%80%9A"><span class="nav-number">8.</span> <span class="nav-text">沟通</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B2%E7%AA%81%E7%AE%A1%E7%90%86"><span class="nav-number">8.1.</span> <span class="nav-text">冲突管理</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="shankai"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">shankai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shankai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shankai" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shankai.kvn@gmail.com" title="E-Mail → mailto:shankai.kvn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shankai</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">156k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:21</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'neutral',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
