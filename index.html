@@ -119,17 +119,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">56</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">54</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">120</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">117</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">17</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -179,6 +179,131 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/20/kong-api-gateway-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/20/kong-api-gateway-notes/" class="post-title-link" itemprop="url">Kong Notes</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-20 21:00:00" itemprop="dateCreated datePublished" datetime="2021-08-20T21:00:00+08:00">2021-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-26 14:19:37" itemprop="dateModified" datetime="2021-11-26T14:19:37+08:00">2021-11-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/API/" itemprop="url" rel="index"><span itemprop="name">API</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h2><pre class="mermaid">graph RL
+    REST --> Konga
+    subgraph Kong
+      REST(Admin REST API)
+      OIDC(Plugin: kong-oidc) 
+    end
+    Keycloak --> OIDC</pre>
+
+<h2 id="Install-Without-DB"><a href="#Install-Without-DB" class="headerlink" title="Install Without DB"></a>Install Without DB</h2><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kong \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;off&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_LISTEN&#x3D;0.0.0.0:8001, 0.0.0.0:8444 ssl&quot; \</span><br><span class="line">    -p 8000:8000 \</span><br><span class="line">    -p 8443:8443 \</span><br><span class="line">    -p 8001:8001 \</span><br><span class="line">    -p 8444:8444 \</span><br><span class="line">    kong</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Admin Port<code>8001``8444</code></li>
+<li>Gateway Port <code>8000</code> <code>8443</code></li>
+</ul>
+<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><p>Default Configuration</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it kong kong config init &#x2F;home&#x2F;kong&#x2F;kong.yml</span><br><span class="line">docker exec -it kong cat &#x2F;home&#x2F;kong&#x2F;kong.yml &gt;&gt; kong.yml</span><br></pre></td></tr></table></figure>
+<p>Post new Config</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &quot;http:&#x2F;&#x2F;localhost:8001&#x2F;config&quot; \</span><br><span class="line">--header &quot;Content-Type: text&#x2F;yaml&quot; \</span><br><span class="line">--data-binary &quot;@&#x2F;kong.yml&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p>docker exec with root</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it --user root kong bash</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;docs.konghq.com&#x2F;install&#x2F;source&#x2F;</span><br><span class="line"></span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;Kong&#x2F;kong-build-tools</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Install-With-DB"><a href="#Install-With-DB" class="headerlink" title="Install With DB"></a>Install With DB</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kong-database \</span><br><span class="line">                -p 5432:5432 \</span><br><span class="line">                -e &quot;POSTGRES_USER&#x3D;kong&quot; \</span><br><span class="line">                -e &quot;POSTGRES_DB&#x3D;kong&quot; \</span><br><span class="line">                -e &quot;POSTGRES_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">                postgres:9.6</span><br><span class="line"></span><br><span class="line">docker run --rm \</span><br><span class="line">    --link kong-database:kong-database \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;postgres&quot; \</span><br><span class="line">    -e &quot;KONG_PG_HOST&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PG_USER&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_PG_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_CASSANDRA_CONTACT_POINTS&#x3D;kong-database&quot; \</span><br><span class="line">    kong kong migrations bootstrap</span><br><span class="line">    </span><br><span class="line">docker run -d --name kong \</span><br><span class="line">    --link kong-database:kong-database \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;postgres&quot; \</span><br><span class="line">    -e &quot;KONG_PG_HOST&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PG_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_CASSANDRA_CONTACT_POINTS&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_LISTEN&#x3D;0.0.0.0:8001, 0.0.0.0:8444 ssl&quot; \</span><br><span class="line">    -p 8000:8000 \</span><br><span class="line">    -p 8443:8443 \</span><br><span class="line">    -p 8001:8001 \</span><br><span class="line">    -p 8444:8444 \</span><br><span class="line">    kong</span><br><span class="line">    </span><br><span class="line"> # add services, routes</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> docker exec -it --user root kong bash</span><br><span class="line"> # apk</span><br><span class="line"> apk update</span><br><span class="line"> apk add wget </span><br><span class="line"> apk add curl</span><br><span class="line"> # install plugins</span><br><span class="line"> luarocks install kong-oidc</span><br><span class="line"> </span><br><span class="line"> cp &#x2F;etc&#x2F;kong&#x2F;kong.conf.default &#x2F;etc&#x2F;kong&#x2F;kong.conf</span><br><span class="line"> vi &#x2F;etc&#x2F;kong&#x2F;kong.conf</span><br><span class="line"> # plugins &#x3D; oidc</span><br><span class="line"> # exit kong container</span><br><span class="line"> docker restart kong</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Keycloak"><a href="#Keycloak" class="headerlink" title="Keycloak"></a>Keycloak</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_USER&#x3D;admin -e KEYCLOAK_PASSWORD&#x3D;admin jboss&#x2F;keycloak</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s http:&#x2F;&#x2F;dev:8080&#x2F;auth&#x2F;realms&#x2F;master&#x2F;.well-known&#x2F;openid-configuration | python -mjson.tool</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CLIENT_SECRET&#x3D;d1776f95-8a0b-4dc0-8e36-0a5a21b85bdf</span><br><span class="line">curl -s -X POST http:&#x2F;&#x2F;dev:8001&#x2F;plugins \</span><br><span class="line">  -d name&#x3D;oidc \</span><br><span class="line">  -d config.client_id&#x3D;kong \</span><br><span class="line">  -d config.client_secret&#x3D;$&#123;CLIENT_SECRET&#125; \</span><br><span class="line">  -d config.discovery&#x3D;http:&#x2F;&#x2F;dev:8080&#x2F;auth&#x2F;realms&#x2F;master&#x2F;.well-known&#x2F;openid-configuration \</span><br><span class="line">  | python -mjson.tool</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -743,86 +868,6 @@
 <li>service_profile_id (Application Server Service Profile)</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;build&#x2F;chirpstack-simulator -c chirpstack-simulator.toml</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/30/golang-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/30/golang-notes/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-30 16:51:12 / 修改时间：16:57:43" itemprop="dateCreated datePublished" datetime="2021-04-30T16:51:12+08:00">2021-04-30</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>153</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
-
-
-<p>编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build</span><br></pre></td></tr></table></figure>
-<p>如果我们要生成不同平台架构的可执行程序，只要改变这两个环境变量就可以了，比如要生成Linux 64位的程序，命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED&#x3D;0 GOOS&#x3D;linux GOARCH&#x3D;amd64 go build -o fence-benchmark</span><br></pre></td></tr></table></figure>
-
       
     </div>
 
@@ -1842,93 +1887,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/05/websocket-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/05/websocket-notes/" class="post-title-link" itemprop="url">websocket-notes</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-05 21:20:11" itemprop="dateCreated datePublished" datetime="2021-03-05T21:20:11+08:00">2021-03-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-06 10:40:56" itemprop="dateModified" datetime="2021-03-06T10:40:56+08:00">2021-03-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Websocket/" itemprop="url" rel="index"><span itemprop="name">Websocket</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>32</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h2 id="Samples"><a href="#Samples" class="headerlink" title="Samples"></a>Samples</h2><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><h3 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h3><h3 id="Nodejs"><a href="#Nodejs" class="headerlink" title="Nodejs"></a>Nodejs</h3>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/04/security-jaas-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2400,7 +2358,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/23/kafka-connect-rest-api-notes/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/hexo-github-actions-deploy-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -2414,7 +2372,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/23/kafka-connect-rest-api-notes/" class="post-title-link" itemprop="url">Kafka Connect REST API 笔记</a>
+            <a href="/2021/02/16/hexo-github-actions-deploy-notes/" class="post-title-link" itemprop="url">Hexo Deploy By Github Actions</a>
         </h2>
 
         <div class="post-meta">
@@ -2423,10 +2381,150 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-02-23 22:20:00 / 修改时间：17:59:44" itemprop="dateCreated datePublished" datetime="2021-02-23T22:20:00+08:00">2021-02-23</time>
+              <time title="创建时间：2021-02-16 13:10:00" itemprop="dateCreated datePublished" datetime="2021-02-16T13:10:00+08:00">2021-02-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-17 17:15:07" itemprop="dateModified" datetime="2021-02-17T17:15:07+08:00">2021-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>作为个人的技术笔记，将 Hexo Blog 以 Github Pages 的方式对外发布。Hexo Cli 提供了较好的发布方式（<code>hexo deploy</code>），足以满足低频发布操作。</p>
+<p>今天的实践是：<strong>通过 Github Actions 来“持续集成”发布 Hexo Blog Site 到 Github Pages</strong>。</p>
+<blockquote>
+<p>实践的过程中遇到各种问题，对环境做更新：<br>Nodejs:<code>v12.19.0</code>-&gt;<code>v14.15.4</code><br>Hexo: <code>3.9.0</code>-&gt; <code>5.3.0</code></p>
+</blockquote>
+<h2 id="Github-Actions"><a href="#Github-Actions" class="headerlink" title="Github Actions"></a>Github Actions</h2><blockquote>
+<p>GitHub Actions让你很容易自动化所有的软件工作流程，现在拥有世界级的CI/CD。从GitHub上构建、测试和部署你的代码。让代码评审、分支管理和问题分类按照您想要的方式工作。</p>
+</blockquote>
+<p>Github Actions 特性：<a target="_blank" rel="noopener" href="https://github.com/features/actions">https://github.com/features/actions</a></p>
+<p>Github Actions 文档：<a target="_blank" rel="noopener" href="https://docs.github.com/cn/actions">https://docs.github.com/cn/actions</a></p>
+<p>Github Actions 市场：<a target="_blank" rel="noopener" href="https://github.com/marketplace?type=actions">https://github.com/marketplace?type=actions</a></p>
+<h2 id="Hexo-Action"><a href="#Hexo-Action" class="headerlink" title="Hexo Action"></a>Hexo Action</h2><p>Github Actions 市场已经有了相关的 Action：Hexo Action。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">https://github.com/marketplace/actions/hexo-action</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sma11black/hexo-action">https://github.com/sma11black/hexo-action</a></p>
+<h2 id="Operation"><a href="#Operation" class="headerlink" title="Operation"></a>Operation</h2><p>参考 Hexo Action 使用手册，</p>
+<ol>
+<li>创建密钥对（Github Pages Deploy Keys 使用公钥，Github Source Repos Secrets <code>DEPLOY_KEY</code>使用私钥）；</li>
+<li>在 Github Source Repos 添加流程文件，如在 <code>.github/workflows</code> 下创建 <code>deploy.yml</code></li>
+</ol>
+<p><code>deploy.yml</code> 示例</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the action will run. </span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">A</span> <span class="string">job</span> <span class="string">to</span> <span class="string">deploy</span> <span class="string">blog.</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else).</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">      <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">      <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Deploy hexo blog website.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Hexo</span> <span class="string">Action</span></span><br><span class="line">      <span class="attr">id:</span> <span class="string">deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">sma11black/hexo-action@v1.0.4</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">deploy_key:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DEPLOY_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">user_name:</span> <span class="string">shankai</span></span><br><span class="line">        <span class="attr">user_email:</span> <span class="string">shankai.kvn@gmail.com</span></span><br><span class="line">        <span class="attr">commit_msg:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.head_commit.message</span> <span class="string">&#125;&#125;</span>  <span class="comment"># (or delete this input setting to use hexo default settings)</span></span><br><span class="line">    <span class="comment"># Use the output from the `deploy` step(use for test action)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">the</span> <span class="string">output</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">        <span class="string">echo</span> <span class="string">&quot;$<span class="template-variable">&#123;&#123; steps.deploy.outputs.notify &#125;&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><code>name</code> Actions 的名称</li>
+<li><code>on</code> 触发 Actions 的事件</li>
+<li><code>jobs</code> 执行的一系列任务，每个任务是单独的运行环境，<code>runs-on</code>指定运行环境</li>
+<li><code>steps</code>任务包含一系列操作步骤，每个步骤是一个 Action，如 Hexo Deploy 本例中使用 <code>uses: sma11black/hexo-action@v1.0.4</code></li>
+</ul>
+<p>编辑完成 <code>deploy.yml</code> 后提交变更，push 到 Hexo Source Repo。</p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
+<li><p>将主题 next 作为 git module（Github Actions: hexo-action 用法） </p>
+<p>因为 hexo 站点与 next 主题是完全独立的，此处在构建时 next 做为资源依赖参与构建。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf themes&#x2F;next</span><br><span class="line">git rm -r themes&#x2F;next</span><br><span class="line">rm -rf .git&#x2F;modules&#x2F;themes&#x2F;next</span><br><span class="line">git submodule add https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>远程仓库使用 SSH 方式访问而非 Https</p>
+<p>出现的错误：</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fatal: could not read Username <span class="keyword">for</span> <span class="string">&#x27;https://github.com&#x27;</span>: No such device or address</span><br><span class="line">FATAL Something<span class="string">&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Error: Spawn failed</span></span><br><span class="line"><span class="string">    at ChildProcess.&lt;anonymous&gt; (/github/workspace/node_modules/hexo-deployer-git/node_modules/hexo-util/lib/spawn.js:51:21)</span></span><br><span class="line"><span class="string">    at ChildProcess.emit (events.js:314:20)</span></span><br><span class="line"><span class="string">    at Process.ChildProcess._handle.onexit (internal/child_process.js:276:12)</span></span><br></pre></td></tr></table></figure>
+<p>修改 hexo/_config.yml 部署相关配置，使用 SSH 方式访问 Github Pages Repo（<a target="_blank" rel="noopener" href="https://github.com/sma11black/hexo-action/issues/5%EF%BC%89">https://github.com/sma11black/hexo-action/issues/5）</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+
+<p>（完）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/26/kafka-connect-redis-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/26/kafka-connect-redis-notes/" class="post-title-link" itemprop="url">Kafka Connect Redis</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-26 18:20:00" itemprop="dateCreated datePublished" datetime="2021-01-26T18:20:00+08:00">2021-01-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-16 18:35:12" itemprop="dateModified" datetime="2021-02-16T18:35:12+08:00">2021-02-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -2443,14 +2541,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>31</span>
+              <span>9.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -2462,7 +2560,77 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Connectors"><a href="#Connectors" class="headerlink" title="Connectors"></a>Connectors</h2><h2 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h2><h2 id="Connector-Plugins"><a href="#Connector-Plugins" class="headerlink" title="Connector Plugins"></a>Connector Plugins</h2>
+          <h2 id="Kafka-Connect"><a href="#Kafka-Connect" class="headerlink" title="Kafka Connect"></a>Kafka Connect</h2><p>Worker.java (ENABLE_AUTO_COMMIT_CONFIG:false, AUTO_OFFSET_RESET_CONFIG:earliest)</p>
+<p>WorkerSinkTask.java</p>
+<p><code>offset.flush.interval.ms</code><br>Interval at which to try committing offsets for tasks.<br>Default:    60000 (1 minute)</p>
+<p>Confluent Kafka Connect Tutorial</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;installation&#x2F;docker&#x2F;docs&#x2F;installation&#x2F;connect-avro-jdbc.html</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;connect&#x2F;concepts.html#connect-converters</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Kafka Connect REST API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connector-plugins</span><br><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connectors</span><br></pre></td></tr></table></figure>
+
+
+<p>Lenses</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;4.1&#x2F;integrations&#x2F;connectors&#x2F;stream-reactor&#x2F;sinks&#x2F;redissinkconnector&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;2.1&#x2F;lenses-sql&#x2F;kcql.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>测试环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># all(zk,kafka,schema-registry,kafka-connect,ui,connectors)</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;fast-data-dev</span><br><span class="line"></span><br><span class="line"># ui &amp; kafka-connect</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line">https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;confluentinc&#x2F;cp-kafka-connect</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># clone from fork repository </span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;shankai&#x2F;stream-reactor.git</span><br><span class="line">cd stream-reactor&#x2F;kafka-connect-redis</span><br><span class="line">gradle clean build collectFatJar -x test</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><h3 id="All"><a href="#All" class="headerlink" title="All"></a>All</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># redis pubsub mode has bug</span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br><span class="line"></span><br><span class="line"># redis pubsub fix </span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;build&#x2F;libs&#x2F;kafka-connect-redis-2.1.3.jar:&#x2F;opt&#x2F;landoop&#x2F;connectors&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;kafka-connect-redis-2.1.3.jar \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Kafka-Connect-amp-UI"><a href="#Kafka-Connect-amp-UI" class="headerlink" title="Kafka Connect &amp; UI"></a>Kafka Connect &amp; UI</h3><p>docker pull confluentinc/cp-zookeeper<br>docker pull confluentinc/cp-kafka</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>docker pull confluentinc/cp-schema-registry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br><span class="line"></span><br><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>docker pull confluentinc/cp-kafka-connect</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kafka-connect-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;fork&#x2F;jars&#x2F;:&#x2F;etc&#x2F;kafka-connect&#x2F;jars&#x2F; \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">  confluentinc&#x2F;cp-kafka-connect:latest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kc-redis-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">kc-redis:latest</span><br></pre></td></tr></table></figure>
+<p>docker pull landoop/kafka-connect-ui</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line"></span><br><span class="line">docker run -d --name kafka-connect-ui -it -p 8000:8000 -e &quot;CONNECT_URL&#x3D;http:&#x2F;&#x2F;dev:8083&quot; landoop&#x2F;kafka-connect-ui</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Connector"><a href="#Connector" class="headerlink" title="Connector"></a>Connector</h2><h3 id="connector-configuration-override"><a href="#connector-configuration-override" class="headerlink" title="connector configuration override"></a>connector configuration override</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value.converter.schema.registry.url&#x3D;http:&#x2F;&#x2F;dev:8081</span><br><span class="line">value.converter&#x3D;io.confluent.connect.protobuf.ProtobufConverter</span><br></pre></td></tr></table></figure>
+
+
+<p>worker.properties: <code>connector.client.config.override.policy=All</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;consumer.override.max.poll.records&quot;: &quot;1&quot;,</span><br><span class="line">&quot;consumer.override.fetch.max.wait.ms&quot;: &quot;0&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p>LOG_DIR=/app</p>
+<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><h4 id="RedisSinkConnector-PubSub"><a href="#RedisSinkConnector-PubSub" class="headerlink" title="RedisSinkConnector PubSub"></a>RedisSinkConnector PubSub</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;select * from sea_vessel_position_reports STOREAS PubSub(channel&#x3D;Timestamp)</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-pub</span><br></pre></td></tr></table></figure>
+<h4 id="RedisSinkConnector-Cache"><a href="#RedisSinkConnector-Cache" class="headerlink" title="RedisSinkConnector Cache"></a>RedisSinkConnector Cache</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;INSERT INTO PK- select * from sea_vessel_position_reports PK Timestamp</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-cache</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Rest"><a href="#Rest" class="headerlink" title="Rest"></a>Rest</h3><h4 id="Redis-Cache"><a href="#Redis-Cache" class="headerlink" title="Redis Cache"></a>Redis Cache</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;INSERT INTO FX- select location from sea_vessel_position_reports PK Timestamp&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="Redis-PubSub"><a href="#Redis-PubSub" class="headerlink" title="Redis PubSub"></a>Redis PubSub</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;select * from sea_vessel_position_reports STOREAS PubSub(channel=Timestamp)&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<h2 id="Redis-Benchmark"><a href="#Redis-Benchmark" class="headerlink" title="Redis Benchmark"></a>Redis Benchmark</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-benchmark -h redis-ps-redis-perf-paas.paas -c 1 -d 1024  script load &quot;redis.call(&#39;publish&#39;, &#39;abc&#39;)&quot; </span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -2548,20 +2716,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-count">117</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2609,12 +2777,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">152k</span>
+    <span title="站点总字数">156k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:18</span>
+    <span title="站点阅读时长">2:22</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

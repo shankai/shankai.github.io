@@ -242,12 +242,13 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
 <li><input checked="" disabled="" type="checkbox"> 「态度——把简单的事情，做得出人意料的精彩」（吴军 著）</li>
 <li><input checked="" disabled="" type="checkbox"> 「格局——世界永远不缺聪明人」（吴军 著）</li>
 <li><input disabled="" type="checkbox"> 「我的改变——个人的现代化 40 年」（王石）</li>
-<li><input disabled="" type="checkbox"> 「不拘一格——网飞的自由与责任工作法」（[美]Reed Hastings [美]Erin Meyer 杨占 译）</li>
+<li><input checked="" disabled="" type="checkbox"> 「不拘一格——网飞的自由与责任工作法」（[美]Reed Hastings [美]Erin Meyer 杨占 译）</li>
 <li><input disabled="" type="checkbox"> 「反脆弱——从不确定性中获益」（[美]Nassim Nicholas Taleb 雨珂 译）</li>
 <li><input disabled="" type="checkbox"> 「人生由我」（[加]Maye Musk 代晓 译）</li>
 <li><input disabled="" type="checkbox"> 「他影响了中国——陈云」（叶永烈 著）</li>
 <li><input disabled="" type="checkbox"> 「美国家庭万用亲子英文」</li>
 <li><input disabled="" type="checkbox"> 「罗伯特议事规则」第 11 版 </li>
+<li><input checked="" disabled="" type="checkbox"> 「你当像鸟飞往你的山——Educated」([美] 塔拉·韦斯特弗 | 任爱红 译)</li>
 </ul>
 ]]></content>
       <categories>
@@ -1359,22 +1360,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
-    <title>Kafka Connect REST API 笔记</title>
-    <url>/2021/02/23/kafka-connect-rest-api-notes/</url>
-    <content><![CDATA[<h2 id="Connectors"><a href="#Connectors" class="headerlink" title="Connectors"></a>Connectors</h2><h2 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h2><h2 id="Connector-Plugins"><a href="#Connector-Plugins" class="headerlink" title="Connector Plugins"></a>Connector Plugins</h2>]]></content>
-      <categories>
-        <category>EventBus</category>
-      </categories>
-      <tags>
-        <tag>Kafka</tag>
-        <tag>Kafka Connect</tag>
-        <tag>Connectors</tag>
-        <tag>Tasks</tag>
-        <tag>Topics</tag>
-        <tag>Plugins</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kafka Notes</title>
     <url>/2020/02/24/kafka-notes/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>…</p>
@@ -1446,6 +1431,8 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="安装最新"><a href="#安装最新" class="headerlink" title="安装最新"></a>安装最新</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org</span><br></pre></td></tr></table></figure>
 <h4 id="安装指定版本"><a href="#安装指定版本" class="headerlink" title="安装指定版本"></a>安装指定版本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org&#x3D;4.0.11 mongodb-org-server&#x3D;4.0.11 mongodb-org-shell&#x3D;4.0.11 mongodb-org-mongos&#x3D;4.0.11 mongodb-org-tools&#x3D;4.0.11</span><br></pre></td></tr></table></figure>
 <h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name mongo-dev -d -p 27017:27017 mongo:latest</span><br></pre></td></tr></table></figure>
+<p>Docker Compose <code>docker-compose.yml</code> <code>docker-compose up -d</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mongo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo:4.4.6</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mongodb</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">network_mode:</span> <span class="string">test</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/data/mongo_data:/data/db</span></span><br></pre></td></tr></table></figure>
 
 
 <h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>远程连接示例</p>
@@ -1461,20 +1448,22 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
 <li>切换数据库 </li>
 </ul>
 <p><code>use xxx</code></p>
+<h3 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h3><p>用户列表</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show users</span><br></pre></td></tr></table></figure>
+<p>创建用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">  &#123;</span><br><span class="line">    user: &quot;&#123;username&#125;&quot;,</span><br><span class="line">    pwd:  &quot;&#123;password&#125;&quot;,</span><br><span class="line">    roles: [ &#123; role: &quot;dbAdmin&quot;, db: &quot;&#123;dbname&#125;&quot; &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>删除用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.dropUser(&#x27;&#123;username&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+
 <h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
 <p><code>xxx</code> 为集合名称</p>
 </blockquote>
-<ul>
-<li>集合列表</li>
-</ul>
+<p>集合列表</p>
 <p><code>show collections</code></p>
-<ul>
-<li>查询</li>
-</ul>
+<p>查询</p>
 <p><code>db.xxx.find()</code></p>
-<ul>
-<li>删除</li>
-</ul>
+<p>删除</p>
 <p><code>db.xxx.drop()</code></p>
 ]]></content>
       <categories>
@@ -1774,12 +1763,43 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
 
 <h2 id="psql"><a href="#psql" class="headerlink" title="psql"></a>psql</h2><ul>
 <li><p><code>psql</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash-4.2$ psql</span><br><span class="line">psql (12.2)</span><br><span class="line">Type &quot;help&quot; for help.</span><br><span class="line"></span><br><span class="line">postgres=# </span><br></pre></td></tr></table></figure></li>
+</li>
+<li><p><code>psql -U username</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash-4.2$ psql</span><br><span class="line">psql (12.2)</span><br><span class="line">Type &quot;help&quot; for help.</span><br><span class="line"></span><br><span class="line">postgres=# </span><br></pre></td></tr></table></figure>
+<h3 id="Getting-information-about-databases"><a href="#Getting-information-about-databases" class="headerlink" title="Getting information about databases"></a>Getting information about databases</h3></li>
+</ul>
+<h4 id="Command-List"><a href="#Command-List" class="headerlink" title="Command List"></a>Command List</h4><ul>
+<li><p><code>\h</code> Help</p>
+</li>
+<li><p><code>\l</code> List databases</p>
+</li>
+<li><p><code>\l+</code> List databases with size, tablespace, and description</p>
+</li>
+<li><p><code>\x</code> Expand/narrow table lists</p>
+</li>
+<li><p><code>\c</code> Connect to a database</p>
+</li>
+<li><p><code>\dt</code> Display tables</p>
+</li>
+<li><p><code>\d</code> and \d+ Display columns (field names) of a table</p>
+</li>
+<li><p><code>\du</code> Display user roles</p>
+</li>
+<li><p><code>\q</code> quit </p>
+</li>
+</ul>
+<h4 id="Command-Usage"><a href="#Command-Usage" class="headerlink" title="Command Usage"></a>Command Usage</h4><ul>
 <li><p><code>\l</code> 数据库列表</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">postgres=# \l</span><br></pre></td></tr></table></figure></li>
 <li><p><code>\c</code> 连接数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">postgres=# \c icosregistry_icos</span><br><span class="line">You are now connected to database &quot;icosregistry_icos&quot; as user &quot;postgres&quot;.</span><br><span class="line">icosregistry_icos=# </span><br></pre></td></tr></table></figure></li>
-<li><p><code>select * from [table]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">postgres=# \c icosregistry_icos</span><br><span class="line">You are now connected to database &quot;icosregistry_icos&quot; as user &quot;postgres&quot;.</span><br><span class="line">icosregistry_icos=# </span><br></pre></td></tr></table></figure>
+<h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3></li>
+<li><p>Create Database &amp; User, Grant </p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create database keycloak;</span><br><span class="line">create user keycloak with password &#x27;keycloak&#x27;;</span><br><span class="line">grant all privileges on database keycloak to keycloak;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Query Data From Table</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">icosregistry_icos=# select * from asset_deploy;</span><br><span class="line"> asset_code | handler_type | opr_type | opr_status | opr_message | deploy_url | created </span><br><span class="line">------------+--------------+----------+------------+-------------+------------+---------</span><br><span class="line">(0 rows)</span><br><span class="line"></span><br><span class="line">icosregistry_icos=#</span><br></pre></td></tr></table></figure>
 
 
@@ -1807,7 +1827,7 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
   <entry>
     <title>Pushpin Notes</title>
     <url>/2020/06/01/pushpin-notes/</url>
-    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 fanout&#x2F;pushpin:1.28.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; fanout&#x2F;pushpin:1.28.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; fanout&#x2F;pushpin:1.31.0</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 fanout&#x2F;pushpin:1.28.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; fanout&#x2F;pushpin:1.28.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; fanout&#x2F;pushpin:1.31.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 4430:4430 -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-certs:&#x2F;usr&#x2F;lib&#x2F;pushpin&#x2F;runner&#x2F;certs fanout&#x2F;pushpin:1.31.0</span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 4430:4430 -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;archive&#x2F;cbic&#x2F;icos-fdns&#x2F;icosEvent&#x2F;pushpinx&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; -v &#x2F;Users&#x2F;shankai&#x2F;archive&#x2F;cbic&#x2F;icos-fdns&#x2F;icosEvent&#x2F;pushpinx&#x2F;pushpin-certs:&#x2F;usr&#x2F;lib&#x2F;pushpin&#x2F;runner&#x2F;certs fanout&#x2F;pushpin:1.31.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run -d --name pushpin -p 7999:7999 -p 5560:5560 -p 5561:5561 -p 5562:5562 -p 5563:5563 -v &#x2F;Users&#x2F;shankai&#x2F;Desktop&#x2F;pushpin-config:&#x2F;etc&#x2F;pushpin&#x2F; fanout&#x2F;pushpin:1.32.2</span><br></pre></td></tr></table></figure>
 <h3 id="Port"><a href="#Port" class="headerlink" title="Port"></a>Port</h3><ul>
 <li>7999</li>
 <li>5560</li>
@@ -2414,19 +2434,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </categories>
       <tags>
         <tag>Vault</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>websocket-notes</title>
-    <url>/2021/03/05/websocket-notes/</url>
-    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h2 id="Samples"><a href="#Samples" class="headerlink" title="Samples"></a>Samples</h2><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><h3 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h3><h3 id="Nodejs"><a href="#Nodejs" class="headerlink" title="Nodejs"></a>Nodejs</h3>]]></content>
-      <categories>
-        <category>Websocket</category>
-      </categories>
-      <tags>
-        <tag>Websocket</tag>
-        <tag>Protocol</tag>
-        <tag>Realtime</tag>
       </tags>
   </entry>
   <entry>
@@ -3674,19 +3681,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2021/04/30/golang-notes/</url>
-    <content><![CDATA[<p>环境变量</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
-
-
-<p>编译</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go build</span><br></pre></td></tr></table></figure>
-<p>如果我们要生成不同平台架构的可执行程序，只要改变这两个环境变量就可以了，比如要生成Linux 64位的程序，命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CGO_ENABLED&#x3D;0 GOOS&#x3D;linux GOARCH&#x3D;amd64 go build -o fence-benchmark</span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
     <title>ChirpStack 笔记</title>
     <url>/2021/05/25/iot-chirpstack-notes/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://www.chirpstack.io/">https://www.chirpstack.io/</a></p>
@@ -4122,6 +4116,59 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
         <tag>Network Server</tag>
         <tag>Application Server</tag>
         <tag>UDP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kong Notes</title>
+    <url>/2021/08/20/kong-api-gateway-notes/</url>
+    <content><![CDATA[<h2 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h2><pre class="mermaid">graph RL
+    REST --> Konga
+    subgraph Kong
+      REST(Admin REST API)
+      OIDC(Plugin: kong-oidc) 
+    end
+    Keycloak --> OIDC</pre>
+
+<h2 id="Install-Without-DB"><a href="#Install-Without-DB" class="headerlink" title="Install Without DB"></a>Install Without DB</h2><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name kong \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;off&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_LISTEN&#x3D;0.0.0.0:8001, 0.0.0.0:8444 ssl&quot; \</span><br><span class="line">    -p 8000:8000 \</span><br><span class="line">    -p 8443:8443 \</span><br><span class="line">    -p 8001:8001 \</span><br><span class="line">    -p 8444:8444 \</span><br><span class="line">    kong</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Admin Port<code>8001``8444</code></li>
+<li>Gateway Port <code>8000</code> <code>8443</code></li>
+</ul>
+<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><p>Default Configuration</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker exec -it kong kong config init &#x2F;home&#x2F;kong&#x2F;kong.yml</span><br><span class="line">docker exec -it kong cat &#x2F;home&#x2F;kong&#x2F;kong.yml &gt;&gt; kong.yml</span><br></pre></td></tr></table></figure>
+<p>Post new Config</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl --location --request POST &quot;http:&#x2F;&#x2F;localhost:8001&#x2F;config&quot; \</span><br><span class="line">--header &quot;Content-Type: text&#x2F;yaml&quot; \</span><br><span class="line">--data-binary &quot;@&#x2F;kong.yml&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p>docker exec with root</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker exec -it --user root kong bash</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;docs.konghq.com&#x2F;install&#x2F;source&#x2F;</span><br><span class="line"></span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;Kong&#x2F;kong-build-tools</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Install-With-DB"><a href="#Install-With-DB" class="headerlink" title="Install With DB"></a>Install With DB</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name kong-database \</span><br><span class="line">                -p 5432:5432 \</span><br><span class="line">                -e &quot;POSTGRES_USER&#x3D;kong&quot; \</span><br><span class="line">                -e &quot;POSTGRES_DB&#x3D;kong&quot; \</span><br><span class="line">                -e &quot;POSTGRES_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">                postgres:9.6</span><br><span class="line"></span><br><span class="line">docker run --rm \</span><br><span class="line">    --link kong-database:kong-database \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;postgres&quot; \</span><br><span class="line">    -e &quot;KONG_PG_HOST&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PG_USER&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_PG_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_CASSANDRA_CONTACT_POINTS&#x3D;kong-database&quot; \</span><br><span class="line">    kong kong migrations bootstrap</span><br><span class="line">    </span><br><span class="line">docker run -d --name kong \</span><br><span class="line">    --link kong-database:kong-database \</span><br><span class="line">    -e &quot;KONG_DATABASE&#x3D;postgres&quot; \</span><br><span class="line">    -e &quot;KONG_PG_HOST&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PG_PASSWORD&#x3D;kong&quot; \</span><br><span class="line">    -e &quot;KONG_CASSANDRA_CONTACT_POINTS&#x3D;kong-database&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ACCESS_LOG&#x3D;&#x2F;dev&#x2F;stdout&quot; \</span><br><span class="line">    -e &quot;KONG_PROXY_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_ERROR_LOG&#x3D;&#x2F;dev&#x2F;stderr&quot; \</span><br><span class="line">    -e &quot;KONG_ADMIN_LISTEN&#x3D;0.0.0.0:8001, 0.0.0.0:8444 ssl&quot; \</span><br><span class="line">    -p 8000:8000 \</span><br><span class="line">    -p 8443:8443 \</span><br><span class="line">    -p 8001:8001 \</span><br><span class="line">    -p 8444:8444 \</span><br><span class="line">    kong</span><br><span class="line">    </span><br><span class="line"> # add services, routes</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> docker exec -it --user root kong bash</span><br><span class="line"> # apk</span><br><span class="line"> apk update</span><br><span class="line"> apk add wget </span><br><span class="line"> apk add curl</span><br><span class="line"> # install plugins</span><br><span class="line"> luarocks install kong-oidc</span><br><span class="line"> </span><br><span class="line"> cp &#x2F;etc&#x2F;kong&#x2F;kong.conf.default &#x2F;etc&#x2F;kong&#x2F;kong.conf</span><br><span class="line"> vi &#x2F;etc&#x2F;kong&#x2F;kong.conf</span><br><span class="line"> # plugins &#x3D; oidc</span><br><span class="line"> # exit kong container</span><br><span class="line"> docker restart kong</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Keycloak"><a href="#Keycloak" class="headerlink" title="Keycloak"></a>Keycloak</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_USER&#x3D;admin -e KEYCLOAK_PASSWORD&#x3D;admin jboss&#x2F;keycloak</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -s http:&#x2F;&#x2F;dev:8080&#x2F;auth&#x2F;realms&#x2F;master&#x2F;.well-known&#x2F;openid-configuration | python -mjson.tool</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CLIENT_SECRET&#x3D;d1776f95-8a0b-4dc0-8e36-0a5a21b85bdf</span><br><span class="line">curl -s -X POST http:&#x2F;&#x2F;dev:8001&#x2F;plugins \</span><br><span class="line">  -d name&#x3D;oidc \</span><br><span class="line">  -d config.client_id&#x3D;kong \</span><br><span class="line">  -d config.client_secret&#x3D;$&#123;CLIENT_SECRET&#125; \</span><br><span class="line">  -d config.discovery&#x3D;http:&#x2F;&#x2F;dev:8080&#x2F;auth&#x2F;realms&#x2F;master&#x2F;.well-known&#x2F;openid-configuration \</span><br><span class="line">  | python -mjson.tool</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>API</category>
+      </categories>
+      <tags>
+        <tag>Proxy</tag>
+        <tag>Security</tag>
+        <tag>Gateway</tag>
+        <tag>API</tag>
+        <tag>OIDC</tag>
       </tags>
   </entry>
 </search>
