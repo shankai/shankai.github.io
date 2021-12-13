@@ -65,6 +65,23 @@
       </tags>
   </entry>
   <entry>
+    <title>2019 书单</title>
+    <url>/2019/01/01/booklist-2019/</url>
+    <content><![CDATA[<p>「追寻历史：一个记者和他的20世纪」</p>
+<p>「乔布斯传」</p>
+<p>「硅谷钢铁侠」</p>
+<p>「奈飞文化手册」</p>
+<p>「看见」</p>
+<p>「三体」1、2、3</p>
+]]></content>
+      <categories>
+        <category>Reading</category>
+      </categories>
+      <tags>
+        <tag>Booklist</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ActiveMQ Practice Getting Started</title>
     <url>/2017/11/08/activemq-practice-getting-started/</url>
     <content><![CDATA[<blockquote>
@@ -117,23 +134,6 @@
       <tags>
         <tag>Message Queue</tag>
         <tag>ActiveMQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2019 书单</title>
-    <url>/2019/01/01/booklist-2019/</url>
-    <content><![CDATA[<p>「追寻历史：一个记者和他的20世纪」</p>
-<p>「乔布斯传」</p>
-<p>「硅谷钢铁侠」</p>
-<p>「奈飞文化手册」</p>
-<p>「看见」</p>
-<p>「三体」1、2、3</p>
-]]></content>
-      <categories>
-        <category>Reading</category>
-      </categories>
-      <tags>
-        <tag>Booklist</tag>
       </tags>
   </entry>
   <entry>
@@ -358,6 +358,34 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu 1604 TLS Server 安装 Docker Compose</title>
+    <url>/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/</url>
+    <content><![CDATA[<blockquote>
+<p>环境： Unbuntu 16.04 TLS Server</p>
+</blockquote>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p><strong>Docker</strong>: <a href="/2018/03/12/docker-ce-at-ubuntu-1604-tls-server/" title="Ubuntu 1604 TLS Server 安装 Docker CE">Ubuntu 1604 TLS Server 安装 Docker CE</a></p>
+<h2 id="安装-Compose"><a href="#安装-Compose" class="headerlink" title="安装 Compose"></a>安装 Compose</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.3&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.docker.com/compose/install/">官方安装 Docker Compose</a></p>
+]]></content>
+      <categories>
+        <category>OS&amp;VM&amp;LXC</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>Docker</tag>
+        <tag>Docker Compose</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker Compose Notes</title>
     <url>/2020/03/03/docker-compose-notes/</url>
     <content><![CDATA[<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p><strong>Docker Compose</strong>: <a href="/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/" title="Ubuntu 1604 TLS Server 安装 Docker Compose">Ubuntu 1604 TLS Server 安装 Docker Compose</a></p>
@@ -503,34 +531,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
         <tag>Elasticsearch</tag>
         <tag>Elastic</tag>
         <tag>ES</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 1604 TLS Server 安装 Docker Compose</title>
-    <url>/2020/02/17/docker-compose-at-ubuntu-1604-tls-server/</url>
-    <content><![CDATA[<blockquote>
-<p>环境： Unbuntu 16.04 TLS Server</p>
-</blockquote>
-<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p><strong>Docker</strong>: <a href="/2018/03/12/docker-ce-at-ubuntu-1604-tls-server/" title="Ubuntu 1604 TLS Server 安装 Docker CE">Ubuntu 1604 TLS Server 安装 Docker CE</a></p>
-<h2 id="安装-Compose"><a href="#安装-Compose" class="headerlink" title="安装 Compose"></a>安装 Compose</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.3&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.docker.com/compose/install/">官方安装 Docker Compose</a></p>
-]]></content>
-      <categories>
-        <category>OS&amp;VM&amp;LXC</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Ubuntu</tag>
-        <tag>Docker</tag>
-        <tag>Docker Compose</tag>
       </tags>
   </entry>
   <entry>
@@ -931,6 +931,101 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
+    <title>「数学之美」书摘</title>
+    <url>/2017/11/22/excerpts-of-the-beauty-of-mathematics/</url>
+    <content><![CDATA[<p>本文主要摘自「数学之美」（第二版）的关键内容，摘取内容与原书相比肯定不够全面。如果对此书内容感兴趣，强烈建议阅读原书。</p>
+<p><img src="/images/book-cover/beauty-of-mathematics.jpg" alt="image"></p>
+<p>以下为摘取内容（为了辅助说明，部分内容同时引用了相关网络资源，均有出处链接）：</p>
+<p><strong>文字和语言与数学，从产生起原本就有相通性，虽然它们的发展一度分道扬镳，但是最终还是能走在一起。</strong></p>
+<p><strong>人类对机器理解自然语言的认识走了一条大弯路。早起的研究中采用基于规则的方法，虽然解决了一些简单的问题，但是无法从根本上将自然语言理解实用化。直到多年以后，人们开始尝试基于统计的方法进行自然语言处理，才有了突破性进展和实用的产品。</strong></p>
+<p><strong>统计语言模型是自然语言处理的基础，并且被广泛应用于机器翻译、语音识别、印刷体或手写体识别、拼写纠错、汉字输入和文献查询。</strong></p>
+<p><strong>中文分词是中文信息处理的基础，它同样走过了一段弯路，目前依靠统计语言模型已经基本解决了这个问题。</strong></p>
+<p><strong>隐含马尔可夫模型最初应用于通信领域，继而推广到语音和语言处理中，成为连接自然语言处理和通信的桥梁。同时，隐含马尔可夫模型也是机器学习的主要工具之一。</strong></p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B">WIKI：隐马尔可夫模型</a></p>
+<p>隐马尔可夫模型（Hidden Markov Model，HMM）是统计模型，它用来描述一个含有隐含未知参数的马尔可夫过程。其难点是从可观察的参数中确定该过程的隐含参数。然后利用这些参数来作进一步的分析，例如模式识别。</p>
+<p>在正常的马尔可夫模型中，状态对于观察者来说是直接可见的。这样状态的转换概率便是全部的参数。而在隐马尔可夫模型中，状态并不是直接可见的，但受状态影响的某些变量则是可见的。每一个状态在可能输出的符号上都有一概率分布。因此输出符号的序列能够透露出状态序列的一些信息。</p>
+</blockquote>
+<p><strong>信息是可以量化度量的。信息熵不仅是对信息的量化度量，也是整个信息论的基础。它对于通信、数据压缩、自然语言处理都有很强的指导意义。</strong></p>
+<p><strong>作为现代自然语言处理的奠基者，贾里尼克教授成功地将数学原理应用于自然语言处理领域中，他的一生富于传奇色彩。</strong></p>
+<p><strong>布尔代数虽然非常简单，却是计算机科学的基础，它不仅把逻辑和数学合二为一，而且给了我们一个全新的视角看待世界，开创了数字化时代。</strong></p>
+<p><strong>互联网搜索引擎在建立索引前需要用一个程序自动地将所有的网页下载到服务器上，这个程序称为网络爬虫。它的编写是基于离散数学中图论的原理。</strong></p>
+<p>图论：图由一些节点和连接这些节点的弧组成。网络爬虫基于图论进行网页下载。</p>
+<ul>
+<li>BFS (Breadth-First Search)，广度优先搜索。</li>
+<li>DFS (Depth-First Search)：深度优先搜索。</li>
+</ul>
+<p><strong>PageRank：网页民主排名。</strong></p>
+<p>核心思想为：如果一个网页被很多网页所链接，说明它受到普遍的承认和信赖，那么它的排名就高。</p>
+<p><strong>TF-IDF：网页与查询相关性度量。</strong></p>
+<ul>
+<li>TF：Term Frequency，词频。</li>
+<li>IDF：Inverse Document Frequency，逆文本频率指数。信息检索中使用最多的权重。</li>
+</ul>
+<blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html">阮一峰的网络日志『TF-IDF与余弦相似性的应用（一）：自动提取关键词』</a></p>
+<p>第一步，计算词频。</p>
+<p>考虑到文章有长短之分，为了便于不同文章的比较，进行“词频”标准化。</p>
+<p><code>词频（TF）= 某个词在文章中的出现次数 / 文章总词数 </code></p>
+<p>第二步，计算逆文档频率。</p>
+<p>这时，需要一个语料库（corpus），用来模拟语言的使用环境。</p>
+<p><code>逆文档频率（IDF）= log(语料库的文档总数 / 包含该词的文档数 + 1)</code></p>
+<p>如果一个词越常见，那么分母就越大，逆文档频率就越小越接近 0 。分母之所以要加 1，是为了避免分母为 0（即所有文档都不包含该词）。log表示对得到的值取对数。</p>
+<p>第三步，计算 TF-IDF。</p>
+<p><code>TF-IDF = 词频(TF) * 逆文档频率(IDF)</code></p>
+<p>可以看到，TF-IDF 与一个词在文档中的出现次数成正比，与该词在整个语言中的出现次数成反比。</p>
+</blockquote>
+<p><strong>地图和本地服务中要用到有限状态机和动态规划技术。这两项技术是机器智能和机器学习的工具，它们的应用非常广泛，还包括语音识别、拼写和语法纠错、拼音输入法、工业控制和生物的序列分析等。</strong></p>
+<p>「地址」是种有限状态机，导航的关键算法是图论中的动态规划。</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">WIKI：有限状态机</a></p>
+<p>有限状态机（Finite-State Machine，FSM）又称有限状态自动机，简称状态机，是表示有限个状态以及在这些状态之间的转移和动作等行为的数学模型。</p>
+<p>在计算机科学中，有限状态机被广泛用于建模应用行为、硬件电路系统设计、软件工程、编译器、网络协议和计算与语言的研究。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">WIKI：动态规划</a></p>
+<p>动态规划在查找有很多<strong>重叠子问题</strong>的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费时间。</p>
+<p>动态规划只能应用于有<strong>最优子结构</strong>的问题。最优子结构的意思是局部最优解能决定全局最优解（对有些问题这个要求并不能完全满足，故有时需要引入一定的近似）。简单地说，问题能够分解成子问题来解决。</p>
+</blockquote>
+<p><strong>辛格做事的哲学：先帮助用户解决 80% 的问题，再慢慢解决剩下的 20% 问题，是在工业界成功的秘诀之一。</strong></p>
+<p><strong>计算机虽然读不懂新闻，却可以准确地对新闻进行分类。其数学工具是看似毫不相干的余弦定理。</strong></p>
+<blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2013/03/cosine_similarity.html">阮一峰的网络日志『TF-IDF与余弦相似性的应用（二）：找出相似文章』</a></p>
+<p>因此，我们可以通过夹角的大小，来判断向量的相似程度。夹角越小，就代表越相似。</p>
+<p>余弦值越接近 1，就表明夹角越接近 0 度，也就是两个向量越相似，这就叫“余弦相似性”。</p>
+<ol>
+<li>使用 TF-IDF 算法，找出两篇文章的关键字；</li>
+<li>每篇文章各取出若干个关键词（比如 20 个），合并成一个集合，计算每篇文章对于这个集合中的词的词频（为了避免文章长度的差异，可以使用相对词频）；</li>
+<li>生成两篇文章各自的词频向量；</li>
+<li>计算两个向量的余弦相似度，值越大就表示越相似。</li>
+</ol>
+<p>“余弦相似性”是一种非常有用的算法，只要是计算两个向量的相似程度，都可以采用它。</p>
+</blockquote>
+<p><strong>无论是词汇的聚类还是文本的分类，都可以通过线性代数中矩阵的奇异值分解来进行。这样一来，自然语言处理的问题就变成了一个数学问题。</strong></p>
+<p><strong>世间万物都有一个唯一标识的特征，信息也是如此。每一条信息都有它特定的指纹，通过这个指纹可以区别不同的信息。</strong></p>
+<p><strong>密码学的根本是信息论和数学。没有信息论指导的密码是非常容易被破解的。只有在信息论被广泛应用于密码学后，密码才真正变得安全。</strong></p>
+<p><strong>搜索引擎中排名靠前的网页也未必是有用的网页。消除这些作弊网页的原理和通信中过滤噪音的原理相同。</strong></p>
+<p><strong>正确的数学模型在科学和工程中至关重要，而发现正确模型的途径常常是曲折的。正确的模型在形式上通常是简单的。</strong></p>
+<p><strong>最大熵模型是一个完美的数学模型。它可以将各种信息整合到一个统一的模型中，在信息处理和机器学习中有着广泛的应用。它在形式上非常简单、优美，而在实现时需要有精深的数学基础和高超的技巧。</strong></p>
+<p><strong>汉字的输入过程本身就是人和计算机之间的通信。好的输入法会自觉或不自觉地遵循通信的数学模型。当然要做出最有效的输入法，应当自觉使用信息论做指导。</strong></p>
+<p><strong>将自然语言处理从基于规则的研究方法转到基于统计的研究方法上，宾夕法尼亚大学的教授米奇·马库斯功不可没。他创立了今天在学术界广泛使用的 LCD 语料库，同时培养了一大批精英人物。</strong></p>
+<p><strong>判断一个元素是否在一个集合中，布隆过滤器是计算机工程中解决这个问题最好的数学工具。</strong></p>
+<p><strong>贝叶斯网络是一个加权的有向图，是马尔可夫链的扩展。而从认识论的层面看：贝叶斯网络克服了马尔可夫链那种机械的线性约束，它可以把任何有关联的事件统一到它的框架下面。它在生物统计、图像处理、决策支持系统和博弈论中都有广泛的使用。</strong></p>
+<p><strong>条件随机场是计算联合概率分布的有效模型，而句法分析似乎是英文课上英语老师教的东西，这两者有什么联系呢？</strong></p>
+<p><strong>维特比算法是现代数字通信中使用最频繁的算法，同时也是很多自然语言处理的解码算法。可以毫不夸张地讲，维特比是对我们今天生活的影响力最大的科学家之一。因为如今基于 CDMA 的 3G 移动通信标准主要就是他创办的高通公司制定的。</strong></p>
+<p><strong>只要有一些训练数据，再定义一个最大化函数，采用 EM 算法，利用计算机经过若干次迭代，就可以得到所需要的模型。这实在是太美妙了，这也许是我们的造物主刻意安排的。所以我把它称作上帝的算法。</strong></p>
+<p><strong>逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型，它不仅在搜索广告中起着重要的作用，而且被广泛应用于信息处理和生物统计中。</strong></p>
+<p><strong>Google 颇为神秘的云计算中最重要的 MapReduce 工具，其原理就是计算机算法中常用的“各个击破”算法，它的原理原来这么简单——将复杂的大问题分解成很多小问题分别求解，然后再把小问题的解合并成原始问题的解。由此可见，在生活中大量用到的、真正有用的方法常常都是简单朴实的。</strong></p>
+<p><strong>Google 大脑并不是一个什么都能思考的大脑，而是一个很能计算的人工神经网络。因此，与其说 Google 大脑很聪明，不如说它很能算。不过，换个角度来说，随着计算能力的不断提高，计算量大但简单的数学方法有时能够解决很复杂的问题。</strong></p>
+<p><strong>如果说在过去的 40 年里，主导全球 IT 产业发展的是摩尔定律，那么在今后的 20 年里，主导 IT 行业继续发展的动力则将来自于数据。</strong></p>
+]]></content>
+      <categories>
+        <category>Reading</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>ML</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git Practice - Getting Started</title>
     <url>/2017/10/23/git-practice-getting-started/</url>
     <content><![CDATA[<h2 id="Start-a-working-area"><a href="#Start-a-working-area" class="headerlink" title="Start a working area"></a>Start a working area</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><ul>
@@ -1034,101 +1129,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       <tags>
         <tag>Git</tag>
         <tag>Gitlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>「数学之美」书摘</title>
-    <url>/2017/11/22/excerpts-of-the-beauty-of-mathematics/</url>
-    <content><![CDATA[<p>本文主要摘自「数学之美」（第二版）的关键内容，摘取内容与原书相比肯定不够全面。如果对此书内容感兴趣，强烈建议阅读原书。</p>
-<p><img src="/images/book-cover/beauty-of-mathematics.jpg" alt="image"></p>
-<p>以下为摘取内容（为了辅助说明，部分内容同时引用了相关网络资源，均有出处链接）：</p>
-<p><strong>文字和语言与数学，从产生起原本就有相通性，虽然它们的发展一度分道扬镳，但是最终还是能走在一起。</strong></p>
-<p><strong>人类对机器理解自然语言的认识走了一条大弯路。早起的研究中采用基于规则的方法，虽然解决了一些简单的问题，但是无法从根本上将自然语言理解实用化。直到多年以后，人们开始尝试基于统计的方法进行自然语言处理，才有了突破性进展和实用的产品。</strong></p>
-<p><strong>统计语言模型是自然语言处理的基础，并且被广泛应用于机器翻译、语音识别、印刷体或手写体识别、拼写纠错、汉字输入和文献查询。</strong></p>
-<p><strong>中文分词是中文信息处理的基础，它同样走过了一段弯路，目前依靠统计语言模型已经基本解决了这个问题。</strong></p>
-<p><strong>隐含马尔可夫模型最初应用于通信领域，继而推广到语音和语言处理中，成为连接自然语言处理和通信的桥梁。同时，隐含马尔可夫模型也是机器学习的主要工具之一。</strong></p>
-<blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B">WIKI：隐马尔可夫模型</a></p>
-<p>隐马尔可夫模型（Hidden Markov Model，HMM）是统计模型，它用来描述一个含有隐含未知参数的马尔可夫过程。其难点是从可观察的参数中确定该过程的隐含参数。然后利用这些参数来作进一步的分析，例如模式识别。</p>
-<p>在正常的马尔可夫模型中，状态对于观察者来说是直接可见的。这样状态的转换概率便是全部的参数。而在隐马尔可夫模型中，状态并不是直接可见的，但受状态影响的某些变量则是可见的。每一个状态在可能输出的符号上都有一概率分布。因此输出符号的序列能够透露出状态序列的一些信息。</p>
-</blockquote>
-<p><strong>信息是可以量化度量的。信息熵不仅是对信息的量化度量，也是整个信息论的基础。它对于通信、数据压缩、自然语言处理都有很强的指导意义。</strong></p>
-<p><strong>作为现代自然语言处理的奠基者，贾里尼克教授成功地将数学原理应用于自然语言处理领域中，他的一生富于传奇色彩。</strong></p>
-<p><strong>布尔代数虽然非常简单，却是计算机科学的基础，它不仅把逻辑和数学合二为一，而且给了我们一个全新的视角看待世界，开创了数字化时代。</strong></p>
-<p><strong>互联网搜索引擎在建立索引前需要用一个程序自动地将所有的网页下载到服务器上，这个程序称为网络爬虫。它的编写是基于离散数学中图论的原理。</strong></p>
-<p>图论：图由一些节点和连接这些节点的弧组成。网络爬虫基于图论进行网页下载。</p>
-<ul>
-<li>BFS (Breadth-First Search)，广度优先搜索。</li>
-<li>DFS (Depth-First Search)：深度优先搜索。</li>
-</ul>
-<p><strong>PageRank：网页民主排名。</strong></p>
-<p>核心思想为：如果一个网页被很多网页所链接，说明它受到普遍的承认和信赖，那么它的排名就高。</p>
-<p><strong>TF-IDF：网页与查询相关性度量。</strong></p>
-<ul>
-<li>TF：Term Frequency，词频。</li>
-<li>IDF：Inverse Document Frequency，逆文本频率指数。信息检索中使用最多的权重。</li>
-</ul>
-<blockquote>
-<p><a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html">阮一峰的网络日志『TF-IDF与余弦相似性的应用（一）：自动提取关键词』</a></p>
-<p>第一步，计算词频。</p>
-<p>考虑到文章有长短之分，为了便于不同文章的比较，进行“词频”标准化。</p>
-<p><code>词频（TF）= 某个词在文章中的出现次数 / 文章总词数 </code></p>
-<p>第二步，计算逆文档频率。</p>
-<p>这时，需要一个语料库（corpus），用来模拟语言的使用环境。</p>
-<p><code>逆文档频率（IDF）= log(语料库的文档总数 / 包含该词的文档数 + 1)</code></p>
-<p>如果一个词越常见，那么分母就越大，逆文档频率就越小越接近 0 。分母之所以要加 1，是为了避免分母为 0（即所有文档都不包含该词）。log表示对得到的值取对数。</p>
-<p>第三步，计算 TF-IDF。</p>
-<p><code>TF-IDF = 词频(TF) * 逆文档频率(IDF)</code></p>
-<p>可以看到，TF-IDF 与一个词在文档中的出现次数成正比，与该词在整个语言中的出现次数成反比。</p>
-</blockquote>
-<p><strong>地图和本地服务中要用到有限状态机和动态规划技术。这两项技术是机器智能和机器学习的工具，它们的应用非常广泛，还包括语音识别、拼写和语法纠错、拼音输入法、工业控制和生物的序列分析等。</strong></p>
-<p>「地址」是种有限状态机，导航的关键算法是图论中的动态规划。</p>
-<blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">WIKI：有限状态机</a></p>
-<p>有限状态机（Finite-State Machine，FSM）又称有限状态自动机，简称状态机，是表示有限个状态以及在这些状态之间的转移和动作等行为的数学模型。</p>
-<p>在计算机科学中，有限状态机被广泛用于建模应用行为、硬件电路系统设计、软件工程、编译器、网络协议和计算与语言的研究。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">WIKI：动态规划</a></p>
-<p>动态规划在查找有很多<strong>重叠子问题</strong>的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费时间。</p>
-<p>动态规划只能应用于有<strong>最优子结构</strong>的问题。最优子结构的意思是局部最优解能决定全局最优解（对有些问题这个要求并不能完全满足，故有时需要引入一定的近似）。简单地说，问题能够分解成子问题来解决。</p>
-</blockquote>
-<p><strong>辛格做事的哲学：先帮助用户解决 80% 的问题，再慢慢解决剩下的 20% 问题，是在工业界成功的秘诀之一。</strong></p>
-<p><strong>计算机虽然读不懂新闻，却可以准确地对新闻进行分类。其数学工具是看似毫不相干的余弦定理。</strong></p>
-<blockquote>
-<p><a href="http://www.ruanyifeng.com/blog/2013/03/cosine_similarity.html">阮一峰的网络日志『TF-IDF与余弦相似性的应用（二）：找出相似文章』</a></p>
-<p>因此，我们可以通过夹角的大小，来判断向量的相似程度。夹角越小，就代表越相似。</p>
-<p>余弦值越接近 1，就表明夹角越接近 0 度，也就是两个向量越相似，这就叫“余弦相似性”。</p>
-<ol>
-<li>使用 TF-IDF 算法，找出两篇文章的关键字；</li>
-<li>每篇文章各取出若干个关键词（比如 20 个），合并成一个集合，计算每篇文章对于这个集合中的词的词频（为了避免文章长度的差异，可以使用相对词频）；</li>
-<li>生成两篇文章各自的词频向量；</li>
-<li>计算两个向量的余弦相似度，值越大就表示越相似。</li>
-</ol>
-<p>“余弦相似性”是一种非常有用的算法，只要是计算两个向量的相似程度，都可以采用它。</p>
-</blockquote>
-<p><strong>无论是词汇的聚类还是文本的分类，都可以通过线性代数中矩阵的奇异值分解来进行。这样一来，自然语言处理的问题就变成了一个数学问题。</strong></p>
-<p><strong>世间万物都有一个唯一标识的特征，信息也是如此。每一条信息都有它特定的指纹，通过这个指纹可以区别不同的信息。</strong></p>
-<p><strong>密码学的根本是信息论和数学。没有信息论指导的密码是非常容易被破解的。只有在信息论被广泛应用于密码学后，密码才真正变得安全。</strong></p>
-<p><strong>搜索引擎中排名靠前的网页也未必是有用的网页。消除这些作弊网页的原理和通信中过滤噪音的原理相同。</strong></p>
-<p><strong>正确的数学模型在科学和工程中至关重要，而发现正确模型的途径常常是曲折的。正确的模型在形式上通常是简单的。</strong></p>
-<p><strong>最大熵模型是一个完美的数学模型。它可以将各种信息整合到一个统一的模型中，在信息处理和机器学习中有着广泛的应用。它在形式上非常简单、优美，而在实现时需要有精深的数学基础和高超的技巧。</strong></p>
-<p><strong>汉字的输入过程本身就是人和计算机之间的通信。好的输入法会自觉或不自觉地遵循通信的数学模型。当然要做出最有效的输入法，应当自觉使用信息论做指导。</strong></p>
-<p><strong>将自然语言处理从基于规则的研究方法转到基于统计的研究方法上，宾夕法尼亚大学的教授米奇·马库斯功不可没。他创立了今天在学术界广泛使用的 LCD 语料库，同时培养了一大批精英人物。</strong></p>
-<p><strong>判断一个元素是否在一个集合中，布隆过滤器是计算机工程中解决这个问题最好的数学工具。</strong></p>
-<p><strong>贝叶斯网络是一个加权的有向图，是马尔可夫链的扩展。而从认识论的层面看：贝叶斯网络克服了马尔可夫链那种机械的线性约束，它可以把任何有关联的事件统一到它的框架下面。它在生物统计、图像处理、决策支持系统和博弈论中都有广泛的使用。</strong></p>
-<p><strong>条件随机场是计算联合概率分布的有效模型，而句法分析似乎是英文课上英语老师教的东西，这两者有什么联系呢？</strong></p>
-<p><strong>维特比算法是现代数字通信中使用最频繁的算法，同时也是很多自然语言处理的解码算法。可以毫不夸张地讲，维特比是对我们今天生活的影响力最大的科学家之一。因为如今基于 CDMA 的 3G 移动通信标准主要就是他创办的高通公司制定的。</strong></p>
-<p><strong>只要有一些训练数据，再定义一个最大化函数，采用 EM 算法，利用计算机经过若干次迭代，就可以得到所需要的模型。这实在是太美妙了，这也许是我们的造物主刻意安排的。所以我把它称作上帝的算法。</strong></p>
-<p><strong>逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型，它不仅在搜索广告中起着重要的作用，而且被广泛应用于信息处理和生物统计中。</strong></p>
-<p><strong>Google 颇为神秘的云计算中最重要的 MapReduce 工具，其原理就是计算机算法中常用的“各个击破”算法，它的原理原来这么简单——将复杂的大问题分解成很多小问题分别求解，然后再把小问题的解合并成原始问题的解。由此可见，在生活中大量用到的、真正有用的方法常常都是简单朴实的。</strong></p>
-<p><strong>Google 大脑并不是一个什么都能思考的大脑，而是一个很能计算的人工神经网络。因此，与其说 Google 大脑很聪明，不如说它很能算。不过，换个角度来说，随着计算能力的不断提高，计算量大但简单的数学方法有时能够解决很复杂的问题。</strong></p>
-<p><strong>如果说在过去的 40 年里，主导全球 IT 产业发展的是摩尔定律，那么在今后的 20 年里，主导 IT 行业继续发展的动力则将来自于数据。</strong></p>
-]]></content>
-      <categories>
-        <category>Reading</category>
-      </categories>
-      <tags>
-        <tag>AI</tag>
-        <tag>ML</tag>
       </tags>
   </entry>
   <entry>
@@ -1547,6 +1547,57 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
+    <title>MongoDB Notes</title>
+    <url>/2019/09/01/mongodb-notes/</url>
+    <content><![CDATA[<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>环境：Ubuntu 16.04<br>用户：root<br>官方手册： <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/</a></p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -qO - https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.0.asc | apt-key add -</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch&#x3D;amd64,arm64 ] https:&#x2F;&#x2F;repo.mongodb.org&#x2F;apt&#x2F;ubuntu xenial&#x2F;mongodb-org&#x2F;4.0 multiverse&quot; | tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;mongodb-org-4.0.list</span><br><span class="line"></span><br><span class="line">apt-get install apt-transport-https</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="安装最新"><a href="#安装最新" class="headerlink" title="安装最新"></a>安装最新</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org</span><br></pre></td></tr></table></figure>
+<h4 id="安装指定版本"><a href="#安装指定版本" class="headerlink" title="安装指定版本"></a>安装指定版本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org&#x3D;4.0.11 mongodb-org-server&#x3D;4.0.11 mongodb-org-shell&#x3D;4.0.11 mongodb-org-mongos&#x3D;4.0.11 mongodb-org-tools&#x3D;4.0.11</span><br></pre></td></tr></table></figure>
+<h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name mongo-dev -d -p 27017:27017 mongo:latest</span><br></pre></td></tr></table></figure>
+<p>Docker Compose <code>docker-compose.yml</code> <code>docker-compose up -d</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mongo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo:4.4.6</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mongodb</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">network_mode:</span> <span class="string">test</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/data/mongo_data:/data/db</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>远程连接示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mongo --host qloudmongodb.pditdapps:27017 -u &quot;qloudwiki&quot; -p &quot;qloudwiki&quot; --authenticationDatabase &quot;wiki&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><blockquote>
+<p><code>xxx</code> 为数据库名称</p>
+</blockquote>
+<ul>
+<li>数据库列表</li>
+</ul>
+<p><code>show dbs</code></p>
+<ul>
+<li>切换数据库 </li>
+</ul>
+<p><code>use xxx</code></p>
+<h3 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h3><p>用户列表</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show users</span><br></pre></td></tr></table></figure>
+<p>创建用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">  &#123;</span><br><span class="line">    user: &quot;&#123;username&#125;&quot;,</span><br><span class="line">    pwd:  &quot;&#123;password&#125;&quot;,</span><br><span class="line">    roles: [ &#123; role: &quot;dbAdmin&quot;, db: &quot;&#123;dbname&#125;&quot; &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>删除用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.dropUser(&#x27;&#123;username&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
+<p><code>xxx</code> 为集合名称</p>
+</blockquote>
+<p>集合列表</p>
+<p><code>show collections</code></p>
+<p>查询</p>
+<p><code>db.xxx.find()</code></p>
+<p>删除</p>
+<p><code>db.xxx.drop()</code></p>
+]]></content>
+      <categories>
+        <category>NoSQL</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
+        <tag>NoSQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nodejs Https Server Notes</title>
     <url>/2019/07/03/nodejs-https-server-demo/</url>
     <content><![CDATA[<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
@@ -1620,57 +1671,6 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
         <tag>Node</tag>
         <tag>Javascription</tag>
         <tag>Express</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MongoDB Notes</title>
-    <url>/2019/09/01/mongodb-notes/</url>
-    <content><![CDATA[<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>环境：Ubuntu 16.04<br>用户：root<br>官方手册： <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/</a></p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -qO - https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.0.asc | apt-key add -</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch&#x3D;amd64,arm64 ] https:&#x2F;&#x2F;repo.mongodb.org&#x2F;apt&#x2F;ubuntu xenial&#x2F;mongodb-org&#x2F;4.0 multiverse&quot; | tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;mongodb-org-4.0.list</span><br><span class="line"></span><br><span class="line">apt-get install apt-transport-https</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="安装最新"><a href="#安装最新" class="headerlink" title="安装最新"></a>安装最新</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org</span><br></pre></td></tr></table></figure>
-<h4 id="安装指定版本"><a href="#安装指定版本" class="headerlink" title="安装指定版本"></a>安装指定版本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install -y mongodb-org&#x3D;4.0.11 mongodb-org-server&#x3D;4.0.11 mongodb-org-shell&#x3D;4.0.11 mongodb-org-mongos&#x3D;4.0.11 mongodb-org-tools&#x3D;4.0.11</span><br></pre></td></tr></table></figure>
-<h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name mongo-dev -d -p 27017:27017 mongo:latest</span><br></pre></td></tr></table></figure>
-<p>Docker Compose <code>docker-compose.yml</code> <code>docker-compose up -d</code></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mongo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo:4.4.6</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mongodb</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">network_mode:</span> <span class="string">test</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/data/mongo_data:/data/db</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>远程连接示例</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mongo --host qloudmongodb.pditdapps:27017 -u &quot;qloudwiki&quot; -p &quot;qloudwiki&quot; --authenticationDatabase &quot;wiki&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><blockquote>
-<p><code>xxx</code> 为数据库名称</p>
-</blockquote>
-<ul>
-<li>数据库列表</li>
-</ul>
-<p><code>show dbs</code></p>
-<ul>
-<li>切换数据库 </li>
-</ul>
-<p><code>use xxx</code></p>
-<h3 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h3><p>用户列表</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show users</span><br></pre></td></tr></table></figure>
-<p>创建用户</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">  &#123;</span><br><span class="line">    user: &quot;&#123;username&#125;&quot;,</span><br><span class="line">    pwd:  &quot;&#123;password&#125;&quot;,</span><br><span class="line">    roles: [ &#123; role: &quot;dbAdmin&quot;, db: &quot;&#123;dbname&#125;&quot; &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>删除用户</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">db.dropUser(&#x27;&#123;username&#125;&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
-<p><code>xxx</code> 为集合名称</p>
-</blockquote>
-<p>集合列表</p>
-<p><code>show collections</code></p>
-<p>查询</p>
-<p><code>db.xxx.find()</code></p>
-<p>删除</p>
-<p><code>db.xxx.drop()</code></p>
-]]></content>
-      <categories>
-        <category>NoSQL</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
-        <tag>NoSQL</tag>
       </tags>
   </entry>
   <entry>
@@ -2482,18 +2482,57 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </tags>
   </entry>
   <entry>
-    <title>证书常用命令</title>
+    <title>「证书」笔记</title>
     <url>/2019/09/13/tls-certification-common-commands/</url>
-    <content><![CDATA[<h2 id="证书介绍"><a href="#证书介绍" class="headerlink" title="证书介绍"></a>证书介绍</h2><h2 id="证书生成与格式转换"><a href="#证书生成与格式转换" class="headerlink" title="证书生成与格式转换"></a>证书生成与格式转换</h2><h3 id="Openssl"><a href="#Openssl" class="headerlink" title="Openssl"></a>Openssl</h3><h4 id="pfx-gt-pem"><a href="#pfx-gt-pem" class="headerlink" title="pfx -&gt; pem"></a>pfx -&gt; pem</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -clcerts -nokeys -out one123456.pem -in one123456.pfx</span><br><span class="line">openssl pkcs12 -nocerts -out one123456.key.pem -in one123456.pfx</span><br><span class="line"></span><br><span class="line">openssl pkcs12 -clcerts -nokeys -out two123456.pem -in two123456.pfx</span><br><span class="line">openssl pkcs12 -nocerts -out two123456.key.pem -in two123456.pfx</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="理解-Keystore-amp-Truststore"><a href="#理解-Keystore-amp-Truststore" class="headerlink" title="理解 Keystore &amp; Truststore"></a>理解 Keystore &amp; Truststore</h2><p><code>Keystore</code> 用于存储私钥和身份证书，特定程序应该向双方(服务器或客户机)提供这些证书以进行验证。顾名思义，Key 是证书，Store 是存储库，Keystore 便是存放证书的存储库；在 SSL 连接期间提供认证。</p>
+<p><code>Truststore</code> 用于存储来自认证机构(CA)的证书，这些证书验证在 SSL 连接中由服务器提供的证书。顾名思义，Trust 是信任，Store 是存储库，Truststore 便是存放受信任的证书库。</p>
+<h2 id="自签证书示例"><a href="#自签证书示例" class="headerlink" title="自签证书示例"></a>自签证书示例</h2><ol>
+<li>Generate <code>ca.key</code> &amp; <code>ca.crt</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl genrsa -aes256 -passout pass:shankai@ca -out ca.key 4096</span><br><span class="line">openssl req -new -x509 -days 3650 -subj &quot;/C=CN/ST=SHAANXI/L=XI&#x27;AN/O=shankai/OU=dev/CN=shankai.city&quot; -passin pass:shankai@ca -key ca.key -out ca.crt </span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Generate <code>server.key</code> &amp; <code>server.crt</code></li>
+</ol>
+<blockquote>
+<p>以 keycloak 服务为例</p>
+</blockquote>
+<ul>
+<li>extfile: <code>keycloak.ext</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints=CA:FALSE</span><br><span class="line">keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line"></span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1 = sso.shankai.city</span><br></pre></td></tr></table></figure>
+<ul>
+<li>generate</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out keycloak.key 2048</span><br><span class="line">openssl req -new -key keycloak.key -subj &quot;/C=CN/ST=SHAANXI/L=XI&#x27;AN/O=shankai/OU=dev/CN=sso.shankai.city&quot; -out keycloak.csr</span><br><span class="line"></span><br><span class="line">openssl x509 -req -in keycloak.csr -passin pass:shankai@ca -CA ca.crt -CAkey ca.key -CAcreateserial -out keycloak.crt -days 1825 -sha256 -extfile keycloak.ext</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Format Convert [optional] </li>
+</ol>
+<ul>
+<li>crt -&gt; p12, p12 -&gt; jks</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -export -out keycloak.p12 -in keycloak.crt -inkey keycloak.key -password pass:shankai@2021</span><br><span class="line">keytool -importkeystore -srcstorepass shankai@2021 -deststorepass shankai@2021 -destkeypass shankai@2021 -srckeystore keycloak.p12 -srcstoretype PKCS12 -destkeystore keycloak.jks -deststoretype JKS</span><br><span class="line"></span><br><span class="line">openssl pkcs12 -export -out ca.p12 -in ca.crt -inkey ca.key -passin pass:shankai@ca -password pass:shankai@2021</span><br><span class="line">keytool -importkeystore -srcstorepass shankai@2021 -deststorepass shankai@2021 -destkeypass shankai@2021 -srckeystore ca.p12 -srcstoretype PKCS12 -destkeystore truststore.jks -deststoretype JKS</span><br></pre></td></tr></table></figure>
+<h2 id="证书工具"><a href="#证书工具" class="headerlink" title="证书工具"></a>证书工具</h2><ul>
+<li>openssl</li>
+<li>keytool</li>
+</ul>
+<h2 id="证书格式"><a href="#证书格式" class="headerlink" title="证书格式"></a>证书格式</h2><h3 id="常见格式"><a href="#常见格式" class="headerlink" title="常见格式"></a>常见格式</h3><ul>
+<li><a href="https://www.tutorialsteacher.com/https/ssl-certificate-format">SSL Certificate Formats</a></li>
+<li><a href="https://help.aliyun.com/document_detail/42214.html">主流数字证书都有哪些格式</a></li>
+</ul>
+<h3 id="证书生成与格式转换"><a href="#证书生成与格式转换" class="headerlink" title="证书生成与格式转换"></a>证书生成与格式转换</h3><h4 id="Openssl"><a href="#Openssl" class="headerlink" title="Openssl"></a>Openssl</h4><p>pfx -&gt; pem</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -clcerts -nokeys -out one123456.pem -in one123456.pfx</span><br><span class="line">openssl pkcs12 -nocerts -out one123456.key.pem -in one123456.pfx</span><br><span class="line"></span><br><span class="line">openssl pkcs12 -clcerts -nokeys -out two123456.pem -in two123456.pfx</span><br><span class="line">openssl pkcs12 -nocerts -out two123456.key.pem -in two123456.pfx</span><br></pre></td></tr></table></figure>
 
 
-<h4 id="crt-key-gt-p12"><a href="#crt-key-gt-p12" class="headerlink" title="crt + key -&gt; p12"></a>crt + key -&gt; p12</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -export -in dop.crt -inkey dop.key -out dop.p12 -name dop -password pass:abcdef</span><br><span class="line">openssl pkcs12 -export -in wiki.crt -inkey wiki.key -out wiki.p12 -name wiki -password pass:abcdef</span><br></pre></td></tr></table></figure>
+<p>crt + key -&gt; p12</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -export -in dop.crt -inkey dop.key -out dop.p12 -name dop -password pass:abcdef</span><br><span class="line">openssl pkcs12 -export -in wiki.crt -inkey wiki.key -out wiki.p12 -name wiki -password pass:abcdef</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="Keytool"><a href="#Keytool" class="headerlink" title="Keytool"></a>Keytool</h3><h4 id="cer-gt-jks"><a href="#cer-gt-jks" class="headerlink" title="cer -&gt; jks"></a>cer -&gt; jks</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">keytool -importcert -file CFCA_RSA_TEST_OCA21.cer -keystore cfca.jks -alias cfca</span><br><span class="line"></span><br><span class="line">keytool -importcert -file ca.cer -keystore cfca.jks -alias cfca</span><br><span class="line"></span><br><span class="line">keytool -import -alias cfcaalias -file cfca.cer -keystore trusted.keystore</span><br></pre></td></tr></table></figure>
+<h4 id="Keytool"><a href="#Keytool" class="headerlink" title="Keytool"></a>Keytool</h4><p>cer -&gt; jks</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">keytool -importcert -file CFCA_RSA_TEST_OCA21.cer -keystore cfca.jks -alias cfca</span><br><span class="line"></span><br><span class="line">keytool -importcert -file ca.cer -keystore cfca.jks -alias cfca</span><br><span class="line"></span><br><span class="line">keytool -import -alias cfcaalias -file cfca.cer -keystore trusted.keystore</span><br></pre></td></tr></table></figure>
 
 
-<h4 id="crt-gt-jks"><a href="#crt-gt-jks" class="headerlink" title="crt -&gt; jks"></a>crt -&gt; jks</h4><p>keytool -import -alias alias -file ca.crt -keypass keypass -keystore ca.jks -storepass 123456 -noprompt</p>
+<p>crt -&gt; jks</p>
+<p>keytool -import -alias alias -file ca.crt -keypass keypass -keystore ca.jks -storepass 123456 -noprompt</p>
 <p>p12 -&gt; jks</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore ca.p12 -srcstoretype PKCS12 -destkeystore ca.jks -deststoretype JKS</span><br></pre></td></tr></table></figure>
 
@@ -2504,28 +2543,9 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       </categories>
       <tags>
         <tag>Security</tag>
-        <tag>TLS</tag>
         <tag>Certification</tag>
-        <tag>SSL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vault  Notes</title>
-    <url>/2020/08/01/vault-notes/</url>
-    <content><![CDATA[<p>启动实例（开发环境）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run --cap-add&#x3D;IPC_LOCK -e &#39;VAULT_DEV_ROOT_TOKEN_ID&#x3D;myroot&#39; -p 8200:8200 -d --name&#x3D;dev-vault vault</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run --cap-add&#x3D;IPC_LOCK -e &#39;VAULT_DEV_ROOT_TOKEN_ID&#x3D;myroot&#39; -e &#39;VAULT_DEV_LISTEN_ADDRESS&#x3D;0.0.0.0:8200&#39; vault</span><br></pre></td></tr></table></figure>
-<p>启动成功后，在启动日志中获取默认的 Token。如：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Unseal Key: BRGYd/8vJSl5101boUHdXDu2ZfYTsJy5tdgXlvOyysQ=</span><br><span class="line">Root Token: myroot</span><br></pre></td></tr></table></figure>
-
-
-<p>认证</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vault login myroot</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Security</category>
-      </categories>
-      <tags>
-        <tag>Vault</tag>
+        <tag>tls</tag>
+        <tag>ssl</tag>
       </tags>
   </entry>
   <entry>
@@ -2557,6 +2577,25 @@ Output: <code>&#123;&quot;is_compatible&quot;:true&#125;</code></li>
       <tags>
         <tag>Virtual</tag>
         <tag>Vagrant</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vault  Notes</title>
+    <url>/2020/08/01/vault-notes/</url>
+    <content><![CDATA[<p>启动实例（开发环境）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run --cap-add&#x3D;IPC_LOCK -e &#39;VAULT_DEV_ROOT_TOKEN_ID&#x3D;myroot&#39; -p 8200:8200 -d --name&#x3D;dev-vault vault</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run --cap-add&#x3D;IPC_LOCK -e &#39;VAULT_DEV_ROOT_TOKEN_ID&#x3D;myroot&#39; -e &#39;VAULT_DEV_LISTEN_ADDRESS&#x3D;0.0.0.0:8200&#39; vault</span><br></pre></td></tr></table></figure>
+<p>启动成功后，在启动日志中获取默认的 Token。如：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Unseal Key: BRGYd/8vJSl5101boUHdXDu2ZfYTsJy5tdgXlvOyysQ=</span><br><span class="line">Root Token: myroot</span><br></pre></td></tr></table></figure>
+
+
+<p>认证</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vault login myroot</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Security</category>
+      </categories>
+      <tags>
+        <tag>Vault</tag>
       </tags>
   </entry>
   <entry>
