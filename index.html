@@ -97,7 +97,7 @@
       <h1 class="site-title">零壹</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">万物虚无</p>
+      <p class="site-subtitle" itemprop="description">01</p>
   </div>
 
   <div class="site-nav-right">
@@ -119,12 +119,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">54</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">55</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">118</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">121</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -183,6 +183,282 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/01/iot-hono-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="shankai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="零壹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/01/iot-hono-notes/" class="post-title-link" itemprop="url">Eclipse Hono</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-01 20:00:00" itemprop="dateCreated datePublished" datetime="2022-01-01T20:00:00+00:00">2022-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IoT/" itemprop="url" rel="index"><span itemprop="name">IoT</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><p><a target="_blank" rel="noopener" href="https://www.eclipse.org/hono/">Eclipse Hono</a></p>
+<h2 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h2><pre class="mermaid">graph LR
+  Device -->|http,mqtt,...| Hono(Hono: Tenant & Device & Credential) --> Kafka(Kafka, ksqlDB, Connector) -->|JDBCSinkConnector| MariaDB</pre>
+
+<h2 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h2><table>
+<thead>
+<tr>
+<th align="center">Service</th>
+<th align="center">Ports</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">MariaDB</td>
+<td align="center">3306</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Postgres</td>
+<td align="center">5432</td>
+<td>Optional: JDBC Device Registry</td>
+</tr>
+<tr>
+<td align="center">MongoDB</td>
+<td align="center">27017</td>
+<td>Optional: MongoDB Device Registry</td>
+</tr>
+<tr>
+<td align="center">Kafka</td>
+<td align="center">9092</td>
+<td>Messaging</td>
+</tr>
+<tr>
+<td align="center">Kafka Connect</td>
+<td align="center">28083</td>
+<td>Avro to MariaDB</td>
+</tr>
+<tr>
+<td align="center">Schema Registry</td>
+<td align="center">28081</td>
+<td>Avro Schema Registry</td>
+</tr>
+<tr>
+<td align="center">ksqlDB</td>
+<td align="center">28088</td>
+<td>Json Convert Avro</td>
+</tr>
+<tr>
+<td align="center">hono-adapter-http</td>
+<td align="center">8080</td>
+<td>Http Adapter</td>
+</tr>
+<tr>
+<td align="center">hono-device-registry</td>
+<td align="center">28080</td>
+<td>Device Registry &amp; Credentials</td>
+</tr>
+</tbody></table>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><blockquote>
+<p>VM: Centos 7</p>
+<p>Docker, Docker Compose, K3s</p>
+</blockquote>
+<h3 id="User-iotops"><a href="#User-iotops" class="headerlink" title="User: iotops"></a>User: <code>iotops</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">useradd iotops</span><br><span class="line">passwd iotops</span><br><span class="line"># Ops789</span><br><span class="line">groupadd wheel</span><br><span class="line">usermod -a -G wheel iotops</span><br><span class="line"></span><br><span class="line">su - iotops</span><br></pre></td></tr></table></figure>
+<h3 id="Datadir"><a href="#Datadir" class="headerlink" title="Datadir"></a>Datadir</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;home&#x2F;data&#x2F;mariadb</span><br><span class="line">mkdir -p &#x2F;home&#x2F;data&#x2F;postgres</span><br><span class="line">mkdir -p &#x2F;home&#x2F;data&#x2F;www</span><br><span class="line">mkdir -p &#x2F;home&#x2F;data&#x2F;kafka</span><br><span class="line">mkdir -p &#x2F;home&#x2F;data&#x2F;zookeeper</span><br></pre></td></tr></table></figure>
+<h3 id="Docker-amp-Docker-Compose"><a href="#Docker-amp-Docker-Compose" class="headerlink" title="Docker &amp; Docker Compose"></a>Docker &amp; Docker Compose</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># docker</span></span></span><br><span class="line">sudo yum install -y yum-utils</span><br><span class="line"></span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.rep</span><br><span class="line">    </span><br><span class="line">sudo yum install docker-ce docker-ce-cli containerd.io</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># docker compose</span></span> </span><br><span class="line">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="MariaDB"><a href="#MariaDB" class="headerlink" title="MariaDB"></a>MariaDB</h3><h5 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h5><p><code>docker-comopse.yml</code> </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span>  <span class="comment"># optional since v1.27.0</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mariadb:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mariadb</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mariadb</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">3306</span><span class="string">:3306</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/mariadb:/var/lib/mysql</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">root</span></span><br></pre></td></tr></table></figure>
+<h5 id="Initial"><a href="#Initial" class="headerlink" title="Initial"></a>Initial</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo docker <span class="keyword">exec</span> <span class="operator">-</span>it mariadb bash</span><br><span class="line"></span><br><span class="line">mysql <span class="operator">-</span>u root <span class="operator">-</span>p</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE hono_data_db;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> honodata@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;honodata&#x27;</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">ON</span> hono_data_db.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;honodata&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line">use hono_data_db;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `hono_telemetry_demo` (</span><br><span class="line">  `k1` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `k2` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `k3` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `firstName` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `lastName` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `age` <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Mongodb-optional-MongoDB-Device-Registry"><a href="#Mongodb-optional-MongoDB-Device-Registry" class="headerlink" title="Mongodb (optional: MongoDB Device Registry)"></a>Mongodb (optional: MongoDB Device Registry)</h3><p><code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mongo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo:4.4.6</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mongodb</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/mongodb/data:/data/db</span></span><br></pre></td></tr></table></figure>
+<h5 id="Initial-Database"><a href="#Initial-Database" class="headerlink" title="Initial Database"></a>Initial Database</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">use hono</span><br><span class="line"></span><br><span class="line">db.createUser(</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">user</span>: &quot;hono&quot;,</span><br><span class="line">    pwd:  &quot;hono&quot;,</span><br><span class="line">    roles: [ &#123; role: &quot;dbAdmin&quot;, db: &quot;hono&quot; &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="Postgres-optional-JDBC-Device-Registry"><a href="#Postgres-optional-JDBC-Device-Registry" class="headerlink" title="Postgres (optional: JDBC Device Registry)"></a>Postgres (optional: JDBC Device Registry)</h3><p><code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">postgresql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres:9.6</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">POSTGRES_PASSWORD:</span> <span class="string">postgres</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">5432</span><span class="string">:5432</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">postgresql</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/postgres:/var/lib/postgresql/data</span></span><br></pre></td></tr></table></figure>
+<h5 id="Initial-Database-1"><a href="#Initial-Database-1" class="headerlink" title="Initial Database"></a>Initial Database</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">psql <span class="operator">-</span>U postgres</span><br><span class="line">\l </span><br><span class="line"></span><br><span class="line"># hono database <span class="keyword">initial</span></span><br><span class="line"><span class="keyword">create</span> database hono;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> hono <span class="keyword">with</span> password <span class="string">&#x27;hono&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> database hono <span class="keyword">to</span> hono;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><h4 id="Docker-Compose-1"><a href="#Docker-Compose-1" class="headerlink" title="Docker Compose"></a>Docker Compose</h4><p>Upload Connector jars:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cd /home/iotops/kafka/connectors/mysql</span><br><span class="line"><span class="meta">#</span><span class="bash"> yum install -y wget unzip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line">wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-8.0.27.tar.gz</span><br><span class="line">tar -zxvf mysql-connector-java-8.0.27.tar.gz</span><br><span class="line">mv mysql-connector-java-8.0.27/mysql-connector-java-8.0.27.jar ./</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc</span></span><br><span class="line">wget https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.2.6/confluentinc-kafka-connect-jdbc-10.2.6.zip</span><br><span class="line"></span><br><span class="line">unzip confluentinc-kafka-connect-jdbc-10.2.6.zip</span><br><span class="line">mv confluentinc-kafka-connect-jdbc-10.2.6/lib/*.* ./</span><br></pre></td></tr></table></figure>
+
+
+<p><code>docker-comopse.yml</code> </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-zookeeper:7.0.0</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;2181:2181&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_CLIENT_PORT:</span> <span class="number">2181</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_TICK_TIME:</span> <span class="number">2000</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/zookeeper/data:/var/lib/zookeeper/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/zookeeper/log:/var/lib/zookeeper/log</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-kafka:7.0.0</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">kafka</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kafka</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;9092:9092&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;29092:29092&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">KAFKA_ZOOKEEPER_CONNECT:</span> <span class="string">zookeeper:2181</span></span><br><span class="line">      <span class="attr">KAFKA_ADVERTISED_LISTENERS:</span> <span class="string">&quot;INTERNAL://kafka:9092,EXTERNAL://10.40.80.38:29092&quot;</span></span><br><span class="line">      <span class="attr">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP:</span> <span class="string">INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT</span></span><br><span class="line">      <span class="attr">KAFKA_INTER_BROKER_LISTENER_NAME:</span> <span class="string">INTERNAL</span></span><br><span class="line">      <span class="attr">KAFKA_BROKER_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_TRANSACTION_STATE_LOG_MIN_ISR:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/home/data/kafka/data:/var/lib/kafka/data</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">schema-registry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-schema-registry:7.0.0</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">schema-registry</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">schema-registry</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">kafka</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;28081:8081&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SCHEMA_REGISTRY_HOST_NAME:</span> <span class="string">schema-registry</span></span><br><span class="line">      <span class="attr">SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS:</span> <span class="string">&#x27;kafka:9092&#x27;</span></span><br><span class="line">      <span class="attr">SCHEMA_REGISTRY_LISTENERS:</span> <span class="string">http://schema-registry:8081</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">ksqldb-server:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/ksqldb-server:0.23.1</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">ksqldb-server</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">ksqldb-server</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">kafka</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;28088:8088&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">KSQL_LISTENERS:</span> <span class="string">http://0.0.0.0:8088</span></span><br><span class="line">      <span class="attr">KSQL_BOOTSTRAP_SERVERS:</span> <span class="string">kafka:9092</span></span><br><span class="line">      <span class="attr">KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">      <span class="attr">KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">      <span class="attr">KSQL_KSQL_SCHEMA_REGISTRY_URL:</span> <span class="string">http://schema-registry:8081</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">ksqldb-cli:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/ksqldb-cli:0.23.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">ksqldb-cli</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ksqldb-server</span></span><br><span class="line">    <span class="attr">entrypoint:</span> <span class="string">/bin/sh</span></span><br><span class="line">    <span class="attr">tty:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">kafka-connect:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-kafka-connect:7.0.0</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">kafka-connect</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kafka-connect</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">kafka</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">28083</span><span class="string">:8083</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">CONNECT_BOOTSTRAP_SERVERS:</span> <span class="string">kafka:9092</span></span><br><span class="line">      <span class="attr">CONNECT_REST_PORT:</span>  <span class="number">28083</span></span><br><span class="line">      <span class="attr">CONNECT_GROUP_ID:</span>  <span class="string">&quot;kc-group-local&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_CONFIG_STORAGE_TOPIC:</span>  <span class="string">&quot;kc-config&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_OFFSET_STORAGE_TOPIC:</span>  <span class="string">&quot;kc-offsets&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_STATUS_STORAGE_TOPIC:</span>  <span class="string">&quot;kc-status&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_STATUS_STORAGE_REPLICATION_FACTOR:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_KEY_CONVERTER:</span>  <span class="string">&quot;org.apache.kafka.connect.storage.StringConverter&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_VALUE_CONVERTER:</span>  <span class="string">&quot;org.apache.kafka.connect.json.JsonConverter&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_INTERNAL_KEY_CONVERTER:</span>  <span class="string">&quot;org.apache.kafka.connect.json.JsonConverter&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_INTERNAL_VALUE_CONVERTER:</span>  <span class="string">&quot;org.apache.kafka.connect.json.JsonConverter&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_REST_ADVERTISED_HOST_NAME:</span>  <span class="string">&quot;10.40.80.38&quot;</span></span><br><span class="line">      <span class="attr">CONNECT_PLUGIN_PATH:</span>  <span class="string">/usr/share/java,/usr/share/connector</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./connectors/mysql:/usr/share/connector/mysql</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">local:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+<h4 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h4><ol>
+<li>open ksqldb-cli</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it ksqldb-cli ksql http://ksqldb-server:8088</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>create data convert stream</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> STREAM S1_1 (firstName <span class="type">VARCHAR</span>, lastName <span class="type">VARCHAR</span>, age <span class="type">INT</span>) <span class="keyword">WITH</span> (KAFKA_TOPIC<span class="operator">=</span><span class="string">&#x27;hono.telemetry.MY_TENANT&#x27;</span>, VALUE_FORMAT<span class="operator">=</span><span class="string">&#x27;JSON&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> STREAM S1_2 <span class="keyword">WITH</span> (VALUE_FORMAT<span class="operator">=</span><span class="string">&#x27;AVRO&#x27;</span>, KAFKA_TOPIC<span class="operator">=</span><span class="string">&#x27;hono.telemetry.avro&#x27;</span>) <span class="keyword">AS</span> <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> S1_1;</span><br></pre></td></tr></table></figure>
+<h4 id="Connector"><a href="#Connector" class="headerlink" title="Connector"></a>Connector</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">curl -X PUT \</span><br><span class="line">  http://10.40.80.38:28083/connectors/hono-telemetry-demo/config \</span><br><span class="line">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">  -H &#x27;Accept: application/json&#x27; \</span><br><span class="line">  -d &#x27;&#123;</span><br><span class="line">      &quot;connector.class&quot;: &quot;io.confluent.connect.jdbc.JdbcSinkConnector&quot;,</span><br><span class="line">      &quot;table.name.format&quot;: &quot;hono_telemetry_demo&quot;,</span><br><span class="line">      &quot;consumer.override.group.id&quot;: &quot;1227&quot;,</span><br><span class="line">      &quot;connection.password&quot;: &quot;honodata&quot;,</span><br><span class="line">      &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">      &quot;topics&quot;: &quot;hono.telemetry.avro&quot;,</span><br><span class="line">      &quot;batch.size&quot;: &quot;3000&quot;,</span><br><span class="line">      &quot;value.converter.schema.registry.url&quot;: &quot;http://schema-registry:8081&quot;,</span><br><span class="line">      &quot;delete.enabled&quot;: &quot;false&quot;,</span><br><span class="line">      &quot;auto.evolve&quot;: &quot;false&quot;,</span><br><span class="line">      &quot;connection.user&quot;: &quot;honodata&quot;,</span><br><span class="line">      &quot;auto.create&quot;: &quot;false&quot;,</span><br><span class="line">      &quot;connection.url&quot;: &quot;jdbc:mysql://10.40.80.38:3306/hono_data_db?verifyServerCertificate=false&amp;useSSL=false&amp;requireSSL=false&quot;,</span><br><span class="line">      &quot;value.converter&quot;: &quot;io.confluent.connect.avro.AvroConverter&quot;,</span><br><span class="line">      &quot;insert.mode&quot;: &quot;upsert&quot;,</span><br><span class="line">      &quot;pk.mode&quot;: &quot;kafka&quot;,</span><br><span class="line">      &quot;pk.fields&quot;: &quot;k1,k2,k3&quot;</span><br><span class="line">  &#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Hono"><a href="#Hono" class="headerlink" title="Hono"></a>Hono</h3><ul>
+<li>k3s</li>
+<li>helm</li>
+</ul>
+<h4 id="K3s"><a href="#K3s" class="headerlink" title="K3s"></a>K3s</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL http:&#x2F;&#x2F;rancher-mirror.cnrancher.com&#x2F;k3s&#x2F;k3s-install.sh | INSTALL_K3S_MIRROR&#x3D;cn sh -</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Helm"><a href="#Helm" class="headerlink" title="Helm"></a>Helm</h4><ol>
+<li>Install helm</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf helm-v3.7.2-linux-amd64.tar.gz</span><br><span class="line">mv linux-amd64&#x2F;helm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;helm</span><br></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>Add chart repository</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> helm repo</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> https://www.eclipse.org/packages/repository/</span></span><br><span class="line">helm repo add eclipse-iot https://eclipse.org/packages/charts</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> helm list --all-namespaces -a</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> helm --kubeconfig /etc/rancher/k3s/k3s.yaml list --all-namespaces -a</span></span><br><span class="line"></span><br><span class="line">k3s kubectl create namespace hono</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> helm uninstall eclipse-hono -n hono</span></span><br><span class="line"></span><br><span class="line">k3s kubectl get service -n hono</span><br></pre></td></tr></table></figure>
+
+
+<ol start="3">
+<li> Config <code>custom.yaml</code></li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deviceRegistryExample:</span></span><br><span class="line">  <span class="comment">#enabled: false</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">jdbc</span> <span class="comment"># embedded|mongodb|jdbc</span></span><br><span class="line">  <span class="attr">addExampleData:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">mongoDBBasedDeviceRegistry:</span></span><br><span class="line">    <span class="attr">mongodb:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="number">10.40</span><span class="number">.80</span><span class="number">.38</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">27017</span></span><br><span class="line">      <span class="attr">dbName:</span> <span class="string">hono</span></span><br><span class="line">      <span class="attr">username:</span> <span class="string">hono</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">hono</span></span><br><span class="line">  <span class="attr">jdbcBasedDeviceRegistry:</span></span><br><span class="line">    <span class="attr">applicationProfiles:</span> <span class="string">registry-adapter,registry-management,tenant-service,create-schema,dev</span></span><br><span class="line">    <span class="attr">registry:</span></span><br><span class="line">      <span class="attr">jdbc:</span></span><br><span class="line">        <span class="attr">adapter:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:postgresql://10.40.80.38:5432/hono</span></span><br><span class="line">          <span class="attr">driverClass:</span> <span class="string">org.postgresql.Driver</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">hono</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">hono</span></span><br><span class="line">        <span class="attr">management:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:postgresql://10.40.80.38:5432/hono</span></span><br><span class="line">          <span class="attr">driverClass:</span> <span class="string">org.postgresql.Driver</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">hono</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">hono</span></span><br><span class="line">    <span class="attr">tenant:</span></span><br><span class="line">      <span class="attr">jdbc:</span></span><br><span class="line">        <span class="attr">adapter:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:postgresql://10.40.80.38:5432/hono</span></span><br><span class="line">          <span class="attr">driverClass:</span> <span class="string">org.postgresql.Driver</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">hono</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">hono</span></span><br><span class="line">        <span class="attr">management:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:postgresql://10.40.80.38:5432/hono</span></span><br><span class="line">          <span class="attr">driverClass:</span> <span class="string">org.postgresql.Driver</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">hono</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">hono</span></span><br><span class="line"></span><br><span class="line"><span class="attr">adapters:</span></span><br><span class="line">  <span class="attr">kafkaMessagingSpec:</span></span><br><span class="line">    <span class="attr">commonClientConfig:</span></span><br><span class="line">      <span class="attr">bootstrap.servers:</span> <span class="number">10.40</span><span class="number">.80</span><span class="number">.38</span><span class="string">:29092</span></span><br><span class="line">  <span class="attr">amqp:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">mqtt:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">messagingNetworkTypes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">kafka</span></span><br><span class="line"></span><br><span class="line"><span class="attr">amqpMessagingNetworkExample:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">kafkaMessagingClusterExample:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Deploy</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 644 /etc/rancher/k3s/k3s.yaml</span><br><span class="line"></span><br><span class="line">helm --kubeconfig /etc/rancher/k3s/k3s.yaml  install -f ./custom.yaml  -n hono eclipse-hono eclipse-iot/hono</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Uninstall (Ops)</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm --kubeconfig /etc/rancher/k3s/k3s.yaml uninstall eclipse-hono -n hono</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Telemetry-Demo"><a href="#Telemetry-Demo" class="headerlink" title="Telemetry (Demo)"></a>Telemetry (Demo)</h2><blockquote>
+<p> Mock Device Send Telemetry Data</p>
+</blockquote>
+<ol>
+<li>Create Tenant</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://10.40.80.38:28080/v1/tenants/MY_TENANT&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>Create Device</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://10.40.80.38:28080/v1/devices/MY_TENANT/MY_DEVICE&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<ol start="3">
+<li>Set Credentials for Device</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request PUT &#x27;http://10.40.80.38:28080/v1/credentials/MY_TENANT/MY_DEVICE&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">-d &#x27;[&#123;</span><br><span class="line">  &quot;type&quot;: &quot;hashed-password&quot;,</span><br><span class="line">  &quot;auth-id&quot;: &quot;MY_DEVICE&quot;,</span><br><span class="line">  &quot;secrets&quot;: [&#123;</span><br><span class="line">      &quot;pwd-plain&quot;: &quot;my-pwd&quot;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;]&#x27;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>Send Telemetry</p>
+<blockquote>
+<p>Basic Authorization 用户名为：<code>MY_DEVICE@MY_TENANT</code>，密码为：<code>my-pwd</code></p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://10.40.80.38:8080/telemetry&#x27; \</span><br><span class="line">--header &#x27;Authorization: Basic TVlfREVWSUNFQE1ZX1RFTkFOVDpteS1wd2Q=&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">-d &#x27;&#123;</span><br><span class="line">    &quot;firstName&quot;: &quot;fn23&quot;,</span><br><span class="line">    &quot;lastName&quot;: &quot;ddd&quot;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>Body (Demo): </p>
+<ul>
+<li><code>firstName</code> *</li>
+<li><code>lastName</code> *</li>
+<li><code>age</code></li>
+</ul>
+<h2 id="Command-Demo-HttpAdapter"><a href="#Command-Demo-HttpAdapter" class="headerlink" title="Command (Demo: HttpAdapter)"></a>Command (Demo: HttpAdapter)</h2><ol>
+<li><p>Device Send Telemetry/Event With <code>ttd:60</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">curl --location -v --request POST &#x27;http://10.40.80.38:8080/event&#x27; \</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> --header <span class="string">&#x27;hono-ttd: 60&#x27;</span> \</span></span><br><span class="line"><span class="bash">&gt; --header <span class="string">&#x27;Authorization: Basic TVlfREVWSUNFQE1ZX1RFTkFOVDpteS1wd2Q=&#x27;</span> \</span></span><br><span class="line"><span class="bash">&gt; --header <span class="string">&#x27;Content-Type: application/json&#x27;</span> \</span></span><br><span class="line"><span class="bash">&gt; -d <span class="string">&#x27;&#123;</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     <span class="string">&quot;firstName&quot;</span>: <span class="string">&quot;fn23&quot;</span>,</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     <span class="string">&quot;lastName&quot;</span>: <span class="string">&quot;ddd&quot;</span>,</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     <span class="string">&quot;age&quot;</span>: 4</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> &#125;<span class="string">&#x27;</span></span></span><br><span class="line">* About to connect() to 10.40.80.38 port 8080 (#0)</span><br><span class="line">*   Trying 10.40.80.38...</span><br><span class="line">* Connected to 10.40.80.38 (10.40.80.38) port 8080 (#0)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> POST /event HTTP/1.1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> User-Agent: curl/7.29.0</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Host: 10.40.80.38:8080</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Accept: */*</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> hono-ttd: 60</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Authorization: Basic TVlfREVWSUNFQE1ZX1RFTkFOVDpteS1wd2Q=</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Type: application/json</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Length: 64</span></span><br><span class="line"><span class="meta">&gt;</span></span><br><span class="line"><span class="bash">* upload completely sent off: 64 out of 64 bytes</span></span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; vary: origin</span><br><span class="line">&lt; hono-command: 1</span><br><span class="line">&lt; hono-cmd-req-id: 203111</span><br><span class="line">&lt; content-type: application/json</span><br><span class="line">&lt; content-length: 32</span><br><span class="line">&lt;</span><br><span class="line">* Connection #0 to host 10.40.80.38 left intact</span><br><span class="line">&#123;&quot;col_foo&quot;:1, &quot;firstName&quot;: &quot;zs&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>60</code>(可自定义) 秒内执行第2步，则响应码为 <code>200 OK</code>，否则为 <code>202 Accepted</code>。</p>
+<p>若执行第2步选择的是需要设备端响应命令执行结果的，则此时响应头会包含 <code>hono-cmd-req-id</code>，此 ID 将作为第 3 步请求的路径参数。</p>
+</li>
+<li><p>Application Send Command</p>
+<blockquote>
+<p>Command 分为两种：One-way 与 Command（带响应的命令模式，默认）</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># kcat</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># brew install kcat</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># kcat -b 10.40.80.38:29092 -L</span></span></span><br><span class="line"></span><br><span class="line">docker run -it --rm --entrypoint /bin/sh edenhill/kcat:1.7.0</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># docker run -it --rm edenhill/kcat:1.7.0 -b 10.40.80.38:29092 -L</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Command One-way</span></span></span><br><span class="line">echo &#x27;MY_DEVICE$&#123;&quot;col_foo&quot;:1, &quot;firstName&quot;: &quot;zs&quot;&#125;&#x27;|kcat -b 10.40.80.38:29092 -t hono.command.MY_TENANT -P -K $ -H device_id=MY_DEVICE -H subject=1 -H content-type=application/json</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Command With Response</span></span></span><br><span class="line">echo &#x27;MY_DEVICE$&#123;&quot;col_foo&quot;:1, &quot;firstName&quot;: &quot;zs&quot;&#125;&#x27;|kcat -b 10.40.80.38:29092 -t hono.command.MY_TENANT -P -K $ -H device_id=MY_DEVICE -H subject=1 -H content-type=application/json -H correlation-id=111 -H response-required=true</span><br></pre></td></tr></table></figure></li>
+<li><p>Device Send Command Response</p>
+<blockquote>
+<p>请求路径中：</p>
+<ul>
+<li><p><code>203111</code> 为第一步从响应头中获得的 <code>hono-cmd-req-id</code> 值。</p>
+</li>
+<li><p><code>hono-cmd-status</code> 为命令执行后的状态码。</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://10.40.80.38:8080/command/res/203111?hono-cmd-status=201&#x27; \</span><br><span class="line">--header &#x27;Authorization: Basic TVlfREVWSUNFQE1ZX1RFTkFOVDpteS1wd2Q=&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">-d &#x27;&#123;</span><br><span class="line">    &quot;commandResponse&quot;: &quot;res&quot;,</span><br><span class="line">    &quot;sss&quot;: 1,</span><br><span class="line">    &quot;repeat&quot;: &quot;111&quot;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>Application Receive Command Response</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kcat -b 10.40.80.38:29092 -t hono.command_response.MY_TENANT -o beginning -f &#x27;%K %h %s&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<p>Done.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/20/kong-api-gateway-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -214,7 +490,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -339,7 +615,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -777,7 +1053,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -917,7 +1193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1541,7 +1817,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1776,7 +2052,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1924,7 +2200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -2113,7 +2389,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -2395,7 +2671,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -2494,163 +2770,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/26/kafka-connect-redis-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="shankai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="零壹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/26/kafka-connect-redis-notes/" class="post-title-link" itemprop="url">Kafka Connect Redis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-26 18:20:00" itemprop="dateCreated datePublished" datetime="2021-01-26T18:20:00+00:00">2021-01-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/EventBus/" itemprop="url" rel="index"><span itemprop="name">EventBus</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>9.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Kafka-Connect"><a href="#Kafka-Connect" class="headerlink" title="Kafka Connect"></a>Kafka Connect</h2><p>Worker.java (ENABLE_AUTO_COMMIT_CONFIG:false, AUTO_OFFSET_RESET_CONFIG:earliest)</p>
-<p>WorkerSinkTask.java</p>
-<p><code>offset.flush.interval.ms</code><br>Interval at which to try committing offsets for tasks.<br>Default:    60000 (1 minute)</p>
-<p>Confluent Kafka Connect Tutorial</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;installation&#x2F;docker&#x2F;docs&#x2F;installation&#x2F;connect-avro-jdbc.html</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;docs.confluent.io&#x2F;5.0.0&#x2F;connect&#x2F;concepts.html#connect-converters</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Kafka Connect REST API</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connector-plugins</span><br><span class="line">http:&#x2F;&#x2F;dev:8083&#x2F;connectors</span><br></pre></td></tr></table></figure>
-
-
-<p>Lenses</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;4.1&#x2F;integrations&#x2F;connectors&#x2F;stream-reactor&#x2F;sinks&#x2F;redissinkconnector&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;docs.lenses.io&#x2F;2.1&#x2F;lenses-sql&#x2F;kcql.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-<p>测试环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># all(zk,kafka,schema-registry,kafka-connect,ui,connectors)</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;fast-data-dev</span><br><span class="line"></span><br><span class="line"># ui &amp; kafka-connect</span><br><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line">https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;confluentinc&#x2F;cp-kafka-connect</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># clone from fork repository </span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;shankai&#x2F;stream-reactor.git</span><br><span class="line">cd stream-reactor&#x2F;kafka-connect-redis</span><br><span class="line">gradle clean build collectFatJar -x test</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><h3 id="All"><a href="#All" class="headerlink" title="All"></a>All</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># redis pubsub mode has bug</span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br><span class="line"></span><br><span class="line"># redis pubsub fix </span><br><span class="line">docker run --rm -d --name lensesio_dev \</span><br><span class="line">       -p 2181:2181 -p 3030:3030 -p 9092:9092 \</span><br><span class="line">       -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 \</span><br><span class="line">       -e ADV_HOST&#x3D;dev -e CONNECTORS&#x3D;redis \</span><br><span class="line">       -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;build&#x2F;libs&#x2F;kafka-connect-redis-2.1.3.jar:&#x2F;opt&#x2F;landoop&#x2F;connectors&#x2F;stream-reactor&#x2F;kafka-connect-redis&#x2F;kafka-connect-redis-2.1.3.jar \</span><br><span class="line">       lensesio&#x2F;fast-data-dev:latest</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="Kafka-Connect-amp-UI"><a href="#Kafka-Connect-amp-UI" class="headerlink" title="Kafka Connect &amp; UI"></a>Kafka Connect &amp; UI</h3><p>docker pull confluentinc/cp-zookeeper<br>docker pull confluentinc/cp-kafka</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>docker pull confluentinc/cp-schema-registry</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br></pre></td></tr></table></figure>
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">docker run --name schema-registry -h schema-registry -p 8081:8081 \</span><br><span class="line">   -e SCHEMA_REGISTRY_HOST_NAME&#x3D;schema-registry \</span><br><span class="line">   -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL&#x3D;dev:2181 \</span><br><span class="line">   confluentinc&#x2F;cp-schema-registry:5.5.0 </span><br><span class="line"></span><br><span class="line">docker run --name eventbus_kafka -d \</span><br><span class="line">   -p 9092:9092 \</span><br><span class="line">   -e KAFKA_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;0.0.0.0:9092 \</span><br><span class="line">   -e KAFKA_ADVERTISED_LISTENERS&#x3D;PLAINTEXT:&#x2F;&#x2F;dev:9092 \</span><br><span class="line">   -e KAFKA_ZOOKEEPER_CONNECT&#x3D;dev:2181 \</span><br><span class="line">   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_DELETE_TOPIC_ENABLE&#x3D;true \</span><br><span class="line">   -e KAFKA_BROKER_ID&#x3D;0 \</span><br><span class="line">   -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \</span><br><span class="line">   wurstmeister&#x2F;kafka:2.11-1.1.1</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>docker pull confluentinc/cp-kafka-connect</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kafka-connect-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -v &#x2F;Users&#x2F;shankai&#x2F;codebase&#x2F;oss&#x2F;fork&#x2F;jars&#x2F;:&#x2F;etc&#x2F;kafka-connect&#x2F;jars&#x2F; \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">  confluentinc&#x2F;cp-kafka-connect:latest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name&#x3D;kc-redis-avro \</span><br><span class="line">  -e CONNECT_BOOTSTRAP_SERVERS&#x3D;dev:9092 \</span><br><span class="line">  -e CONNECT_REST_PORT&#x3D;8083 \</span><br><span class="line">  -e CONNECT_GROUP_ID&#x3D;&quot;quickstart-avro&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-config&quot; \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-offsets&quot; \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_TOPIC&#x3D;&quot;quickstart-avro-status&quot; \</span><br><span class="line">  -e CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_STATUS_STORAGE_REPLICATION_FACTOR&#x3D;1 \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER&#x3D;&quot;io.confluent.connect.avro.AvroConverter&quot; \</span><br><span class="line">  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL&#x3D;&quot;http:&#x2F;&#x2F;dev:8081&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_KEY_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_INTERNAL_VALUE_CONVERTER&#x3D;&quot;org.apache.kafka.connect.json.JsonConverter&quot; \</span><br><span class="line">  -e CONNECT_REST_ADVERTISED_HOST_NAME&#x3D;&quot;dev&quot; \</span><br><span class="line">  -e CONNECT_LOG4J_ROOT_LOGLEVEL&#x3D;INFO \</span><br><span class="line">  -e CONNECT_PLUGIN_PATH&#x3D;&#x2F;usr&#x2F;share&#x2F;java,&#x2F;etc&#x2F;kafka-connect&#x2F;jars \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">kc-redis:latest</span><br></pre></td></tr></table></figure>
-<p>docker pull landoop/kafka-connect-ui</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;lensesio&#x2F;kafka-connect-ui</span><br><span class="line"></span><br><span class="line">docker run -d --name kafka-connect-ui -it -p 8000:8000 -e &quot;CONNECT_URL&#x3D;http:&#x2F;&#x2F;dev:8083&quot; landoop&#x2F;kafka-connect-ui</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Connector"><a href="#Connector" class="headerlink" title="Connector"></a>Connector</h2><h3 id="connector-configuration-override"><a href="#connector-configuration-override" class="headerlink" title="connector configuration override"></a>connector configuration override</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value.converter.schema.registry.url&#x3D;http:&#x2F;&#x2F;dev:8081</span><br><span class="line">value.converter&#x3D;io.confluent.connect.protobuf.ProtobufConverter</span><br></pre></td></tr></table></figure>
-
-
-<p>worker.properties: <code>connector.client.config.override.policy=All</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;consumer.override.max.poll.records&quot;: &quot;1&quot;,</span><br><span class="line">&quot;consumer.override.fetch.max.wait.ms&quot;: &quot;0&quot;</span><br></pre></td></tr></table></figure>
-
-
-<p>LOG_DIR=/app</p>
-<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><h4 id="RedisSinkConnector-PubSub"><a href="#RedisSinkConnector-PubSub" class="headerlink" title="RedisSinkConnector PubSub"></a>RedisSinkConnector PubSub</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;select * from sea_vessel_position_reports STOREAS PubSub(channel&#x3D;Timestamp)</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-pub</span><br></pre></td></tr></table></figure>
-<h4 id="RedisSinkConnector-Cache"><a href="#RedisSinkConnector-Cache" class="headerlink" title="RedisSinkConnector Cache"></a>RedisSinkConnector Cache</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.class&#x3D;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector</span><br><span class="line">connect.redis.port&#x3D;6379</span><br><span class="line">connect.redis.kcql&#x3D;INSERT INTO PK- select * from sea_vessel_position_reports PK Timestamp</span><br><span class="line">topics&#x3D;sea_vessel_position_reports</span><br><span class="line">tasks.max&#x3D;1</span><br><span class="line">connect.redis.host&#x3D;dev</span><br><span class="line">name&#x3D;quickstart-redis-cache</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="Rest"><a href="#Rest" class="headerlink" title="Rest"></a>Rest</h3><h4 id="Redis-Cache"><a href="#Redis-Cache" class="headerlink" title="Redis Cache"></a>Redis Cache</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;INSERT INTO FX- select location from sea_vessel_position_reports PK Timestamp&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorCache&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
-<h4 id="Redis-PubSub"><a href="#Redis-PubSub" class="headerlink" title="Redis PubSub"></a>Redis PubSub</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://dev:8083/connectors&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;,</span><br><span class="line">    &quot;config&quot;: &#123;</span><br><span class="line">        &quot;connector.class&quot;: &quot;com.datamountaineer.streamreactor.connect.redis.sink.RedisSinkConnector&quot;,</span><br><span class="line">        &quot;connect.redis.port&quot;: &quot;6379&quot;,</span><br><span class="line">        &quot;connect.redis.kcql&quot;: &quot;select * from sea_vessel_position_reports STOREAS PubSub(channel=Timestamp)&quot;,</span><br><span class="line">        &quot;topics&quot;: &quot;sea_vessel_position_reports&quot;,</span><br><span class="line">        &quot;tasks.max&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;connect.redis.host&quot;: &quot;dev&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;RedisSinkConnectorPubSub&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
-<h2 id="Redis-Benchmark"><a href="#Redis-Benchmark" class="headerlink" title="Redis Benchmark"></a>Redis Benchmark</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-benchmark -h redis-ps-redis-perf-paas.paas -c 1 -d 1024  script load &quot;redis.call(&#39;publish&#39;, &#39;abc&#39;)&quot; </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2722,7 +2841,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2735,7 +2854,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-count">121</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2774,7 +2893,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -2783,12 +2902,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">173k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:24</span>
+    <span title="站点阅读时长">2:38</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

@@ -30,7 +30,7 @@
 <meta property="og:description" content="简介… 部署Docker 172.16.18.143 为宿主机 IP   Zookeeper 12docker run --name eventbus_zk -d -p 2181:2181 zookeeper:3.5.7# docker run --name eventbus_zk -d -p 2181:2181 wurstmeister&#x2F;zookeeper:3.4.6	   Kafka 1234">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-24T14:53:00.000Z">
-<meta property="article:modified_time" content="2021-12-13T10:05:17.012Z">
+<meta property="article:modified_time" content="2022-01-03T11:56:36.074Z">
 <meta property="article:author" content="shankai">
 <meta property="article:tag" content="Kafka">
 <meta property="article:tag" content="Message Queue">
@@ -104,7 +104,7 @@
       <h1 class="site-title">零壹</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">万物虚无</p>
+      <p class="site-subtitle" itemprop="description">01</p>
   </div>
 
   <div class="site-nav-right">
@@ -126,12 +126,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">54</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">55</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">118</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">121</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-13 10:05:17" itemprop="dateModified" datetime="2021-12-13T10:05:17+00:00">2021-12-13</time>
+                <time title="修改时间：2022-01-03 11:56:36" itemprop="dateModified" datetime="2022-01-03T11:56:36+00:00">2022-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -239,14 +239,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>831</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -284,9 +284,21 @@
 <li><p>Consumer</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server 172.16.18.143:9092 --topic test.eb1  --from-beginning</span><br></pre></td></tr></table></figure>
 
-
 </li>
 </ul>
+<h2 id="运维日志"><a href="#运维日志" class="headerlink" title="运维日志"></a>运维日志</h2><h3 id="清除-Topic-数据（不删除主题）"><a href="#清除-Topic-数据（不删除主题）" class="headerlink" title="清除 Topic 数据（不删除主题）"></a>清除 Topic 数据（不删除主题）</h3><blockquote>
+<p>思路：</p>
+<ol>
+<li>更改 topic 配置，指定数据保留时间<code>retension.ms=1000</code>为1秒（默认7天）；指定清除策略为<code>cleanup.policy=delete</code></li>
+<li>查看 topic 配置，确保配置生效</li>
+<li><em>等待 kafka 执行清理操作</em>，并确认 topic 数据被清理。</li>
+<li>恢复 topic 配置，删除 <code>retension.ms</code> 配置项，更改清除策略为 <code>cleanup.policy=compact</code>。</li>
+</ol>
+</blockquote>
+<p>示例：删除 topic <code>connect-status</code>,<code>connect-config</code>,<code>connect-offsets</code>数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> connect-status</span></span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --alter --entity-type topics --add-config retention.ms=1000,cleanup.policy=delete --entity-name connect-status</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --entity-type topics --describe --entity-name connect-status</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181  --alter --entity-type topics --add-config cleanup.policy=compact --delete-config retention.ms --entity-name connect-status</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> connect-config</span></span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --alter --entity-type topics --add-config retention.ms=1000,cleanup.policy=delete --entity-name connect-config</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --entity-type topics --describe --entity-name connect-config</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181  --alter --entity-type topics --add-config cleanup.policy=compact --delete-config retention.ms --entity-name connect-config</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> connect-offsets</span></span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --alter --entity-type topics --add-config retention.ms=1000,cleanup.policy=delete --entity-name connect-offsets</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --entity-type topics --describe --entity-name connect-offsets</span><br><span class="line">kafka-configs --zookeeper 172.16.0.61:2181 --alter --entity-type topics --add-config cleanup.policy=compact --delete-config retention.ms --entity-name connect-offsets</span><br></pre></td></tr></table></figure>
+
+
 <p>（待续）</p>
 
     </div>
@@ -373,7 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">2.1.</span> <span class="nav-text">Docker</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">命令行</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">2.1.</span> <span class="nav-text">Docker</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">命令行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E7%BB%B4%E6%97%A5%E5%BF%97"><span class="nav-number">4.</span> <span class="nav-text">运维日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E9%99%A4-Topic-%E6%95%B0%E6%8D%AE%EF%BC%88%E4%B8%8D%E5%88%A0%E9%99%A4%E4%B8%BB%E9%A2%98%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">清除 Topic 数据（不删除主题）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -389,7 +401,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -402,7 +414,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-count">121</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -441,7 +453,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -450,12 +462,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">173k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:24</span>
+    <span title="站点阅读时长">2:38</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
